@@ -6,13 +6,13 @@ package com.avikenz.ba.picontrol.control.param.dc;
 
 public enum State {
 
-    OFF("off", 0), ON("on", 1);
+    OFF("off", false), ON("on", true);
 
     private String mDescription = "Specify the DC signal type";
     private String mName;
-    private int mValue;
+    private boolean mValue;
 
-    State(String pName, int pValue) {
+    State(String pName, boolean pValue) {
         mName = pName;
         mValue = pValue;
     }
@@ -25,7 +25,7 @@ public enum State {
         return mName;
     }
 
-    public int getValue() {
+    public boolean getValue() {
         return mValue;
     }
 }

@@ -1,25 +1,35 @@
 package com.avikenz.ba.picontrol.control;
 
-import com.avikenz.ba.picontrol.control.param.common.Direction;
-import com.avikenz.ba.picontrol.control.param.common.Mode;
+import android.content.ContentValues;
+import android.util.Pair;
+
+import org.apache.http.NameValuePair;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by AviKenz on 1/3/2018.
+ * Common Interface for Views which cann send or recieve Signal from the Pi
  */
 
-public abstract class OutputControl extends Control {
+public interface OutputControl {
 
-    public OutputControl(String pName, Mode pMode, int pPinNumber) {
-        super(pName, pMode, pPinNumber);
-    }
+    /** get required param for the http request
+     *
+     * @return The param separated by space
+     */
+    public ContentValues getPostParams();
 
-    @Override
-    protected void setDirection(Direction pDirection) {
-        mDirection = Direction.OUT;
-    }
+    /**
+     * return the name of the control
+     * @return name of control
+     */
+    public String getName();
 
-    @Override
-    protected void setDescription(String pDescription) {
-
-    }
+    /**
+     * Description of control
+     * @return description
+     */
+    public String getShortDescription();
 }
