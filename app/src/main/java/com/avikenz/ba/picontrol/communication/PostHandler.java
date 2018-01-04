@@ -19,9 +19,11 @@ import java.util.Map;
  * Created by AviKenz on 1/4/2018.
  */
 
-public class PostHandler extends AsyncTask<Void, Void, String> {
+public class PostHandler extends AsyncTask<String, Void, String> {
 
     public static final String TAG = PostHandler.class.getSimpleName();
+
+    HttpURLConnection mConnection;
 
     public static String sUrlSeparator = "/";
     public static String sDataSeparator = "?";
@@ -29,13 +31,14 @@ public class PostHandler extends AsyncTask<Void, Void, String> {
     public static String sKeyValueSeparator = "=";
     public static String sProtocol = "http://";
     public static String sRpiComIfaceName  = "RpiComIface.cgi";
-    public static String sCgiBinPath = "/usr/lib/cgi-bin/";
+    public static String sCgiBinPath = "/cgi-bin/";
 
     OutputControl mControl;
     String mServerUrl;
     Context mContext;
 
     public PostHandler(OutputControl pControl, String pServerUrl, Context pContext) {
+
         mControl = pControl;
         mServerUrl = pServerUrl;
         mContext = pContext;
@@ -85,16 +88,21 @@ public class PostHandler extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected String doInBackground(String... params) {
         try {
             URL postUrl = new URL(getPostUrl(mControl));
-            HttpURLConnection con = (HttpURLConnection) postUrl.openConnection();
-            con.connect();
-
+            mConnection = (HttpURLConnection) postUrl.openConnection();
+            // TODO [L] catch exception; see doc
+            mConnection.setReadTimeout(10000);
+            mConnection.setConnectTimeout(5000);
+            mConnection.setRequestMethod("POST");
+            mConnection.setDoInput(true);
+            mConnection.setDoOutput(true);
+            mConnection.connect();
         } catch (MalformedURLException e ) {
-            // TODO handle error - show dialog
+            // TODO [M] handle error - show dialog
         } catch (IOException e ) {
-            // TODO handle error - show dialog
+            // TODO [M] handle error - show dialog
         }
         return null;
     }
@@ -102,6 +110,13 @@ public class PostHandler extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        Toast.makeText(mContext, "Avi", Toast.LENGTH_LONG).show();
+        // TODO [H] check the post result
+        String msg = "";
+        try {
+            msg = mConnection.getResponseMessage();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "[" + msg + "]");
     }
 }
