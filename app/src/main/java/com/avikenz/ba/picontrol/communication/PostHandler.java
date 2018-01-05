@@ -2,10 +2,9 @@ package com.avikenz.ba.picontrol.communication;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.avikenz.ba.picontrol.communication.util.ConnectionUtils;
 import com.avikenz.ba.picontrol.control.OutputControl;
 
 import java.io.IOException;
@@ -95,10 +94,8 @@ public class PostHandler extends AsyncTask<String, Void, String> {
             // TODO [L] catch exception; see doc
             mConnection.setReadTimeout(10000);
             mConnection.setConnectTimeout(5000);
-            mConnection.setRequestMethod("POST");
-            mConnection.setDoInput(true);
-            mConnection.setDoOutput(true);
             mConnection.connect();
+            Log.d(TAG, "doInBackground result: " + ConnectionUtils.receiveResponse(mConnection));
         } catch (MalformedURLException e ) {
             // TODO [M] handle error - show dialog
         } catch (IOException e ) {
@@ -110,13 +107,6 @@ public class PostHandler extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        // TODO [H] check the post result
-        String msg = "";
-        try {
-            msg = mConnection.getResponseMessage();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "[" + msg + "]");
+        Log.d(TAG, "onPostExecute() - need some code here from the post request");
     }
 }

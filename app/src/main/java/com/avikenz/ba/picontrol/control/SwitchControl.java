@@ -143,6 +143,6 @@ public class SwitchControl extends Switch implements OutputControl, CompoundButt
         mState = isChecked;
         // TODO [M] pass server url to controler class
         Log.e(TAG, "State: " + mState);
-        new PostHandler(this, "192.168.1.25", mContext).execute();
+        new PostHandler(this, "192.168.1.101", mContext).execute();
     }
 }
