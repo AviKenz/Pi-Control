@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
+import com.avikenz.ba.picontrol.control.manager.ControlManager;
+import com.avikenz.ba.picontrol.control.manager.ControlManagerInterface;
 import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.param.common.Type;
@@ -33,6 +35,7 @@ public class ButtonControl
     private String mServerUrl;
 
     private Context mContext;
+    private ControlManager mControlManager;
 
     public ButtonControl(String pName, Mode pMode, int pPinNumber, Context pContext) {
         super(pContext);
@@ -50,6 +53,7 @@ public class ButtonControl
         mMode = pMode;
         mPinNumber = pPinNumber;
         mContext = pContext;
+        mControlManager = getControlManager();
         setText(getName());
         setChangeListener();
     }
@@ -100,7 +104,17 @@ public class ButtonControl
                 Log.d(TAG, "RELEASED");
                 break;
         }
-        new PostHandler(this, "192.168.1.101", mContext).execute();
+        new PostHandler(this, mControlManager.getServerUrl(), mContext).execute();
         return true;
+    }
+
+    @Override
+    public ControlManager getControlManager() {
+        return (ControlManager) mContext.getApplicationContext();
+    }
+
+    @Override
+    public void updateControlManager(ControlManager pManager) {
+
     }
 }

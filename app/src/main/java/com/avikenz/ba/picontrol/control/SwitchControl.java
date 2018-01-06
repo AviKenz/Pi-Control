@@ -10,6 +10,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
+import com.avikenz.ba.picontrol.control.manager.ControlManager;
 import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.param.common.Type;
@@ -36,6 +37,7 @@ public class SwitchControl
     private String mServerUrl;
 
     private Context mContext;
+    private ControlManager mControlManager;
 
     public SwitchControl(String pName, Mode pMode, int pPinNumber, Context pContext) {
         super(pContext);
@@ -54,6 +56,7 @@ public class SwitchControl
         mMode = pMode;
         mPinNumber = pPinNumber;
         mContext = pContext;
+        mControlManager = getControlManager();
         setChangeListener();
     }
 
@@ -140,5 +143,15 @@ public class SwitchControl
         // TODO [M] pass server url to controler class
         Log.e(TAG, "State: " + mState);
         new PostHandler(this, "192.168.1.101", mContext).execute();
+    }
+
+    @Override
+    public ControlManager getControlManager() {
+        return (ControlManager) mContext.getApplicationContext();
+    }
+
+    @Override
+    public void updateControlManager(ControlManager pManager) {
+
     }
 }

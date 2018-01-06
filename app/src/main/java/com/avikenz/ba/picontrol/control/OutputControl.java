@@ -5,6 +5,8 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.avikenz.ba.picontrol.control.manager.ControlManagerInterface;
+
 import org.apache.http.NameValuePair;
 
 import java.util.EventListener;
@@ -16,7 +18,7 @@ import java.util.Map;
  * Common Interface for Views which cann send or recieve Signal from the Pi
  */
 
-public interface OutputControl {
+public interface OutputControl extends ControlManagerInterface {
 
     public static String KEY_NAME = "name";
     public static String KEY_MODE = "mode";
