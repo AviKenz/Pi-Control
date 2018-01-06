@@ -3,7 +3,6 @@ package com.avikenz.ba.picontrol.communication;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.avikenz.ba.picontrol.communication.util.ConnectionUtils;
 import com.avikenz.ba.picontrol.control.OutputControl;

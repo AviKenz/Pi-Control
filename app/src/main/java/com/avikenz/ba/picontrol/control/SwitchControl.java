@@ -20,7 +20,9 @@ import com.avikenz.ba.picontrol.control.param.dc.State;
  * Created by AviKenz on 1/3/2018.
  */
 
-public class SwitchControl extends Switch implements OutputControl, CompoundButton.OnCheckedChangeListener {
+public class SwitchControl
+        extends Switch
+        implements OutputControl, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = SwitchControl.class.getSimpleName();
 
@@ -38,12 +40,12 @@ public class SwitchControl extends Switch implements OutputControl, CompoundButt
     public SwitchControl(String pName, Mode pMode, int pPinNumber, Context pContext) {
         super(pContext);
         init(pName, pMode, pPinNumber, pContext);
-        setChangeListener();
     }
 
     public SwitchControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setChangeListener();
+        // TODO [M] declare styleable attr for the view in xml to get this params
+        init("switch_control", Mode.BCM, 5, context);
     }
 
     public void init(String pName, Mode pMode, int pPinNumber, Context pContext) {
@@ -52,6 +54,7 @@ public class SwitchControl extends Switch implements OutputControl, CompoundButt
         mMode = pMode;
         mPinNumber = pPinNumber;
         mContext = pContext;
+        setChangeListener();
     }
 
     @Override
