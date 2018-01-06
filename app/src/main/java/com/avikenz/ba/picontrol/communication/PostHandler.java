@@ -3,6 +3,7 @@ package com.avikenz.ba.picontrol.communication;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.avikenz.ba.picontrol.communication.util.ConnectionUtils;
 import com.avikenz.ba.picontrol.control.OutputControl;
@@ -34,6 +35,7 @@ public class PostHandler extends AsyncTask<String, Void, String> {
 
     OutputControl mControl;
     String mServerUrl;
+    String responseRaw;
     Context mContext;
 
     public PostHandler(OutputControl pControl, String pServerUrl, Context pContext) {
@@ -95,7 +97,8 @@ public class PostHandler extends AsyncTask<String, Void, String> {
             mConnection.setReadTimeout(10000);
             mConnection.setConnectTimeout(5000);
             mConnection.connect();
-            Log.d(TAG, "doInBackground result: " + ConnectionUtils.receiveResponse(mConnection));
+            // TODO [M] handle response like html to parse it well
+            responseRaw = ConnectionUtils.receiveResponse(mConnection);
         } catch (MalformedURLException e ) {
             // TODO [M] handle error - show dialog
         } catch (IOException e ) {
@@ -107,6 +110,6 @@ public class PostHandler extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        Log.d(TAG, "onPostExecute() - need some code here from the post request");
+        Log.e(TAG, responseRaw);
     }
 }

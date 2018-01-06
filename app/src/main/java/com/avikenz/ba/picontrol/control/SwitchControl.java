@@ -24,13 +24,6 @@ public class SwitchControl extends Switch implements OutputControl, CompoundButt
 
     private static final String TAG = SwitchControl.class.getSimpleName();
 
-    public static String KEY_NAME = "name";
-    public static String KEY_MODE = "mode";
-    public static String KEY_DIRECTION = "direction";
-    public static String KEY_STATE = "state";
-    public static String KEY_SIGNAL_TYPE = "signal_type";
-    public static String KEY_PIN_NUMBER = "pin_number";
-    public static String KEY_SHORT_DESC = "short_description";
 
     private String mName = "switch_control";
     private Mode mMode = Mode.BCM;
