@@ -2,6 +2,8 @@ package com.avikenz.ba.picontrol.control.manager;
 
 import android.app.Application;
 
+import com.avikenz.ba.picontrol.control.param.common.Mode;
+
 /**
  * Created by AviKenz on 1/6/2018.
  * Class containings all data needed by a controller
@@ -14,7 +16,8 @@ public class ControlManager
         extends Application{
 
 
-    private static String sServerUrl = null;
+    private static String sServerUrl;
+    private static Mode sMode;
 
     public void setServerUrl(String pUrl) {
         sServerUrl = pUrl;
@@ -25,5 +28,13 @@ public class ControlManager
             // TODO [M] handle Exception
         }
         return sServerUrl;
+    }
+
+    public void setMode(Mode pMode) {
+        sMode = pMode;
+    }
+
+    public Mode getMode() {
+        return sMode;
     }
 }

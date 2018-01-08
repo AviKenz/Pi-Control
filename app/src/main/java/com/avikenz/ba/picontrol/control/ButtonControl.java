@@ -27,7 +27,7 @@ public class ButtonControl
     public static final String TAG = ButtonControl.class.getSimpleName();
 
     private String mName = "button_control";
-    private Mode mMode = Mode.BCM;
+    private Mode mMode = null;
     private int mPinNumber = 5;
     private boolean mState = State.OFF.getValue();
     private Type mSignalType = Type.DC;
@@ -37,20 +37,21 @@ public class ButtonControl
     private Context mContext;
     private ControlManager mControlManager;
 
-    public ButtonControl(String pName, Mode pMode, int pPinNumber, Context pContext) {
+    public ButtonControl(String pName, int pPinNumber, Context pContext) {
         super(pContext);
-        init(pName, pMode, pPinNumber, pContext);
+        init(pName, pPinNumber, pContext);
     }
 
     public ButtonControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO [M] declare styleable attr for the view in xml to get this params
-        init("button_control", Mode.BCM, 5, context);
+        init("button_control", 5, context);
     }
 
-    private void init(String pName, Mode pMode, int pPinNumber, Context pContext) {
+    private void init(String pName, int pPinNumber, Context pContext) {
         mName = pName;
-        mMode = pMode;
+        //mMode = mControlManager.getMode();
+        mMode = Mode.BCM;
         mPinNumber = pPinNumber;
         mContext = pContext;
         mControlManager = getControlManager();

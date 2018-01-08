@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.avikenz.ba.picontrol.control.manager.ControlManagerInterface;
+import com.avikenz.ba.picontrol.control.param.common.Direction;
 
 import org.apache.http.NameValuePair;
 
@@ -20,13 +21,17 @@ import java.util.Map;
 
 public interface OutputControl extends ControlManagerInterface {
 
-    public static String KEY_NAME = "name";
-    public static String KEY_MODE = "mode";
-    public static String KEY_DIRECTION = "direction";
-    public static String KEY_STATE = "state";
-    public static String KEY_SIGNAL_TYPE = "signal_type";
-    public static String KEY_PIN_NUMBER = "pin_number";
-    public static String KEY_SHORT_DESC = "short_description";
+    String KEY_NAME = "name";
+    String KEY_MODE = "mode";
+    String KEY_DIRECTION = "direction";
+    String KEY_STATE = "state";
+    String KEY_FREQUENCE = "freq";
+    String KEY_DUTY_CYCLE = "duty_cycle";
+    String KEY_SIGNAL_TYPE = "signal_type";
+    String KEY_PIN_NUMBER = "pin_number";
+    String KEY_SHORT_DESC = "short_description";
+
+   Direction direction = Direction.OUT;
 
     /** get required param for the http request
      *

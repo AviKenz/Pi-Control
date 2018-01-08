@@ -39,21 +39,22 @@ public class SwitchControl
     private Context mContext;
     private ControlManager mControlManager;
 
-    public SwitchControl(String pName, Mode pMode, int pPinNumber, Context pContext) {
+    public SwitchControl(String pName, int pPinNumber, Context pContext) {
         super(pContext);
-        init(pName, pMode, pPinNumber, pContext);
+        init(pName, pPinNumber, pContext);
     }
 
     public SwitchControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO [M] declare styleable attr for the view in xml to get this params
-        init("switch_control", Mode.BCM, 5, context);
+        init("switch_control", 5, context);
     }
 
-    public void init(String pName, Mode pMode, int pPinNumber, Context pContext) {
+    public void init(String pName, int pPinNumber, Context pContext) {
         mState = isChecked();
         mName = pName;
-        mMode = pMode;
+        //mMode = mControlManager.getMode();
+        mMode = Mode.BCM;
         mPinNumber = pPinNumber;
         mContext = pContext;
         mControlManager = getControlManager();
@@ -70,7 +71,7 @@ public class SwitchControl
         ContentValues result = new ContentValues();
         int tempState = mState ? 1 : 0;
         result.put(KEY_NAME, "dc_output");
-        result.put(KEY_DIRECTION, Direction.OUT.getValue());
+        result.put(KEY_DIRECTION, direction.getValue());
         result.put(KEY_MODE, mMode.getValue());
         result.put(KEY_STATE, tempState);
         result.put(KEY_SIGNAL_TYPE, mSignalType.getValue());

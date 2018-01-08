@@ -97,6 +97,7 @@ public class PostHandler extends AsyncTask<String, Void, String> {
             mConnection.setConnectTimeout(5000);
             mConnection.connect();
             // TODO [M] handle response like html to parse it well
+            // TODO [H] implement notification to controller
             responseRaw = ConnectionUtils.receiveResponse(mConnection);
         } catch (MalformedURLException e ) {
             // TODO [M] handle error - show dialog
@@ -109,6 +110,7 @@ public class PostHandler extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        Log.e(TAG, responseRaw);
+        //Log.e(TAG, responseRaw);
+        Log.e(TAG, "responseRaw");
     }
 }
