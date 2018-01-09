@@ -4,14 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.widget.SeekBar;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
 import com.avikenz.ba.picontrol.control.manager.ControlManager;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.param.common.Type;
-import com.avikenz.ba.picontrol.control.param.dc.State;
 
 /**
  * Created by AviKenz on 1/8/2018.
@@ -33,12 +31,12 @@ public class PwmControl
     private int mDutyCycle;
     private int mFrequence;
     private String mShortDescription = "Short_Description";
-    private String mServerUrl;
 
-    private int mCurrentDutyCycle;
 
-    private Context mContext;
+
     private ControlManager mControlManager;
+
+    private int mProgress;
 
     public PwmControl(String pName, int pPinNumber, int pFrequence, int pDutyCycle, Context pContext) {
         super(pContext);
@@ -51,14 +49,13 @@ public class PwmControl
     }
 
     private void init(String pName, int pPinNumber, int pFrequence, int pDutyCycle, Context pContext) {
+        mControlManager = getControlManager();
         mName = pName;
-        //mMode = mControlManager.getMode();
+        mMode = mControlManager.getMode();
         mMode = Mode.BCM;
         mPinNumber = pPinNumber;
         mFrequence = pFrequence;
         mDutyCycle = pDutyCycle;
-        mContext = pContext;
-        mControlManager = getControlManager();
 
         setMax(smaxDutyCycle);
         setChangeListener();
@@ -115,7 +112,7 @@ public class PwmControl
 
     @Override
     public ControlManager getControlManager() {
-        return (ControlManager) mContext.getApplicationContext();
+        return (ControlManager) getContext().getApplicationContext();
     }
 
     @Override
@@ -125,14 +122,15 @@ public class PwmControl
 
     @Override
     public ContentValues getPostParams() {
+        Log.d(TAG, "getPostParams()");
         ContentValues result = new ContentValues();
-        result.put(KEY_NAME, "pwm_output");
+        result.put(KEY_NAME, getName());
         result.put(KEY_DIRECTION, direction.getValue());
         result.put(KEY_MODE, mMode.getValue());
         result.put(KEY_SIGNAL_TYPE, mSignalType.getValue());
         result.put(KEY_PIN_NUMBER, mPinNumber);
         result.put(KEY_FREQUENCE, mFrequence);
-        result.put(KEY_DUTY_CYCLE, mDutyCycle);
+        result.put(KEY_DUTY_CYCLE, mProgress);
         result.put(KEY_SHORT_DESC, mShortDescription);
         return result;
     }
@@ -159,16 +157,21 @@ public class PwmControl
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        Log.e(TAG, "changed");
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
+        Log.e(TAG, "start");
+        mProgress = 0;
+        new PostHandler(this, getServerUrl(), getContext()).execute();
+
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        Log.d(TAG, "Stopped");
-        mCurrentDutyCycle = seekBar.getProgress();
-        new PostHandler(this, mControlManager.getServerUrl(), mContext).execute();
+        Log.e(TAG, "stop");
+        mProgress = getProgress();
+        new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
     }
 }

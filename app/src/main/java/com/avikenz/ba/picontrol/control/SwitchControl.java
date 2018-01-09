@@ -36,28 +36,25 @@ public class SwitchControl
     private String mShortDescription = "Short_Description";
     private String mServerUrl;
 
-    private Context mContext;
     private ControlManager mControlManager;
 
     public SwitchControl(String pName, int pPinNumber, Context pContext) {
         super(pContext);
-        init(pName, pPinNumber, pContext);
+        init(pName, pPinNumber);
     }
 
     public SwitchControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO [M] declare styleable attr for the view in xml to get this params
-        init("switch_control", 5, context);
+        init("switch_control", 5);
     }
 
-    public void init(String pName, int pPinNumber, Context pContext) {
+    public void init(String pName, int pPinNumber) {
+        mControlManager = getControlManager();
         mState = isChecked();
         mName = pName;
-        //mMode = mControlManager.getMode();
-        mMode = Mode.BCM;
+        mMode = mControlManager.getMode();
         mPinNumber = pPinNumber;
-        mContext = pContext;
-        mControlManager = getControlManager();
         setChangeListener();
     }
 
@@ -141,14 +138,13 @@ public class SwitchControl
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         mState = isChecked;
-        // TODO [M] pass server url to controler class
         Log.e(TAG, "State: " + mState);
-        new PostHandler(this, "192.168.1.101", mContext).execute();
+        new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
     }
 
     @Override
     public ControlManager getControlManager() {
-        return (ControlManager) mContext.getApplicationContext();
+        return (ControlManager) getContext().getApplicationContext();
     }
 
     @Override

@@ -9,6 +9,7 @@ public interface ControlManagerInterface {
 
     /**
      * used to get Control manager form Application Context:
+     * the manager should be get from application context !!!
      * @return the control manager
      */
     ControlManager getControlManager();

@@ -34,27 +34,24 @@ public class ButtonControl
     private String mShortDescription = "Short_Description";
     private String mServerUrl;
 
-    private Context mContext;
     private ControlManager mControlManager;
 
     public ButtonControl(String pName, int pPinNumber, Context pContext) {
         super(pContext);
-        init(pName, pPinNumber, pContext);
+        init(pName, pPinNumber);
     }
 
     public ButtonControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO [M] declare styleable attr for the view in xml to get this params
-        init("button_control", 5, context);
+        init("button_control", 5);
     }
 
-    private void init(String pName, int pPinNumber, Context pContext) {
-        mName = pName;
-        //mMode = mControlManager.getMode();
-        mMode = Mode.BCM;
-        mPinNumber = pPinNumber;
-        mContext = pContext;
+    private void init(String pName, int pPinNumber) {
         mControlManager = getControlManager();
+        mName = pName;
+        mMode = mControlManager.getMode();
+        mPinNumber = pPinNumber;
         setText(getName());
         setChangeListener();
     }
@@ -105,13 +102,13 @@ public class ButtonControl
                 Log.d(TAG, "RELEASED");
                 break;
         }
-        new PostHandler(this, mControlManager.getServerUrl(), mContext).execute();
+        new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
         return true;
     }
 
     @Override
     public ControlManager getControlManager() {
-        return (ControlManager) mContext.getApplicationContext();
+        return (ControlManager) getContext().getApplicationContext();
     }
 
     @Override
