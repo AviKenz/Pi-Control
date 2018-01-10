@@ -52,8 +52,10 @@ public class OutputControllerArrayAdapter extends ArrayAdapter<OutputControl> {
         // Avoid illegal state exception view; remove the view first from parent before adding idd.
         // TODO [P] the view is not showing
         if(control.getView().getParent()!=null) {
+            // remove the view(control) from parent
             ((ViewGroup) control.getView().getParent()).removeView(control.getView());
         }
+        // add the view to parent; the view doest show
         layout.addView(control.getView());
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
