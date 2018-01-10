@@ -6,25 +6,18 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.avikenz.ba.picontrol.R;
-import com.avikenz.ba.picontrol.activity.util.OutputControllerArrayAdapter;
-import com.avikenz.ba.picontrol.control.Control;
-import com.avikenz.ba.picontrol.control.OutputControl;
-import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.manager.ControlManager;
 import com.avikenz.ba.picontrol.control.manager.ControlManagerInterface;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.avikenz.ba.picontrol.view.ShortControlViewRow;
 
 public class MainActivity
         extends AppCompatActivity
         implements ControlManagerInterface {
 
     ControlManager mControlManager = null;
-    ListView mControllerListView;
+    LinearLayout mControllerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +28,10 @@ public class MainActivity
     }
 
     private void setupControler() {
-        mControllerListView = (ListView) findViewById(R.id.controller_listview);
-        //PwmControl test = new PwmControl("pwm_control_from_main", 5, 1000, 60, getBaseContext());
-        SwitchControl test2 = new SwitchControl("switch_controler_from_main", 5, getBaseContext());
-        List<OutputControl> controls = new ArrayList<>();
-        //controls.add(test);
-        controls.add(test2);
-        OutputControllerArrayAdapter adapter = new OutputControllerArrayAdapter(this, R.layout.short_control_view, controls);
-        mControllerListView.setAdapter(adapter);
+        // TODO [N] try inflating control row view and add control to it
+        mControllerLayout = (LinearLayout) findViewById(R.id.controller_linearlayout);
+        SwitchControl control = new SwitchControl("switch_control", 5, getApplicationContext());
+        mControllerLayout.addView(new ShortControlViewRow(control, getApplicationContext()));
     }
 
     private void initControlManager() {
