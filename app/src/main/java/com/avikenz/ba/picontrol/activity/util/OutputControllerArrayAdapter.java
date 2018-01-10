@@ -42,18 +42,19 @@ public class OutputControllerArrayAdapter extends ArrayAdapter<OutputControl> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         OutputControl control = mControls.get(position);
 
-        LayoutInflater inflater = (LayoutInflater) LayoutInflater.from(getContext());
+        LayoutInflater inflater =  LayoutInflater.from(getContext());
+        // TODO [M] check View for null before creating; also use ViewHolder for smooth scrolling
         RelativeLayout layout = (RelativeLayout) inflater.inflate(mResource, parent, false);
 
         ((TextView)layout.findViewById(R.id.port_type_textview)).setText(control.getPortType());
         ((TextView)layout.findViewById(R.id.view_description_textview)).setText(control.getViewDescription());
-        //((ImageView)layout.findViewById(R.id.direction_imageview)).setImageResource(R.drawable.img_out);
-        // Avoid illegal state exception view
-        ViewParent v;
-        if( (v = control.getView().getParent())!=null) {
-            //((ViewGroup) control.getView().getParent()).removeView(control.getView());
-            Log.e("ERROR", v.toString());
+        ((ImageView)layout.findViewById(R.id.direction_imageview)).setImageResource(R.drawable.img_out);
+        // Avoid illegal state exception view; remove the view first from parent before adding idd.
+        // TODO [P] the view is not showing
+        if(control.getView().getParent()!=null) {
+            ((ViewGroup) control.getView().getParent()).removeView(control.getView());
         }
+        layout.addView(control.getView());
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
