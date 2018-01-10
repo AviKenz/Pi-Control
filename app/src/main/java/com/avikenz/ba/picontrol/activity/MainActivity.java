@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import com.avikenz.ba.picontrol.R;
+import com.avikenz.ba.picontrol.control.ButtonControl;
+import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.manager.ControlManager;
 import com.avikenz.ba.picontrol.control.manager.ControlManagerInterface;
@@ -29,8 +31,12 @@ public class MainActivity
     private void setupControler() {
         // TODO [N] try inflating control row view and add control to it
         mControllerLayout = (LinearLayout) findViewById(R.id.controller_linearlayout);
-        SwitchControl control = new SwitchControl("switch_control", 5, getApplicationContext());
-        mControllerLayout.addView(new ControlViewRow(control, getApplicationContext()));
+        SwitchControl swControl = new SwitchControl("switch_control", 5, getApplicationContext());
+        ButtonControl btnControl = new ButtonControl("button_control", 6, getApplicationContext());
+        PwmControl pwmControl = new PwmControl("pwm_control", 13, 100, 20, getApplicationContext());
+        mControllerLayout.addView(new ControlViewRow(swControl, getApplicationContext()));
+        mControllerLayout.addView(new ControlViewRow(btnControl, getApplicationContext()));
+        mControllerLayout.addView(new ControlViewRow(pwmControl, getApplicationContext()));
     }
 
     private void initControlManager() {

@@ -3,6 +3,7 @@ package com.avikenz.ba.picontrol.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,8 @@ public class ControlViewRow extends RelativeLayout {
     private TextView mPortType;
     private TextView mViewDescription;
     private Control mControl;
+
+    private int mTextDescriptionSize = 10;
 
     private Context mContext;
 
@@ -41,6 +44,7 @@ public class ControlViewRow extends RelativeLayout {
         mPortType.setText(mControl.getPortType() + mControl.getPinNumber());
         mViewDescription =  new TextView(mContext);
         mViewDescription.setText(pControl.getViewDescription());
+        mViewDescription.setTextSize(mTextDescriptionSize);
         // add views to layout
         addView(mPortType, getPortTypeViewParams());
         addView(mViewDescription, getViewDescriptionParams());
@@ -54,6 +58,8 @@ public class ControlViewRow extends RelativeLayout {
         setBackgroundColor(Color.parseColor("#DE5E79"));
     }
 
+
+    // TODO [I] change view param here instead using set layout param on the view
     private LayoutParams getPortTypeViewParams() {
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_START);
@@ -68,7 +74,7 @@ public class ControlViewRow extends RelativeLayout {
     }
 
     private LayoutParams getControlViewParams() {
-        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams params = new LayoutParams(300, LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_END);
         return params;
     }
