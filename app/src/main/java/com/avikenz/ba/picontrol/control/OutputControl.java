@@ -45,37 +45,12 @@ public interface OutputControl extends Control {
      */
     Direction direction = Direction.OUT;
 
-
-    /**
-     * return the port type linked with the controller
-     * @return the port type
-     */
-    String getPortType();
-
     /**
      * return the name of the control
      * @return name of control
      */
     String getName();
 
-    /**
-     * Description of control
-     * @return description
-     */
-    String getShortDescription();
-
-    /**
-     * return the control description to show in the view
-     * @return
-     */
-    String getViewDescription();
-
-    /** Used to get the controller parameter for the http request
-     *
-     * @return the http request parameters
-     */
-
-    View getView();
 
     ContentValues getPostParams();
 
