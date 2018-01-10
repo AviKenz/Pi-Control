@@ -76,10 +76,6 @@ public class PwmControl
         mMode = mode;
     }
 
-    public int getPinNumber() {
-        return mPinNumber;
-    }
-
     public void setPinNumber(int pinNumber) {
         mPinNumber = pinNumber;
     }
@@ -113,6 +109,11 @@ public class PwmControl
     }
 
     @Override
+    public String getViewType() {
+        return Control.LONG_VIEW_TYP;
+    }
+
+    @Override
     public View getView() {
         return this;
     }
@@ -120,6 +121,11 @@ public class PwmControl
     @Override
     public String getPortType() {
         return PortType.GPIO.getValue();
+    }
+
+    @Override
+    public int getPinNumber() {
+        return mPinNumber;
     }
 
     @Override

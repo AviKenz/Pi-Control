@@ -59,9 +59,38 @@ public class SwitchControl
         setChangeListener();
     }
 
+    public void setName(String mName) {
+        this.mName = mName;
+    }
+
+    public void setMode(Mode mMode) {
+        this.mMode = mMode;
+    }
+
+    public void setPinNumber(int mPinNumber) {
+        this.mPinNumber = mPinNumber;
+    }
+
+    public void setState(boolean mState) {
+        this.mState = mState;
+    }
+
+    private void setSignalType(Type mSignalType) {
+        this.mSignalType = mSignalType;
+    }
+
+    public void setShortDescription(String mShortDescription) {
+        this.mShortDescription = mShortDescription;
+    }
+
     @Override
     public View getView() {
         return this;
+    }
+
+    @Override
+    public String getViewType() {
+        return Control.SHORT_VIEW_TYP;
     }
 
     @Override
@@ -88,30 +117,6 @@ public class SwitchControl
         return result;
     }
 
-    public void setName(String mName) {
-        this.mName = mName;
-    }
-
-    public void setMode(Mode mMode) {
-        this.mMode = mMode;
-    }
-
-    public void setPinNumber(int mPinNumber) {
-        this.mPinNumber = mPinNumber;
-    }
-
-    public void setState(boolean mState) {
-        this.mState = mState;
-    }
-
-    private void setSignalType(Type mSignalType) {
-        this.mSignalType = mSignalType;
-    }
-
-    public void setShortDescription(String mShortDescription) {
-        this.mShortDescription = mShortDescription;
-    }
-
     @Override
     public String getPortType() {
         return PortType.GPIO.getValue();
@@ -131,6 +136,7 @@ public class SwitchControl
         return mMode;
     }
 
+    @Override
     public int getPinNumber() {
         return mPinNumber;
     }

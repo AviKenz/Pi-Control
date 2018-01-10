@@ -2,13 +2,11 @@ package com.avikenz.ba.picontrol.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.avikenz.ba.picontrol.control.Control;
 import com.avikenz.ba.picontrol.control.OutputControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 
@@ -16,20 +14,20 @@ import com.avikenz.ba.picontrol.control.SwitchControl;
  * Created by AviKenz on 1/10/2018.
  */
 
-public class ShortControlViewRow extends RelativeLayout {
+public class ControlViewRow extends RelativeLayout {
 
     private TextView mPortType;
     private TextView mViewDescription;
-    private OutputControl mControl;
+    private Control mControl;
 
     private Context mContext;
 
-    public ShortControlViewRow(OutputControl pControl, Context context) {
+    public ControlViewRow(OutputControl pControl, Context context) {
         super(context);
         init(pControl, context);
     }
 
-    public ShortControlViewRow(Context context, AttributeSet attrs) {
+    public ControlViewRow(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(new SwitchControl("switch_control", 5, context), context);
     }
@@ -40,7 +38,7 @@ public class ShortControlViewRow extends RelativeLayout {
         mControl = pControl;
         // setup view
         mPortType = new TextView(mContext);
-        mPortType.setText(mControl.getPortType());
+        mPortType.setText(mControl.getPortType() + mControl.getPinNumber());
         mViewDescription =  new TextView(mContext);
         mViewDescription.setText(pControl.getViewDescription());
         // add views to layout
@@ -91,7 +89,7 @@ public class ShortControlViewRow extends RelativeLayout {
         mViewDescription = viewDescription;
     }
 
-    public OutputControl getControl() {
+    public Control getControl() {
         return mControl;
     }
 

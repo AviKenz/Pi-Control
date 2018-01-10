@@ -3,14 +3,13 @@ package com.avikenz.ba.picontrol.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.avikenz.ba.picontrol.R;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.manager.ControlManager;
 import com.avikenz.ba.picontrol.control.manager.ControlManagerInterface;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
-import com.avikenz.ba.picontrol.view.ShortControlViewRow;
+import com.avikenz.ba.picontrol.view.ControlViewRow;
 
 public class MainActivity
         extends AppCompatActivity
@@ -31,7 +30,7 @@ public class MainActivity
         // TODO [N] try inflating control row view and add control to it
         mControllerLayout = (LinearLayout) findViewById(R.id.controller_linearlayout);
         SwitchControl control = new SwitchControl("switch_control", 5, getApplicationContext());
-        mControllerLayout.addView(new ShortControlViewRow(control, getApplicationContext()));
+        mControllerLayout.addView(new ControlViewRow(control, getApplicationContext()));
     }
 
     private void initControlManager() {

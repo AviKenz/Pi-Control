@@ -10,7 +10,6 @@ import android.widget.Button;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
 import com.avikenz.ba.picontrol.control.manager.ControlManager;
-import com.avikenz.ba.picontrol.control.manager.ControlManagerInterface;
 import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.param.common.PortType;
@@ -60,6 +59,11 @@ public class ButtonControl
     @Override
     public View getView() {
         return this;
+    }
+
+    @Override
+    public String getViewType() {
+        return Control.SHORT_VIEW_TYP;
     }
 
     @Override
@@ -131,6 +135,7 @@ public class ButtonControl
         mMode = mode;
     }
 
+    @Override
     public int getPinNumber() {
         return mPinNumber;
     }

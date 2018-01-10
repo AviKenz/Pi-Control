@@ -8,6 +8,18 @@ import android.view.View;
 
 public interface Control {
 
+    String KEY_NAME = "name";
+    String KEY_MODE = "mode";
+    String KEY_DIRECTION = "direction";
+    String KEY_PIN_NUMBER = "pin_number";
+    String KEY_SHORT_DESC = "short_description";
+
+    /**
+     * View typ used to determine which view will be used to render controller
+     */
+    String LONG_VIEW_TYP = "long_view_typ";
+    String SHORT_VIEW_TYP = "short_view_typ";
+
     /**
      * return the port type linked with the controller
      * @return the port type
@@ -18,6 +30,9 @@ public interface Control {
      * Description of control
      * @return description
      */
+
+    int getPinNumber();
+
     String getShortDescription();
 
     /**
@@ -32,4 +47,10 @@ public interface Control {
      */
 
     View getView();
+
+    /**
+     * return the view typ of the controler;
+     * View Type determine how view are rendered (View disposition)
+     */
+    String getViewType();
 }
