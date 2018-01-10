@@ -1,7 +1,11 @@
 package com.avikenz.ba.picontrol.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.avikenz.ba.picontrol.R;
@@ -42,7 +46,8 @@ public class MainActivity
     private void initControlManager() {
         mControlManager = getControlManager();
         // TODO [H] use dialog to get control manager setting from user
-        mControlManager.setServerUrl("192.168.1.101");
+        setServerUrl();
+        //mControlManager.setServerUrl("192.168.1.101");
         mControlManager.setMode(Mode.BCM);
     }
 
@@ -54,5 +59,19 @@ public class MainActivity
     @Override
     public void updateControlManager(ControlManager pManager) {
 
+    }
+
+    public void setServerUrl() {
+        final EditText input = new EditText(getBaseContext());
+        input.setText("ServerUrl");
+        new AlertDialog.Builder(this)
+                .setView(input)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mControlManager.setServerUrl(input.getText().toString());
+                    }
+                }).show();
     }
 }
