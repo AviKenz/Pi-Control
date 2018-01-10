@@ -19,8 +19,11 @@ import java.util.Map;
  * Common Interface for Views which cann send or recieve Signal from the Pi
  */
 
-public interface OutputControl extends ControlManagerInterface {
+public interface OutputControl extends Control {
 
+    /**
+     * Keys of value used for the http request
+     */
     String KEY_NAME = "name";
     String KEY_MODE = "mode";
     String KEY_DIRECTION = "direction";
@@ -31,31 +34,50 @@ public interface OutputControl extends ControlManagerInterface {
     String KEY_PIN_NUMBER = "pin_number";
     String KEY_SHORT_DESC = "short_description";
 
-   Direction direction = Direction.OUT;
-
-    /** get required param for the http request
-     *
-     * @return The param separated by space
+    /**
+     * View typ used to determine which view will be used to render controller
      */
-    public ContentValues getPostParams();
+    String LONG_VIEW_TYP = "long_view_typ";
+    String SHORT_VIEW_TYP = "short_view_typ";
+
+    /**
+     * direction of the Pin; Output
+     */
+    Direction direction = Direction.OUT;
+
+
+    /**
+     * return the port type linked with the controller
+     * @return the port type
+     */
+    String getPortType();
 
     /**
      * return the name of the control
      * @return name of control
      */
-    public String getName();
+    String getName();
 
     /**
      * Description of control
      * @return description
      */
-    public String getShortDescription();
+    String getShortDescription();
 
     /**
-     * Retrieve server Url for the post request
+     * return the control description to show in the view
      * @return
      */
-    public String getServerUrl();
+    String getViewDescription();
+
+    /** Used to get the controller parameter for the http request
+     *
+     * @return the http request parameters
+     */
+
+    View getView();
+
+    ContentValues getPostParams();
 
     /**
      * Define the action to execute when View change its state.

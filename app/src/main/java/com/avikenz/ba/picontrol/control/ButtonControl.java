@@ -13,6 +13,7 @@ import com.avikenz.ba.picontrol.control.manager.ControlManager;
 import com.avikenz.ba.picontrol.control.manager.ControlManagerInterface;
 import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
+import com.avikenz.ba.picontrol.control.param.common.PortType;
 import com.avikenz.ba.picontrol.control.param.common.Type;
 import com.avikenz.ba.picontrol.control.param.dc.State;
 
@@ -38,22 +39,37 @@ public class ButtonControl
 
     public ButtonControl(String pName, int pPinNumber, Context pContext) {
         super(pContext);
-        init(pName, pPinNumber);
+        init(pName, pPinNumber, pContext);
     }
 
     public ButtonControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO [M] declare styleable attr for the view in xml to get this params
-        init("button_control", 5);
+        init("button_control", 5, context);
     }
 
-    private void init(String pName, int pPinNumber) {
-        mControlManager = getControlManager();
+    private void init(String pName, int pPinNumber, Context pContext) {
+        mControlManager = (ControlManager) pContext.getApplicationContext();
         mName = pName;
         mMode = mControlManager.getMode();
         mPinNumber = pPinNumber;
         setText(getName());
         setChangeListener();
+    }
+
+    @Override
+    public View getView() {
+        return this;
+    }
+
+    @Override
+    public String getPortType() {
+        return PortType.GPIO.getValue();
+    }
+
+    @Override
+    public String getViewDescription() {
+        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "Signal Type: " + getSignalType().getValue();
     }
 
     @Override
@@ -70,6 +86,8 @@ public class ButtonControl
         return result;
     }
 
+
+
     @Override
     public String getName() {
         return mName;
@@ -78,11 +96,6 @@ public class ButtonControl
     @Override
     public String getShortDescription() {
         return mShortDescription;
-    }
-
-    @Override
-    public String getServerUrl() {
-        return mServerUrl;
     }
 
     @Override
@@ -106,13 +119,44 @@ public class ButtonControl
         return true;
     }
 
-    @Override
-    public ControlManager getControlManager() {
-        return (ControlManager) getContext().getApplicationContext();
+    public void setName(String name) {
+        mName = name;
     }
 
-    @Override
-    public void updateControlManager(ControlManager pManager) {
+    public Mode getMode() {
+        return mMode;
+    }
 
+    public void setMode(Mode mode) {
+        mMode = mode;
+    }
+
+    public int getPinNumber() {
+        return mPinNumber;
+    }
+
+    public void setPinNumber(int pinNumber) {
+        mPinNumber = pinNumber;
+    }
+
+    public boolean getState() {
+        return mState;
+    }
+
+    public void setState(boolean state) {
+        mState = state;
+    }
+
+    public Type getSignalType() {
+        return mSignalType;
+    }
+
+    public void setSignalType(Type signalType) {
+        mSignalType = signalType;
+    }
+
+
+    public void setShortDescription(String shortDescription) {
+        mShortDescription = shortDescription;
     }
 }

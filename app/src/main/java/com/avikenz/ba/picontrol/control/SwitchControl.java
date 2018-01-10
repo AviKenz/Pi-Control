@@ -13,6 +13,7 @@ import com.avikenz.ba.picontrol.communication.PostHandler;
 import com.avikenz.ba.picontrol.control.manager.ControlManager;
 import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
+import com.avikenz.ba.picontrol.control.param.common.PortType;
 import com.avikenz.ba.picontrol.control.param.common.Type;
 import com.avikenz.ba.picontrol.control.param.dc.State;
 
@@ -40,17 +41,17 @@ public class SwitchControl
 
     public SwitchControl(String pName, int pPinNumber, Context pContext) {
         super(pContext);
-        init(pName, pPinNumber);
+        init(pName, pPinNumber, pContext);
     }
 
     public SwitchControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO [M] declare styleable attr for the view in xml to get this params
-        init("switch_control", 5);
+        init("switch_control", 5, context);
     }
 
-    public void init(String pName, int pPinNumber) {
-        mControlManager = getControlManager();
+    public void init(String pName, int pPinNumber, Context pContext) {
+        mControlManager = (ControlManager) pContext.getApplicationContext();
         mState = isChecked();
         mName = pName;
         mMode = mControlManager.getMode();
@@ -59,8 +60,18 @@ public class SwitchControl
     }
 
     @Override
+    public View getView() {
+        return this;
+    }
+
+    @Override
     public void setChangeListener() {
         setOnCheckedChangeListener(this);
+    }
+
+    @Override
+    public String getViewDescription() {
+        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "Signal Type: " + getSignalType().getValue();
     }
 
     @Override
@@ -102,6 +113,11 @@ public class SwitchControl
     }
 
     @Override
+    public String getPortType() {
+        return PortType.GPIO.getValue();
+    }
+
+    @Override
     public String getName() {
         return mName;
     }
@@ -109,14 +125,6 @@ public class SwitchControl
     @Override
     public String getShortDescription() {
         return null;
-    }
-
-    @Override
-    public String getServerUrl() {
-        if(mServerUrl == null) {
-            // TODO [M] handle error
-        }
-        return mServerUrl;
     }
 
     public Mode getMode() {
@@ -142,13 +150,4 @@ public class SwitchControl
         new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
     }
 
-    @Override
-    public ControlManager getControlManager() {
-        return (ControlManager) getContext().getApplicationContext();
-    }
-
-    @Override
-    public void updateControlManager(ControlManager pManager) {
-
-    }
 }

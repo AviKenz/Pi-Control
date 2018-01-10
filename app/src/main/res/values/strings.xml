@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Pi$Control</string>
+    <string name="port_type">Port type</string>
+    <string name="description">description</string>
 </resources>

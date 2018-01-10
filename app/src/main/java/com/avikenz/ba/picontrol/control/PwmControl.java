@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.SeekBar;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
 import com.avikenz.ba.picontrol.control.manager.ControlManager;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
+import com.avikenz.ba.picontrol.control.param.common.PortType;
 import com.avikenz.ba.picontrol.control.param.common.Type;
 
 /**
@@ -49,7 +51,7 @@ public class PwmControl
     }
 
     private void init(String pName, int pPinNumber, int pFrequence, int pDutyCycle, Context pContext) {
-        mControlManager = getControlManager();
+        mControlManager = (ControlManager) pContext.getApplicationContext();
         mName = pName;
         mMode = mControlManager.getMode();
         mMode = Mode.BCM;
@@ -111,13 +113,18 @@ public class PwmControl
     }
 
     @Override
-    public ControlManager getControlManager() {
-        return (ControlManager) getContext().getApplicationContext();
+    public View getView() {
+        return this;
     }
 
     @Override
-    public void updateControlManager(ControlManager pManager) {
+    public String getPortType() {
+        return PortType.GPIO.getValue();
+    }
 
+    @Override
+    public String getViewDescription() {
+        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "Signal Type: " + getSignalType().getValue();
     }
 
     @Override
@@ -146,11 +153,6 @@ public class PwmControl
     }
 
     @Override
-    public String getServerUrl() {
-        return mControlManager.getServerUrl();
-    }
-
-    @Override
     public void setChangeListener() {
         setOnSeekBarChangeListener(this);
     }
@@ -164,7 +166,7 @@ public class PwmControl
     public void onStartTrackingTouch(SeekBar seekBar) {
         Log.e(TAG, "start");
         mProgress = 0;
-        new PostHandler(this, getServerUrl(), getContext()).execute();
+        new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
 
     }
 

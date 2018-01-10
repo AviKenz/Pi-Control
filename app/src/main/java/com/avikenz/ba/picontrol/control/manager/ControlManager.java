@@ -35,6 +35,9 @@ public class ControlManager
     }
 
     public Mode getMode() {
+        if(sMode == null) {
+            // TODO [M] handle Exception
+        }
         return sMode;
     }
 }
