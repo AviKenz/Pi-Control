@@ -52,10 +52,8 @@ public class ShortControlViewRow extends RelativeLayout {
         // TODO [M] wrap content is not working; check it again
         LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, 100);
         setLayoutParams(lp);
-        setBackgroundColor(Color.GREEN);
-        int visibility = getVisibility();
-        setVisibility(View.GONE);
-        setVisibility(visibility);
+        // TODO [M] create nice background drawable with color degradation and rounded corners
+        setBackgroundColor(Color.parseColor("#DE5E79"));
     }
 
     private LayoutParams getPortTypeViewParams() {
