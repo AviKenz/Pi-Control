@@ -120,7 +120,7 @@ public class PwmControl
 
     @Override
     public String getPortType() {
-        return PortType.GPIO.getValue();
+        return PortType.GPIO.getName();
     }
 
     @Override
@@ -135,7 +135,6 @@ public class PwmControl
 
     @Override
     public ContentValues getPostParams() {
-        Log.d(TAG, "getPostParams()");
         ContentValues result = new ContentValues();
         result.put(KEY_NAME, getName());
         result.put(KEY_DIRECTION, direction.getValue());
@@ -165,12 +164,10 @@ public class PwmControl
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        Log.e(TAG, "changed");
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        Log.e(TAG, "start");
         mProgress = 0;
         new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
 
@@ -178,7 +175,6 @@ public class PwmControl
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        Log.e(TAG, "stop");
         mProgress = getProgress();
         new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
     }

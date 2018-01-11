@@ -1,6 +1,5 @@
 package com.avikenz.ba.picontrol.activity;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +47,7 @@ public class MainActivity
         // TODO [H] use dialog to get control manager setting from user
         setServerUrl();
         //mControlManager.setServerUrl("192.168.1.101");
-        mControlManager.setMode(Mode.BCM);
+        mControlManager.setMode(Mode.BOARD);
     }
 
     @Override

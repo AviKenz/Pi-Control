@@ -68,7 +68,7 @@ public class ButtonControl
 
     @Override
     public String getPortType() {
-        return PortType.GPIO.getValue();
+        return PortType.GPIO.getName();
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.avikenz.ba.picontrol.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,7 +40,8 @@ public class ControlViewRow extends RelativeLayout {
         mControl = pControl;
         // setup view
         mPortType = new TextView(mContext);
-        mPortType.setText(mControl.getPortType() + mControl.getPinNumber());
+        String text = mControl.getPortType() + mControl.getPinNumber();
+        mPortType.setText(text);
         mViewDescription =  new TextView(mContext);
         mViewDescription.setText(pControl.getViewDescription());
         mViewDescription.setTextSize(mTextDescriptionSize);

@@ -117,7 +117,7 @@ public class SwitchControl
 
     @Override
     public String getPortType() {
-        return PortType.GPIO.getValue();
+        return PortType.GPIO.getName();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.avikenz.ba.picontrol.control.manager;
 
 import android.support.annotation.Nullable;
 
+import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
 
 import java.util.List;
@@ -21,24 +22,21 @@ public class Port {
     private boolean isAvaible = true;
 
     // Define How many Control can access the port simultanouesly
-    private int mUsableTime;
+     private int mUsableTime;
 
-    // TODO [H] implement PortType Enum Type
-    Port(PortType pPortType, int pPinNumberBcm, int pPinNumberBoard, @Nullable List<SignalType> pAcceptedSignals) {
+    public Port(PortType pPortType, int pPinNumberBcm, int pPinNumberBoard, @Nullable List<SignalType> pAcceptedSignals) {
         mType = pPortType;
         mPinNumberBcm = pPinNumberBcm;
         mPinNumberBoard = pPinNumberBoard;
         mAcceptedSignals = pAcceptedSignals;
-        belegPort();
+        // TODO [W] the usable time shoud be decrement when the port is occupied; do this in control manager.
+        //setUsableTime();
         updateAvaibility();
-    };
-
-    private void belegPort() {
-        mUsableTime -= 1;
     }
 
-    private boolean updateAvaibility() {
-        return !(mUsableTime == 0);
+    private void updateAvaibility() {
+        mUsableTime -= 1;
+        isAvaible = !(mUsableTime == 0);
     }
 
     public PortType getType() {
@@ -73,7 +71,7 @@ public class Port {
         mAcceptedSignals = acceptedSignals;
     }
 
-    public int getUsableTime() {
+    public int setUsableTime() {
         return mUsableTime;
     }
 
@@ -83,6 +81,16 @@ public class Port {
 
     public String getName() {
         String result = "";
+        if(ControlManager.getMode().equals(Mode.BCM)) {
+            result = mType.getName() + getBcmNumber();
+        } else {
+            result = "Pin" + getBoardNumber();
+        }
         return result;
+    }
+
+
+    public boolean isAvaible() {
+        return isAvaible;
     }
 }

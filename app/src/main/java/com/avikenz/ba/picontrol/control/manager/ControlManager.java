@@ -1,6 +1,7 @@
 package com.avikenz.ba.picontrol.control.manager;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 
@@ -13,7 +14,7 @@ import com.avikenz.ba.picontrol.control.param.common.Mode;
  */
 
 public class ControlManager
-        extends Application{
+        extends Application {
 
     // Define how many controls cann access a single port simultanously
     public static int sPortsUsableTime = 1;
@@ -25,20 +26,21 @@ public class ControlManager
         sServerUrl = pUrl;
     }
 
-    public String getServerUrl() {
+    public static String getServerUrl() {
         if (sServerUrl == null) {
             // TODO [M] handle Exception
         }
         return sServerUrl;
     }
 
-    public void setMode(Mode pMode) {
+    public static void setMode(Mode pMode) {
         sMode = pMode;
     }
 
-    public Mode getMode() {
+    public static Mode getMode() {
         if(sMode == null) {
             // TODO [M] handle Exception
+            Log.e("ERR", "MODE is null");
         }
         return sMode;
     }

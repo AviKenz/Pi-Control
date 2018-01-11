@@ -1,11 +1,12 @@
 package com.avikenz.ba.picontrol.control.manager;
 
+
 /**
  * Created by AviKenz on 1/9/2018.
  */
 
 public enum PortType {
-
+    // TODO implement others type;
     GPIO("GPIO"), Power("Power"), GROUND("Ground");
 
     String mName;
@@ -14,7 +15,7 @@ public enum PortType {
         mName = pName;
     }
 
-    public String getValue() {
+    public String getName() {
         return mName;
     }
 }
