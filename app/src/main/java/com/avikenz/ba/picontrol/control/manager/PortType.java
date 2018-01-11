@@ -1,4 +1,4 @@
-package com.avikenz.ba.picontrol.control.param.common;
+package com.avikenz.ba.picontrol.control.manager;
 
 /**
  * Created by AviKenz on 1/9/2018.
@@ -6,7 +6,7 @@ package com.avikenz.ba.picontrol.control.param.common;
 
 public enum PortType {
 
-    GPIO("GPIO"), I2C("I2C");
+    GPIO("GPIO"), Power("Power"), GROUND("Ground");
 
     String mName;
 

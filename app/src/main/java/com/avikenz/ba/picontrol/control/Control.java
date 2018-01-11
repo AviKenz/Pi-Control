@@ -50,7 +50,7 @@ public interface Control {
 
     /**
      * return the view typ of the controler;
-     * View Type determine how view are rendered (View disposition)
+     * View SignalType determine how view are rendered (View disposition)
      */
     String getViewType();
 }

@@ -4,7 +4,7 @@ package com.avikenz.ba.picontrol.control.param.common;
  * Created by AviKenz on 1/3/2018.
  */
 
-public enum Type {
+public enum SignalType {
 
     DC("dc", 0), PWM("pwm", 1);
 
@@ -12,7 +12,7 @@ public enum Type {
     private String mName;
     private int mValue;
 
-    Type(String pName, int pValue) {
+    SignalType(String pName, int pValue) {
         mName = pName;
         mValue = pValue;
     }

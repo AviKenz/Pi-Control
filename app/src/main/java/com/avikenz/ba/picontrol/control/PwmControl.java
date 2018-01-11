@@ -10,8 +10,8 @@ import android.widget.SeekBar;
 import com.avikenz.ba.picontrol.communication.PostHandler;
 import com.avikenz.ba.picontrol.control.manager.ControlManager;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
-import com.avikenz.ba.picontrol.control.param.common.PortType;
-import com.avikenz.ba.picontrol.control.param.common.Type;
+import com.avikenz.ba.picontrol.control.manager.PortType;
+import com.avikenz.ba.picontrol.control.param.common.SignalType;
 
 /**
  * Created by AviKenz on 1/8/2018.
@@ -29,7 +29,7 @@ public class PwmControl
     private String mName = "button_control";
     private Mode mMode;
     private int mPinNumber = 5;
-    private Type mSignalType = Type.PWM;
+    private SignalType mSignalType = SignalType.PWM;
     private int mDutyCycle;
     private int mFrequence;
     private String mShortDescription = "Short_Description";
@@ -80,11 +80,11 @@ public class PwmControl
         mPinNumber = pinNumber;
     }
 
-    public Type getSignalType() {
+    public SignalType getSignalType() {
         return mSignalType;
     }
 
-    public void setSignalType(Type signalType) {
+    public void setSignalType(SignalType signalType) {
         mSignalType = signalType;
     }
 
@@ -130,7 +130,7 @@ public class PwmControl
 
     @Override
     public String getViewDescription() {
-        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "Signal Type: " + getSignalType().getValue();
+        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "Signal SignalType: " + getSignalType().getValue();
     }
 
     @Override

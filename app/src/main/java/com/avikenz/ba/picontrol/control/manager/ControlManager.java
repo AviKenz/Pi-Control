@@ -15,6 +15,8 @@ import com.avikenz.ba.picontrol.control.param.common.Mode;
 public class ControlManager
         extends Application{
 
+    // Define how many controls cann access a single port simultanously
+    public static int sPortsUsableTime = 1;
 
     private static String sServerUrl;
     private static Mode sMode;

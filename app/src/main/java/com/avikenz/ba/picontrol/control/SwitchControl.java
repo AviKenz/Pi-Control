@@ -7,14 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
 import com.avikenz.ba.picontrol.control.manager.ControlManager;
-import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
-import com.avikenz.ba.picontrol.control.param.common.PortType;
-import com.avikenz.ba.picontrol.control.param.common.Type;
+import com.avikenz.ba.picontrol.control.manager.PortType;
+import com.avikenz.ba.picontrol.control.param.common.SignalType;
 import com.avikenz.ba.picontrol.control.param.dc.State;
 
 
@@ -33,7 +31,7 @@ public class SwitchControl
     private Mode mMode = Mode.BCM;
     private int mPinNumber = 5;
     private boolean mState = State.OFF.getValue();
-    private Type mSignalType = Type.DC;
+    private SignalType mSignalType = SignalType.DC;
     private String mShortDescription = "Short_Description";
     private String mServerUrl;
 
@@ -75,7 +73,7 @@ public class SwitchControl
         this.mState = mState;
     }
 
-    private void setSignalType(Type mSignalType) {
+    private void setSignalType(SignalType mSignalType) {
         this.mSignalType = mSignalType;
     }
 
@@ -100,7 +98,7 @@ public class SwitchControl
 
     @Override
     public String getViewDescription() {
-        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "Signal Type: " + getSignalType().getValue();
+        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "Signal SignalType: " + getSignalType().getValue();
     }
 
     @Override
@@ -145,7 +143,7 @@ public class SwitchControl
         return mState;
     }
 
-    public Type getSignalType() {
+    public SignalType getSignalType() {
         return mSignalType;
     }
 
