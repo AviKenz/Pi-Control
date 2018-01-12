@@ -51,11 +51,6 @@ public class ControlViewRow extends RelativeLayout {
         addView(mPortType, getPortTypeViewParams());
         addView(mViewDescription, getViewDescriptionParams());
         addView(mControl.getView(), getControlViewParams());
-        // setup layout params
-        //LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        // TODO [M] wrap content is not working; check it again
-        //LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        //setLayoutParams(lp);
 
         // TODO [M] create nice background drawable with color degradation and rounded corners
         setBackgroundColor(Color.BLUE);

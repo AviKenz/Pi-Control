@@ -38,7 +38,6 @@ public class MainActivity
     }
 
     private void setupControler() {
-        // TODO [N] try inflating control row view and add control to it
         mControllerLayout = (LinearLayout) findViewById(R.id.controller_linearlayout);
 
         mSwControl = new SwitchControl("switch_control", 5, getApplicationContext());
