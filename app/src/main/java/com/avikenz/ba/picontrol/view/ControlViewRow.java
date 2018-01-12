@@ -28,7 +28,7 @@ public class ControlViewRow extends RelativeLayout {
 
     private Context mContext;
 
-    public ControlViewRow(OutputControl pControl, Context context) {
+    public ControlViewRow(Control pControl, Context context) {
         super(context);
         init(pControl, context);
     }
@@ -39,7 +39,7 @@ public class ControlViewRow extends RelativeLayout {
         init(new SwitchControl("switch_control", 5, context), context);
     }
 
-    private void init(OutputControl pControl, Context pContext) {
+    private void init(Control pControl, Context pContext) {
         // init layout
         mContext = pContext;
         mControl = pControl;
