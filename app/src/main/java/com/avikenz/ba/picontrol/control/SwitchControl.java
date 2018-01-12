@@ -9,9 +9,9 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
-import com.avikenz.ba.picontrol.control.manager.ControlManager;
+import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
-import com.avikenz.ba.picontrol.control.manager.PortType;
+import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
 import com.avikenz.ba.picontrol.control.param.dc.State;
 

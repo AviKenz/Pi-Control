@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
-import com.avikenz.ba.picontrol.control.manager.ControlManager;
+import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
-import com.avikenz.ba.picontrol.control.manager.PortType;
+import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
 import com.avikenz.ba.picontrol.control.param.dc.State;
 
@@ -26,7 +26,7 @@ public class ButtonControl
 
     public static final String TAG = ButtonControl.class.getSimpleName();
 
-    private String mName = "button_control";
+    private String mName = "btn";
     private Mode mMode = null;
     private int mPinNumber = 5;
     private boolean mState = State.OFF.getValue();
@@ -44,7 +44,7 @@ public class ButtonControl
     public ButtonControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO [M] declare styleable attr for the view in xml to get this params
-        init("button_control", 5, context);
+        init("btn", 5, context);
     }
 
     private void init(String pName, int pPinNumber, Context pContext) {

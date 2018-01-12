@@ -1,4 +1,4 @@
-package com.avikenz.ba.picontrol.control.manager;
+package com.avikenz.ba.picontrol.control.management;
 
 
 /**

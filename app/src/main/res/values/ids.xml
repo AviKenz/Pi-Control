@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="port_type" type="id">port_type</item>
+    <item name="view_description" type="id">view_description</item>
+    <item name="control" type="id">control</item>
+</resources>

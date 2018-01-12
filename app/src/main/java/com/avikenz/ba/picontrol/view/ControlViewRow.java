@@ -1,11 +1,13 @@
 package com.avikenz.ba.picontrol.view;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.avikenz.ba.picontrol.R;
 import com.avikenz.ba.picontrol.control.Control;
 import com.avikenz.ba.picontrol.control.OutputControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
@@ -16,11 +18,13 @@ import com.avikenz.ba.picontrol.control.SwitchControl;
 
 public class ControlViewRow extends RelativeLayout {
 
+
     private TextView mPortType;
     private TextView mViewDescription;
     private Control mControl;
 
-    private int mTextDescriptionSize = 10;
+    private int mTextDescriptionSize;
+    private int mNormalViewMargin;
 
     private Context mContext;
 
@@ -38,13 +42,11 @@ public class ControlViewRow extends RelativeLayout {
         // init layout
         mContext = pContext;
         mControl = pControl;
-        // setup view
-        mPortType = new TextView(mContext);
-        String text = mControl.getPortType() + mControl.getPinNumber();
-        mPortType.setText(text);
-        mViewDescription =  new TextView(mContext);
-        mViewDescription.setText(pControl.getViewDescription());
-        mViewDescription.setTextSize(mTextDescriptionSize);
+        // setup views
+        getXmlValues();
+        setupPortTypeView();
+        setupViewDescriptionView();
+        setupControlView();
         // add views to layout
         addView(mPortType, getPortTypeViewParams());
         addView(mViewDescription, getViewDescriptionParams());
@@ -52,31 +54,62 @@ public class ControlViewRow extends RelativeLayout {
         // setup layout params
         //LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         // TODO [M] wrap content is not working; check it again
-        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, 100);
-        setLayoutParams(lp);
+        //LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        //setLayoutParams(lp);
+
         // TODO [M] create nice background drawable with color degradation and rounded corners
-        setBackgroundColor(Color.parseColor("#DE5E79"));
+        setBackgroundColor(Color.BLUE);
     }
 
+    private void setupPortTypeView() {
+        mPortType = new TextView(mContext);
+        mPortType.setId(R.id.port_type);
+        String text = mControl.getPortType() + mControl.getPinNumber();
+        mPortType.setText(text);
+    }
+
+    private void setupViewDescriptionView() {
+        mViewDescription =  new TextView(mContext);
+        mViewDescription.setId(R.id.view_description);
+        mViewDescription.setText(mControl.getViewDescription());
+        mViewDescription.setTextSize(mTextDescriptionSize);
+    }
+
+    private void setupControlView() {
+        mControl.getView().setId(R.id.control);
+    }
 
     // TODO [I] change view param here instead using set layout param on the view
     private LayoutParams getPortTypeViewParams() {
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        params.setMargins(mNormalViewMargin, mNormalViewMargin, mNormalViewMargin, mNormalViewMargin);
         params.addRule(RelativeLayout.ALIGN_PARENT_START);
         return params;
     }
 
     private LayoutParams getViewDescriptionParams() {
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        // DO NOT USE ! force the view to fill parent.
+        //params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        params.setMargins(mNormalViewMargin, mNormalViewMargin, mNormalViewMargin, mNormalViewMargin);
         params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        params.addRule(RelativeLayout.BELOW, R.id.control);
         return params;
     }
 
     private LayoutParams getControlViewParams() {
-        LayoutParams params = new LayoutParams(300, LayoutParams.WRAP_CONTENT);
+        int width = LayoutParams.WRAP_CONTENT;
+        if(mControl.getViewType() == Control.LONG_VIEW_TYP) {
+            width = dpToPx(200);
+        }
+        LayoutParams params = new LayoutParams(width, LayoutParams.WRAP_CONTENT);
+        params.setMargins(mNormalViewMargin, mNormalViewMargin, mNormalViewMargin, mNormalViewMargin);
         params.addRule(RelativeLayout.ALIGN_PARENT_END);
         return params;
+    }
+
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
     public TextView getPortType() {
@@ -101,5 +134,10 @@ public class ControlViewRow extends RelativeLayout {
 
     public void setControl(OutputControl control) {
         mControl = control;
+    }
+
+    public void getXmlValues() {
+        mNormalViewMargin = (int) mContext.getResources().getDimension(R.dimen.view_normal_margin);
+        mTextDescriptionSize = (int) mContext.getResources().getDimension(R.dimen.small_text_size);
     }
 }
