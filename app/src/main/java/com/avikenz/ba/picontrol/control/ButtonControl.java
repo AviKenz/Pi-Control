@@ -43,7 +43,6 @@ public class ButtonControl
 
     public ButtonControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO [M] declare styleable attr for the view in xml to get this params
         init("btn", 5, context);
     }
 

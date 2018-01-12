@@ -40,7 +40,7 @@ public interface OutputControl extends Control {
      * The Event type depent of the type of control and should be implemented by the class
      * Its Stricty recomended to call it in all Constructors.
      */
-    // TODO [M] try to wrap this in a parent class BaseSwitchControl
+    // TODO [L] try to wrap this in a parent class BaseSwitchControl
     public void setChangeListener();
 
 }

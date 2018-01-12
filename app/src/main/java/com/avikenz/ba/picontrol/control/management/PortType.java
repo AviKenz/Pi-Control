@@ -6,7 +6,7 @@ package com.avikenz.ba.picontrol.control.management;
  */
 
 public enum PortType {
-    // TODO implement others type;
+    // TODO [M] implement others type;
     GPIO("GPIO"), Power("Power"), GROUND("Ground");
 
     String mName;

@@ -35,6 +35,7 @@ public class ControlViewRow extends RelativeLayout {
 
     public ControlViewRow(Context context, AttributeSet attrs) {
         super(context, attrs);
+        // TODO [M] declare styleable attr to declare the view in xml; declaration should depend on type of control
         init(new SwitchControl("switch_control", 5, context), context);
     }
 

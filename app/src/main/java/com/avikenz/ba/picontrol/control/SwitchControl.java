@@ -44,7 +44,6 @@ public class SwitchControl
 
     public SwitchControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO [M] declare styleable attr for the view in xml to get this params
         init("switch_control", 5, context);
     }
 
