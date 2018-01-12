@@ -12,14 +12,16 @@ import java.util.List;
  * represent a port on the raspberry pi.
  */
 
-public class Port {
+public abstract class Port {
 
     private PortType mType;
     private int mPinNumberBcm;
     private int mPinNumberBoard;
-    private List<SignalType> mAcceptedSignals;
 
     private boolean isAvaible = true;
+
+    protected String mTechDescription;
+    protected List<SignalType> mSupportedSignals;
 
     // Define How many Control can access the port simultanouesly
      private int mUsableTime;
@@ -28,11 +30,15 @@ public class Port {
         mType = pPortType;
         mPinNumberBcm = pPinNumberBcm;
         mPinNumberBoard = pPinNumberBoard;
-        mAcceptedSignals = pAcceptedSignals;
+        mSupportedSignals = pAcceptedSignals;
         // TODO [W] the usable time shoud be decrement when the port is occupied; do this in control manager.
         //setUsableTime();
         updateAvaibility();
     }
+
+    protected abstract void setTechDescription(String pTechDesc);
+
+    protected abstract void setSupportedSignal(List<SignalType> pSupportedSignals);
 
     private void updateAvaibility() {
         mUsableTime -= 1;
@@ -64,11 +70,11 @@ public class Port {
     }
 
     public List<SignalType> getAcceptedSignals() {
-        return mAcceptedSignals;
+        return mSupportedSignals;
     }
 
     public void setAcceptedSignals(List<SignalType> acceptedSignals) {
-        mAcceptedSignals = acceptedSignals;
+        mSupportedSignals = acceptedSignals;
     }
 
     public int setUsableTime() {
@@ -89,8 +95,18 @@ public class Port {
         return result;
     }
 
-
     public boolean isAvaible() {
         return isAvaible;
     }
+
+
+    public String getTechDescription() {
+        return mTechDescription;
+    }
+
+
+    public List<SignalType> getSupportedSignals() {
+        return mSupportedSignals;
+    }
+
 }
