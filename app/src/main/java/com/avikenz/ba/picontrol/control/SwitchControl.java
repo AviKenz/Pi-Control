@@ -97,14 +97,14 @@ public class SwitchControl
 
     @Override
     public String getViewDescription() {
-        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "Signal SignalType: " + getSignalType().getValue();
+        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "SignalType: " + getSignalType().getName();
     }
 
     @Override
     public ContentValues getPostParams() {
         ContentValues result = new ContentValues();
         int tempState = mState ? 1 : 0;
-        result.put(KEY_NAME, "dc_output");
+        result.put(KEY_NAME, getName());
         result.put(KEY_DIRECTION, direction.getValue());
         result.put(KEY_MODE, mMode.getValue());
         result.put(KEY_STATE, tempState);

@@ -27,7 +27,7 @@ public class ControlManager
     private static String sServerUrl;
     private static Mode sMode;
 
-    private static List<Port> sPortList = getPortList();
+    private static List<Port> sPortList = generatePortList();
 
     private  static ArrayList<SignalType> sGpioSupportedSignals = new ArrayList<SignalType>() {{
         add(SignalType.DC);
@@ -65,6 +65,10 @@ public class ControlManager
     }
 
     public static List<Port> getPortList() {
+        return sPortList;
+    }
+
+    private static List<Port> generatePortList() {
         List<Port> list = new ArrayList<>();
         // ground ports
         list.add(new GroundPort(6, null));

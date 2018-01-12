@@ -1,6 +1,6 @@
 package com.avikenz.ba.picontrol.activity;
 
-import android.app.ActionBar;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +14,13 @@ import com.avikenz.ba.picontrol.R;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.management.ControlManagerInterface;
+import com.avikenz.ba.picontrol.control.management.Port;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.view.ControlViewRow;
+import com.avikenz.ba.picontrol.view.FormParamPairView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity
         extends AppCompatActivity
@@ -35,6 +40,7 @@ public class MainActivity
         setContentView(R.layout.activity_main);
         initControlManager();
         setupControler();
+
     }
 
     private void setupControler() {
@@ -45,14 +51,20 @@ public class MainActivity
         mControlViewRow = new ControlViewRow(mSwControl, getApplicationContext());
         mControlViewRow2 = new ControlViewRow(mSwControl2, getApplicationContext());
 
+
+
         ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-
-        Log.e("AvI", params.width + " " + params.height);
-
         mControllerLayout.addView(mControlViewRow, params);
         mControllerLayout.addView(mControlViewRow2, params);
+
+        ContentValues pairs = new ContentValues();
+        pairs.put("key is something good !", "value");
+        for (Map.Entry<String, Object> el : pairs.valueSet()) {
+            FormParamPairView pairView = new FormParamPairView(el, getApplicationContext());
+            mControllerLayout.addView(pairView);
+        }
     }
 
     @Override
@@ -65,7 +77,7 @@ public class MainActivity
         // TODO [H] use dialog to get control manager setting from user
         setServerUrl();
         //mControlManager.setServerUrl("192.168.1.101");
-        mControlManager.setMode(Mode.BOARD);
+        mControlManager.setMode(Mode.BCM);
     }
 
     @Override

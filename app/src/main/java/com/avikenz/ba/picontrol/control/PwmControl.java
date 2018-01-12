@@ -129,7 +129,7 @@ public class PwmControl
 
     @Override
     public String getViewDescription() {
-        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "Signal SignalType: " + getSignalType().getValue();
+        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "SignalType: " + getSignalType().getName();
     }
 
     @Override
