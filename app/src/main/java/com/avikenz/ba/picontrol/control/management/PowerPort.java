@@ -12,8 +12,8 @@ import java.util.List;
 
 public class PowerPort extends Port {
 
-    public PowerPort(PortType pPortType, int pPinNumberBcm, int pPinNumberBoard, @Nullable List<SignalType> pAcceptedSignals) {
-        super(pPortType, pPinNumberBcm, pPinNumberBoard, pAcceptedSignals);
+    public PowerPort(PortType pPortType, int pPinNumberBoard, @Nullable List<SignalType> pAcceptedSignals) {
+        super(pPortType, pPinNumberBoard, pPinNumberBoard, pAcceptedSignals);
     }
 
     @Override

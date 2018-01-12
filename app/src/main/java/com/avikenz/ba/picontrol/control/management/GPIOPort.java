@@ -12,8 +12,8 @@ import java.util.List;
 
 public class GPIOPort extends Port {
 
-    public GPIOPort(PortType pPortType, int pPinNumberBcm, int pPinNumberBoard, String pTechDesc, @Nullable List<SignalType> pSupportedSignals) {
-        super(pPortType, pPinNumberBcm, pPinNumberBoard, pSupportedSignals);
+    public GPIOPort(int pPinNumberBcm, int pPinNumberBoard, String pTechDesc, @Nullable List<SignalType> pSupportedSignals) {
+        super(PortType.GPIO, pPinNumberBcm, pPinNumberBoard, pSupportedSignals);
         setTechDescription(pTechDesc);
     }
 

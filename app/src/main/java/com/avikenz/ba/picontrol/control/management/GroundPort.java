@@ -12,8 +12,8 @@ import java.util.List;
 
 public class GroundPort extends Port {
 
-    public GroundPort(PortType pPortType, int pPinNumberBcm, int pPinNumberBoard, @Nullable List<SignalType> pAcceptedSignals) {
-        super(pPortType, pPinNumberBcm, pPinNumberBoard, pAcceptedSignals);
+    public GroundPort(int pPinNumberBoard, @Nullable List<SignalType> pAcceptedSignals) {
+        super(PortType.GROUND, pPinNumberBoard, pPinNumberBoard, pAcceptedSignals);
     }
 
     @Override
