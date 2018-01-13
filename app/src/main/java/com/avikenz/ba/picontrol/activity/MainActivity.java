@@ -11,12 +11,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.avikenz.ba.picontrol.R;
+import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.management.ControlManagerInterface;
 import com.avikenz.ba.picontrol.control.management.Port;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.view.ControlViewRow;
+import com.avikenz.ba.picontrol.view.ControlViewRowGenerator;
 import com.avikenz.ba.picontrol.view.FormParamPairView;
 
 import java.util.HashMap;
@@ -59,12 +61,7 @@ public class MainActivity
         mControllerLayout.addView(mControlViewRow, params);
         mControllerLayout.addView(mControlViewRow2, params);
 
-        ContentValues pairs = new ContentValues();
-        pairs.put("key is something good !", "value");
-        for (Map.Entry<String, Object> el : pairs.valueSet()) {
-            FormParamPairView pairView = new FormParamPairView(el, getApplicationContext());
-            mControllerLayout.addView(pairView);
-        }
+        mControllerLayout.addView(ControlViewRowGenerator.Generate(new SwitchControl(null, 0, getApplicationContext()), getApplicationContext()));
     }
 
     @Override

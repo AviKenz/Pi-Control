@@ -10,10 +10,12 @@ import android.widget.Switch;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
+import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
 import com.avikenz.ba.picontrol.control.param.dc.State;
+import com.avikenz.ba.picontrol.view.Generatable;
 
 
 /**
@@ -22,7 +24,7 @@ import com.avikenz.ba.picontrol.control.param.dc.State;
 
 public class SwitchControl
         extends Switch
-        implements OutputControl, CompoundButton.OnCheckedChangeListener {
+        implements OutputControl, Generatable,  CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = SwitchControl.class.getSimpleName();
 
@@ -78,6 +80,25 @@ public class SwitchControl
 
     public void setShortDescription(String mShortDescription) {
         this.mShortDescription = mShortDescription;
+    }
+
+    @Override
+    public Class getClazz() {
+        return getClass();
+    }
+
+    @Override
+    public ContentValues getEditableFields() {
+        ContentValues result = new ContentValues();
+        result.put(KEY_NAME, String.class.getSimpleName());
+        result.put(KEY_DIRECTION, Direction.class.getSimpleName());
+        result.put(KEY_MODE, Mode.class.getSimpleName());
+        // State should always be false by default.
+        //result.put(KEY_STATE, tempState);
+        result.put(KEY_SIGNAL_TYPE, SignalType.class.getSimpleName());
+        result.put(KEY_PIN_NUMBER, int.class.getSimpleName());
+        result.put(KEY_SHORT_DESC, String.class.getSimpleName());
+        return result;
     }
 
     @Override
