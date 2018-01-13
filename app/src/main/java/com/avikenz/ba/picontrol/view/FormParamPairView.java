@@ -59,7 +59,7 @@ public class FormParamPairView extends LinearLayout {
     private void setupValueView() {
         mValue = new EditText(mContext);
         mValue.setGravity(Gravity.RIGHT);
-        mValue.setText("TODO...");
+        mValue.setText(mPair.getValue().toString());
     }
 
     private void setupChildrenParam() {

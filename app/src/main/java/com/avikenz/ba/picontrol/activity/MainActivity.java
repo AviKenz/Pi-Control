@@ -1,27 +1,23 @@
 package com.avikenz.ba.picontrol.activity;
 
-import android.content.ContentValues;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.avikenz.ba.picontrol.R;
-import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.management.ControlManagerInterface;
-import com.avikenz.ba.picontrol.control.management.Port;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.view.ControlViewRow;
-import com.avikenz.ba.picontrol.view.ControlViewRowGenerator;
 import com.avikenz.ba.picontrol.view.FormParamPairView;
+import com.avikenz.ba.picontrol.view.Generatable;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity
@@ -61,7 +57,8 @@ public class MainActivity
         mControllerLayout.addView(mControlViewRow, params);
         mControllerLayout.addView(mControlViewRow2, params);
 
-        mControllerLayout.addView(ControlViewRowGenerator.Generate(new SwitchControl(null, 0, getApplicationContext()), getApplicationContext()));
+        ControlViewRowGenerator gen = new ControlViewRowGenerator(new SwitchControl("sw", 4, getApplicationContext()), MainActivity.this);
+        gen.show();
     }
 
     @Override
@@ -99,5 +96,53 @@ public class MainActivity
                         mControlManager.setServerUrl(input.getText().toString());
                     }
                 }).show();
+    }
+
+    /**
+     * Created by AviKenz on 1/12/2018.
+     */
+
+    public class ControlViewRowGenerator {
+
+        private  Generatable mControl;
+
+        private LinearLayout mView;
+        private android.app.AlertDialog.Builder mBuilder;
+        private LinearLayout.LayoutParams mLayoutParams;
+
+        private Context mContext;
+        // TODO [W] the context passed here should always be MainActivity.this
+        public ControlViewRowGenerator(Generatable pControl, Context pContext) {
+            mControl = pControl;
+            mContext = pContext;
+            mBuilder = new AlertDialog.Builder(mContext);
+            mBuilder.setTitle("Generate " + pControl.getClazz().getSimpleName());
+            mBuilder.setCancelable(true);
+            mBuilder.setPositiveButton("Create", null);
+            mBuilder.setNegativeButton("Cancel", null);
+            mBuilder.setView(Generate(mControl, mContext));
+        }
+
+        public void show() {
+            mBuilder.show();
+        }
+
+        public LinearLayout Generate(Generatable pControl, Context pContext) {
+            mView = new LinearLayout(pContext);
+            setLayoutParams();
+            buildView();
+            return mView;
+        }
+
+        private void buildView() {
+            mView.setOrientation(LinearLayout.VERTICAL);
+            for(Map.Entry<String, Object> entry : mControl.getEditableFields().valueSet()) {
+                mView.addView(new FormParamPairView(entry, mContext), mLayoutParams);
+            }
+        }
+
+        private void setLayoutParams() {
+            mLayoutParams =  new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        }
     }
 }
