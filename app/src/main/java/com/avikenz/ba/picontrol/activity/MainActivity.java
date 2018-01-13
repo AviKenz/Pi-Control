@@ -57,7 +57,8 @@ public class MainActivity
         mControllerLayout.addView(mControlViewRow, params);
         mControllerLayout.addView(mControlViewRow2, params);
 
-        ControlViewRowGenerator gen = new ControlViewRowGenerator(new SwitchControl("sw", 4, getApplicationContext()), MainActivity.this);
+        // TODO [I] use the Control second constructor to create oject for the generator; its always the same by all control.
+        ControlViewRowGenerator gen = new ControlViewRowGenerator(new SwitchControl(getApplicationContext(), null), MainActivity.this);
         gen.show();
     }
 

@@ -90,14 +90,14 @@ public class SwitchControl
     @Override
     public ContentValues getEditableFields() {
         ContentValues result = new ContentValues();
-        result.put(KEY_NAME, String.class.getSimpleName());
-        result.put(KEY_DIRECTION, Direction.class.getSimpleName());
-        result.put(KEY_MODE, Mode.class.getSimpleName());
+        result.put(KEY_NAME, String.class.getName());
+        result.put(KEY_DIRECTION, Direction.class.getName());
+        result.put(KEY_MODE, Mode.class.getName());
         // State should always be false by default.
         //result.put(KEY_STATE, tempState);
-        result.put(KEY_SIGNAL_TYPE, SignalType.class.getSimpleName());
-        result.put(KEY_PIN_NUMBER, int.class.getSimpleName());
-        result.put(KEY_SHORT_DESC, String.class.getSimpleName());
+        result.put(KEY_SIGNAL_TYPE, SignalType.class.getName());
+        result.put(KEY_PIN_NUMBER, int.class.getName());
+        result.put(KEY_SHORT_DESC, String.class.getName());
         return result;
     }
 
