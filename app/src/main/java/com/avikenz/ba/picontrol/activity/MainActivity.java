@@ -14,6 +14,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.avikenz.ba.picontrol.R;
+import com.avikenz.ba.picontrol.control.ButtonControl;
+import com.avikenz.ba.picontrol.control.Control;
+import com.avikenz.ba.picontrol.control.OutputControl;
+import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.management.ControlManagerInterface;
@@ -158,6 +162,7 @@ public class MainActivity
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Log.d(TAG, getData().toString());
+                    add();
                 }
             });
             mBuilder.setNegativeButton("Cancel", null);
@@ -174,6 +179,31 @@ public class MainActivity
 
         public void show() {
             mBuilder.show();
+        }
+
+        // add Controler row View to layout
+        private void add() {
+            ContentValues param = getData();
+            String clName = mControl.getClass().getSimpleName();
+            ControlViewRow controlView;
+            if( clName.equals(SwitchControl.class.getSimpleName()) ) {
+                SwitchControl control = new SwitchControl(param.getAsString(Control.KEY_NAME), param.getAsInteger(Control.KEY_PIN_NUMBER), MainActivity.this);
+                control.setShortDescription(param.getAsString(Control.KEY_SHORT_DESC));
+                controlView = new ControlViewRow(control, MainActivity.this);
+                mControllerLayout.addView(controlView);
+            } else if(clName.equals(ButtonControl.class.getSimpleName())) {
+                ButtonControl control = new ButtonControl(param.getAsString(Control.KEY_NAME), param.getAsInteger(Control.KEY_PIN_NUMBER), MainActivity.this);
+                control.setShortDescription(param.getAsString(Control.KEY_SHORT_DESC));
+                controlView = new ControlViewRow(control, MainActivity.this);
+                mControllerLayout.addView(controlView);
+            } else if(clName.equals(PwmControl.class.getSimpleName())) {
+                PwmControl control = new PwmControl(param.getAsString(Control.KEY_NAME), param.getAsInteger(Control.KEY_PIN_NUMBER), param.getAsInteger(OutputControl.KEY_FREQUENCE), param.getAsInteger(OutputControl.KEY_DUTY_CYCLE), MainActivity.this);
+                control.setShortDescription(param.getAsString(control.KEY_SHORT_DESC));
+                controlView = new ControlViewRow(control, MainActivity.this);
+                mControllerLayout.addView(controlView);
+            } else {
+
+            }
         }
 
         public LinearLayout Generate(Generatable pControl, Context pContext) {
