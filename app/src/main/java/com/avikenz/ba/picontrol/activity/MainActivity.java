@@ -1,11 +1,14 @@
 package com.avikenz.ba.picontrol.activity;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -18,6 +21,7 @@ import com.avikenz.ba.picontrol.view.ControlViewRow;
 import com.avikenz.ba.picontrol.view.FormParamPairView;
 import com.avikenz.ba.picontrol.view.Generatable;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class MainActivity
@@ -105,23 +109,41 @@ public class MainActivity
 
     public class ControlViewRowGenerator {
 
+        private String TAG = this.getClass().getSimpleName();
+
         private  Generatable mControl;
 
         private LinearLayout mView;
         private android.app.AlertDialog.Builder mBuilder;
         private LinearLayout.LayoutParams mLayoutParams;
 
+        private ArrayList<FormParamPairView> mRows;
+
         private Context mContext;
         // TODO [W] the context passed here should always be MainActivity.this
         public ControlViewRowGenerator(Generatable pControl, Context pContext) {
             mControl = pControl;
             mContext = pContext;
+            mRows = new ArrayList<>();
             mBuilder = new AlertDialog.Builder(mContext);
             mBuilder.setTitle("Generate " + pControl.getClazz().getSimpleName());
             mBuilder.setCancelable(true);
-            mBuilder.setPositiveButton("Create", null);
+            mBuilder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d(TAG, getData().toString());
+                }
+            });
             mBuilder.setNegativeButton("Cancel", null);
             mBuilder.setView(Generate(mControl, mContext));
+        }
+
+        private ContentValues getData() {
+            ContentValues result = new ContentValues();
+            for(FormParamPairView item : mRows) {
+                result.put(item.getKey(), item.getValue());
+            }
+            return result;
         }
 
         public void show() {
@@ -137,8 +159,11 @@ public class MainActivity
 
         private void buildView() {
             mView.setOrientation(LinearLayout.VERTICAL);
+            FormParamPairView row;
             for(Map.Entry<String, Object> entry : mControl.getEditableFields().valueSet()) {
-                mView.addView(new FormParamPairView(entry, mContext), mLayoutParams);
+                row = new FormParamPairView(entry, mContext);
+                mView.addView(row, mLayoutParams);
+                mRows.add(row);
             }
         }
 

@@ -24,7 +24,7 @@ import com.avikenz.ba.picontrol.view.Generatable;
 
 public class SwitchControl
         extends Switch
-        implements OutputControl, Generatable,  CompoundButton.OnCheckedChangeListener {
+        implements OutputControl, Generatable, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = SwitchControl.class.getSimpleName();
 
@@ -36,6 +36,7 @@ public class SwitchControl
     private SignalType mSignalType = SignalType.DC;
     private String mShortDescription = "Short_Description";
     private String mServerUrl;
+
 
     private ControlManager mControlManager;
 
@@ -92,7 +93,8 @@ public class SwitchControl
         ContentValues result = new ContentValues();
         result.put(KEY_NAME, String.class.getName());
         result.put(KEY_DIRECTION, Direction.class.getName());
-        result.put(KEY_MODE, Mode.class.getName());
+        // Mode must be determine by the control manager
+        //result.put(KEY_MODE, Mode.class.getName());
         // State should always be false by default.
         //result.put(KEY_STATE, tempState);
         result.put(KEY_SIGNAL_TYPE, SignalType.class.getName());

@@ -1,10 +1,13 @@
 package com.avikenz.ba.picontrol.control.management;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
+import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
+import com.avikenz.ba.picontrol.view.Generatable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class ControlManager
         add(SignalType.SPI);
         add(SignalType.UART);
     }};
+
 
     private static void init() {
 
