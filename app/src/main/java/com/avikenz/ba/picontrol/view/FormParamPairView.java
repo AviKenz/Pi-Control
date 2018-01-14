@@ -3,22 +3,16 @@ package com.avikenz.ba.picontrol.view;
 import android.content.ContentValues;
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.text.InputType;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.avikenz.ba.picontrol.R;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,14 +22,17 @@ import java.util.Map;
  * Created by AviKenz on 1/12/2018.
  */
 
-public class FormParamPairView extends LinearLayout {
+public class FormParamPairView
+        extends LinearLayout {
 
     private final String TAG = getClass().getSimpleName();
 
     private Map.Entry<String, Object> mPair;
 
     private TextView mKey;
-    private EditText mValue;
+    private View mValue;
+
+    private ContentValues mData;
 
     private LayoutParams mChildrenParams;
 
@@ -71,22 +68,16 @@ public class FormParamPairView extends LinearLayout {
     }
 
     private void setupValueView() {
-        mValue = new EditText(mContext);
-        mValue.setGravity(Gravity.RIGHT);
         String val = mPair.getValue().toString();
         if ( isEnum(val) ) {
-            Log.d(TAG, getEnumValues(val).toString());
-            mValue.setOnFocusChangeListener(new OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (hasFocus) {
-                        Log.d(TAG, "focused");
-                        // TODO [N] implement Dialog to Show Enum;
-                    }
-                }
-            });
+            mValue = new Spinner(mContext);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, getEnumValues(val));
+            Spinner v = (Spinner) mValue;
+            v.setAdapter(adapter);
         } else {
-            mValue.setText(isEnum(val) + "");
+            mValue = new EditText(mContext);
+            EditText v = (EditText) mValue;
+            v.setGravity(Gravity.RIGHT);
         }
     }
 
@@ -106,6 +97,7 @@ public class FormParamPairView extends LinearLayout {
             e.printStackTrace();
         }
         // TODO [I] would probabily need the enum class to instantiate it and pass to controller
+        // TODO [I] or maybe include the post param key as field in the enum.
         return result;
     }
 
@@ -118,4 +110,16 @@ public class FormParamPairView extends LinearLayout {
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     }
 
+    public String getKey() {
+        return mKey.getText().toString();
+    }
+
+    public String getValue() {
+        if(mValue instanceof EditText) {
+            return ((EditText) mValue).getText().toString();
+        } else {
+            return ((Spinner) mValue).getSelectedItem().toString();
+        }
+    }
 }
+
