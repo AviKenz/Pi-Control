@@ -10,4 +10,9 @@
     android:gravity="center_horizontal"
     tools:context="com.avikenz.ba.picontrol.activity.MainActivity">
 
+    <Button
+        android:id="@+id/add_control_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

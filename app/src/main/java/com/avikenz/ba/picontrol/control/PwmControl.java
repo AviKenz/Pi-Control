@@ -11,6 +11,7 @@ import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
+import com.avikenz.ba.picontrol.view.Generatable;
 
 /**
  * Created by AviKenz on 1/8/2018.
@@ -18,7 +19,7 @@ import com.avikenz.ba.picontrol.control.param.common.SignalType;
 
 public class PwmControl
         extends SeekBar
-        implements OutputControl, SeekBar.OnSeekBarChangeListener {
+        implements OutputControl, Generatable, SeekBar.OnSeekBarChangeListener {
 
     public static String TAG = PwmControl.class.getSimpleName();
 
@@ -105,6 +106,22 @@ public class PwmControl
 
     public void setShortDescription(String shortDescription) {
         mShortDescription = shortDescription;
+    }
+
+    @Override
+    public Class getClazz() {
+        return getClass();
+    }
+
+    @Override
+    public ContentValues getEditableFields() {
+        ContentValues result = new ContentValues();
+        result.put(KEY_NAME, getName());
+        result.put(KEY_PIN_NUMBER, mPinNumber);
+        result.put(KEY_FREQUENCE, mFrequence);
+        result.put(KEY_DUTY_CYCLE, mProgress);
+        result.put(KEY_SHORT_DESC, mShortDescription);
+        return result;
     }
 
     @Override

@@ -7,8 +7,9 @@ import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -28,6 +29,8 @@ public class MainActivity
         extends AppCompatActivity
         implements ControlManagerInterface {
 
+    private final String TAG = this.getClass().getSimpleName();
+
     ControlManager mControlManager = null;
     LinearLayout mControllerLayout;
 
@@ -43,6 +46,34 @@ public class MainActivity
         initControlManager();
         setupControler();
 
+        Button addControlBtn = (Button) findViewById(R.id.add_control_button);
+        addControlBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startControlRowViewGeneration();
+            }
+        });
+    }
+
+    private void startControlRowViewGeneration() {
+        //
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Control");
+        // setup view
+        final ArrayList<Generatable> controls = ControlManager.getGeneratableControls(this);
+        int len = controls.size();
+        String[] className = new String[len];
+        for(int i = 0; i < len; i++) {
+            className[i] = controls.get(i).getClazz().getSimpleName();
+        }
+        builder.setSingleChoiceItems(className, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new ControlViewRowGenerator(controls.get(which), MainActivity.this).show();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     private void setupControler() {
@@ -64,11 +95,6 @@ public class MainActivity
         // TODO [I] use the Control second constructor to create oject for the generator; its always the same by all control.
         ControlViewRowGenerator gen = new ControlViewRowGenerator(new SwitchControl(getApplicationContext(), null), MainActivity.this);
         gen.show();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     private void initControlManager() {

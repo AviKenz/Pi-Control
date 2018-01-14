@@ -15,6 +15,7 @@ import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
 import com.avikenz.ba.picontrol.control.param.dc.State;
+import com.avikenz.ba.picontrol.view.Generatable;
 
 /**
  * Created by AviKenz on 1/6/2018.
@@ -22,7 +23,7 @@ import com.avikenz.ba.picontrol.control.param.dc.State;
 
 public class ButtonControl
         extends Button
-        implements OutputControl, View.OnTouchListener {
+        implements OutputControl, Generatable,  View.OnTouchListener {
 
     public static final String TAG = ButtonControl.class.getSimpleName();
 
@@ -53,6 +54,20 @@ public class ButtonControl
         mPinNumber = pPinNumber;
         setText(getName());
         setChangeListener();
+    }
+
+    @Override
+    public Class getClazz() {
+        return getClass();
+    }
+
+    @Override
+    public ContentValues getEditableFields() {
+        ContentValues result = new ContentValues();
+        result.put(KEY_NAME, getName());
+        result.put(KEY_PIN_NUMBER, mPinNumber);
+        result.put(KEY_SHORT_DESC, mShortDescription);
+        return result;
     }
 
     @Override

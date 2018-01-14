@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.avikenz.ba.picontrol.control.ButtonControl;
+import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
@@ -70,6 +72,14 @@ public class ControlManager
 
     public static List<Port> getPortList() {
         return sPortList;
+    }
+
+    public static ArrayList<Generatable> getGeneratableControls(Context pContext) {
+        ArrayList<Generatable> result = new ArrayList<>();
+        result.add(new SwitchControl(pContext, null));
+        result.add(new ButtonControl(pContext, null));
+        result.add(new PwmControl(pContext, null));
+        return result;
     }
 
     private static List<Port> generatePortList() {
