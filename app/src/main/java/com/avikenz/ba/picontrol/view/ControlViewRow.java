@@ -2,7 +2,10 @@ package com.avikenz.ba.picontrol.view;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,7 +57,7 @@ public class ControlViewRow extends RelativeLayout {
         addView(mControl.getView(), getControlViewParams());
 
         // TODO [M] create nice background drawable with color degradation and rounded corners
-        setBackgroundColor(Color.BLUE);
+        setBackgroundResource(R.drawable.output_control_background);
     }
 
     private void setupPortTypeView() {
