@@ -82,12 +82,12 @@ public abstract class Port {
     }
 
     private void setUsableTime(int usableTime) {
-        mUsableTime = ControlManager.sPortsUsableTime;
+        mUsableTime = ControlManager.getInstace().getPortUsableTime();
     }
 
     public String getName() {
         String result = "";
-        if(ControlManager.getMode().equals(Mode.BCM)) {
+        if(ControlManager.getInstace().getMode().equals(Mode.BCM)) {
             result = mType.getName() + getBcmNumber();
         } else {
             result = "Pin" + getBoardNumber();

@@ -15,7 +15,6 @@ import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
 import com.avikenz.ba.picontrol.control.param.dc.State;
-import com.avikenz.ba.picontrol.view.Generatable;
 
 
 /**
@@ -24,7 +23,7 @@ import com.avikenz.ba.picontrol.view.Generatable;
 
 public class SwitchControl
         extends Switch
-        implements OutputControl, Generatable, CompoundButton.OnCheckedChangeListener {
+        implements OutputControl, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = SwitchControl.class.getSimpleName();
 
@@ -51,7 +50,7 @@ public class SwitchControl
     }
 
     public void init(String pName, int pPinNumber, Context pContext) {
-        mControlManager = (ControlManager) pContext.getApplicationContext();
+        mControlManager = ControlManager.getInstace();
         mState = isChecked();
         mName = pName;
         mMode = mControlManager.getMode();

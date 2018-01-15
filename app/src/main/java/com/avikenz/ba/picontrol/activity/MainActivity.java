@@ -22,9 +22,9 @@ import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.management.ControlManagerInterface;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
+import com.avikenz.ba.picontrol.view.ControlFactory;
 import com.avikenz.ba.picontrol.view.ControlViewRow;
 import com.avikenz.ba.picontrol.view.FormParamPairView;
-import com.avikenz.ba.picontrol.view.Generatable;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -64,7 +64,7 @@ public class MainActivity
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select Control");
         // setup view
-        final ArrayList<Generatable> controls = ControlManager.getGeneratableControls(this);
+        final ArrayList<Control> controls = ControlFactory.getControlNullInstance(this);
         int len = controls.size();
         String[] className = new String[len];
         for(int i = 0; i < len; i++) {
@@ -102,7 +102,7 @@ public class MainActivity
     }
 
     private void initControlManager() {
-        mControlManager = getControlManager();
+        mControlManager = ControlManager.getInstace();
         // TODO [H] use dialog to get control manager setting from user
         setServerUrl();
         //mControlManager.setServerUrl("192.168.1.101");
@@ -141,7 +141,7 @@ public class MainActivity
 
         private String TAG = this.getClass().getSimpleName();
 
-        private  Generatable mControl;
+        private  Control mControl;
 
         private LinearLayout mView;
         private android.app.AlertDialog.Builder mBuilder;
@@ -151,7 +151,7 @@ public class MainActivity
 
         private Context mContext;
         // TODO [W] the context passed here should always be MainActivity.this
-        public ControlViewRowGenerator(Generatable pControl, Context pContext) {
+        public ControlViewRowGenerator(Control pControl, Context pContext) {
             mControl = pControl;
             mContext = pContext;
             mRows = new ArrayList<>();
@@ -184,29 +184,12 @@ public class MainActivity
         // add Controler row View to layout
         private void add() {
             ContentValues param = getData();
-            String clName = mControl.getClass().getSimpleName();
-            ControlViewRow controlView;
-            if( clName.equals(SwitchControl.class.getSimpleName()) ) {
-                SwitchControl control = new SwitchControl(param.getAsString(Control.KEY_NAME), param.getAsInteger(Control.KEY_PIN_NUMBER), MainActivity.this);
-                control.setShortDescription(param.getAsString(Control.KEY_SHORT_DESC));
-                controlView = new ControlViewRow(control, MainActivity.this);
-                mControllerLayout.addView(controlView);
-            } else if(clName.equals(ButtonControl.class.getSimpleName())) {
-                ButtonControl control = new ButtonControl(param.getAsString(Control.KEY_NAME), param.getAsInteger(Control.KEY_PIN_NUMBER), MainActivity.this);
-                control.setShortDescription(param.getAsString(Control.KEY_SHORT_DESC));
-                controlView = new ControlViewRow(control, MainActivity.this);
-                mControllerLayout.addView(controlView);
-            } else if(clName.equals(PwmControl.class.getSimpleName())) {
-                PwmControl control = new PwmControl(param.getAsString(Control.KEY_NAME), param.getAsInteger(Control.KEY_PIN_NUMBER), param.getAsInteger(OutputControl.KEY_FREQUENCE), param.getAsInteger(OutputControl.KEY_DUTY_CYCLE), MainActivity.this);
-                control.setShortDescription(param.getAsString(control.KEY_SHORT_DESC));
-                controlView = new ControlViewRow(control, MainActivity.this);
-                mControllerLayout.addView(controlView);
-            } else {
-
-            }
+            Control control = new ControlFactory(mControl, param, MainActivity.this).getControl();
+            ControlViewRow controlViewRow = new ControlViewRow(control, MainActivity.this);
+            mControllerLayout.addView(controlViewRow);
         }
 
-        public LinearLayout Generate(Generatable pControl, Context pContext) {
+        public LinearLayout Generate(Control pControl, Context pContext) {
             mView = new LinearLayout(pContext);
             setLayoutParams();
             buildView();
