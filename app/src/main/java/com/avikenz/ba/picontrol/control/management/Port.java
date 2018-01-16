@@ -25,22 +25,21 @@ public abstract class Port {
     protected List<SignalType> mSupportedSignals;
 
     // Define How many Control can access the port simultanouesly
-    // TODO [I] couldnt set it in using ControlManager; throwing NullPointerException
+    // TODO [W] cant be set using the ControlManager instate !
      private int mUsableTime = 2;
 
     public Port(PortType pPortType, int pPinNumberBcm, int pPinNumberBoard, @Nullable List<SignalType> pAcceptedSignals) {
         mType = pPortType;
         mPinNumberBcm = pPinNumberBcm;
         mPinNumberBoard = pPinNumberBoard;
-        // TODO [M] getting this value from control manager not work... check again.
         mSupportedSignals = pAcceptedSignals;
-        // TODO [W] the usable time shoud be decrement when the port is occupied; do this in control manager.
     }
 
     protected abstract void setTechDescription(String pTechDesc);
 
     protected abstract void setSupportedSignal(List<SignalType> pSupportedSignals);
 
+    // TODO [W] method should always when the port is occupy and before isAvaible();
     public void updateAvaibility() {
         mUsableTime -= 1;
         isAvaible = !(mUsableTime == 0);

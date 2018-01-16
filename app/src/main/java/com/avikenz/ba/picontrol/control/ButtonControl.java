@@ -51,7 +51,7 @@ public class ButtonControl
         mName = pName;
         mMode = mControlManager.getMode();
         mPinNumber = pPinNumber;
-        setText(getName());
+        setText("ON-OFF");
         setChangeListener();
     }
 
@@ -63,9 +63,9 @@ public class ButtonControl
     @Override
     public ContentValues getEditableFields() {
         ContentValues result = new ContentValues();
-        result.put(KEY_NAME, getName());
-        result.put(KEY_PIN_NUMBER, mPinNumber);
-        result.put(KEY_SHORT_DESC, mShortDescription);
+        result.put(KEY_NAME, String.class.getName());
+        result.put(KEY_PIN_NUMBER, Integer.class.getName());
+        result.put(KEY_SHORT_DESC, String.class.getName());
         return result;
     }
 

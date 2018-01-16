@@ -55,8 +55,7 @@ public class ControlViewRow extends RelativeLayout {
         addView(mPortType, getPortTypeViewParams());
         addView(mViewDescription, getViewDescriptionParams());
         addView(mControl.getView(), getControlViewParams());
-
-        // TODO [M] create nice background drawable with color degradation and rounded corners
+        // set background color
         setBackgroundResource(R.drawable.output_control_background);
     }
 

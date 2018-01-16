@@ -16,11 +16,11 @@ import android.widget.LinearLayout;
 import com.avikenz.ba.picontrol.R;
 import com.avikenz.ba.picontrol.control.ButtonControl;
 import com.avikenz.ba.picontrol.control.Control;
-import com.avikenz.ba.picontrol.control.OutputControl;
 import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.management.ControlManagerInterface;
+import com.avikenz.ba.picontrol.control.param.PwmOutputType;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.view.ControlFactory;
 import com.avikenz.ba.picontrol.view.ControlViewRow;
@@ -39,9 +39,14 @@ public class MainActivity
     LinearLayout mControllerLayout;
 
     SwitchControl mSwControl;
-    SwitchControl mSwControl2;
-    ControlViewRow mControlViewRow;
-    ControlViewRow mControlViewRow2;
+    ButtonControl mButtonControl;
+    PwmControl mIntPwmControl;
+    PwmControl mBytePwmControl;
+
+    ControlViewRow mSwitchRow;
+    ControlViewRow mButtonRow;
+    ControlViewRow mSeekBarRow;
+    ControlViewRow mSeekBarRow2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,24 +86,28 @@ public class MainActivity
     }
 
     private void setupControler() {
+        // get reference to controller layout
         mControllerLayout = (LinearLayout) findViewById(R.id.controller_linearlayout);
-
+        // create controllers
         mSwControl = new SwitchControl("switch_control", 5, getApplicationContext());
-        mSwControl2 = new SwitchControl("switch_control", 5, getApplicationContext());
-        mControlViewRow = new ControlViewRow(mSwControl, getApplicationContext());
-        mControlViewRow2 = new ControlViewRow(mSwControl2, getApplicationContext());
+        mButtonControl = new ButtonControl("button_control", 6, getApplicationContext());
+        mIntPwmControl = new PwmControl("seekbar_control_integer_integer_output", 13, 100, 0, PwmOutputType.INTEGER, getApplicationContext());
+        mBytePwmControl = new PwmControl("seekbar_control_byte_output", 19, 100, 0, PwmOutputType.BYTE, getApplicationContext());
+        // create control view and his details
+        mSwitchRow = new ControlViewRow(mSwControl, getApplicationContext());
+        mButtonRow = new ControlViewRow(mButtonControl, getApplicationContext());
+        mSeekBarRow = new ControlViewRow(mIntPwmControl, getApplicationContext());
+        mSeekBarRow2 = new ControlViewRow(mBytePwmControl, getApplicationContext());
 
-
-
+        // setup layout parameter
         ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        mControllerLayout.addView(mControlViewRow, params);
-        mControllerLayout.addView(mControlViewRow2, params);
-
-        // TODO [I] use the Control second constructor to create oject for the generator; its always the same by all control.
-        ControlViewRowGenerator gen = new ControlViewRowGenerator(new SwitchControl(getApplicationContext(), null), MainActivity.this);
-        gen.show();
+        // add views to layout
+        mControllerLayout.addView(mSwitchRow, params);
+        mControllerLayout.addView(mButtonRow, params);
+        mControllerLayout.addView(mSeekBarRow, params);
+        mControllerLayout.addView(mSeekBarRow2, params);
     }
 
     private void initControlManager() {

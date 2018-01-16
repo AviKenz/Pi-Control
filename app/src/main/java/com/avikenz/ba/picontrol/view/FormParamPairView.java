@@ -71,26 +71,35 @@ public class FormParamPairView
 
     private void setupKeyView() {
         mKey = new TextView(mContext);
-        mKey.setText(mPair.getKey());
+        // Capitalize first letter and remove underscore character
+        String val = new String(mPair.getKey());
+        // TODO [M] doest work; String are immutable
+        //val = val.replace("_", " ");
+        //val = val.substring(0, 1).toUpperCase() + val.substring(1);
+        mKey.setText(val);
     }
 
     private void setupValueView() {
         String val = mPair.getValue().toString();
-        if ( isEnum(val) ) {
+        // generate spinner when value is an Enum
+        if (val.equals(Enum.class.getName())) {
             mValue = new Spinner(mContext);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, getEnumValues(val));
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
+        // generate Spinner for pin selection; the spinner show only available pins; the available pin depend on the pinUsableTime in Port class
         } else if(mPair.getKey().equals(Control.KEY_PIN_NUMBER)) {
             mValue = new Spinner(mContext);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, ControlManager.getInstace().getFreeGpioPortNumberList());
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
+        // generate spinner for pwm output type; the output of pwm can be an integer or 8 bit value
         } else if(mPair.getValue().toString().equals(PwmOutputType.class.getName())) {
             mValue = new Spinner(mContext);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, getEnumValues(PwmOutputType.class.getName()));
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
+        // default; generate an edit text
         } else {
             mValue = new EditText(mContext);
             EditText v = (EditText) mValue;
@@ -113,8 +122,6 @@ public class FormParamPairView
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // TODO [I] would probabily need the enum class to instantiate it and pass to controller
-        // TODO [I] or maybe include the post param key as field in the enum.
         return result;
     }
 
