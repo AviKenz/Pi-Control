@@ -3,14 +3,19 @@ package com.avikenz.ba.picontrol.control;
 import android.content.ContentValues;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
+import com.avikenz.ba.picontrol.control.param.PwmOutputType;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
+import com.avikenz.ba.picontrol.view.FormParamPairView;
+
+import java.text.Normalizer;
 
 /**
  * Created by AviKenz on 1/8/2018.
@@ -23,7 +28,7 @@ public class PwmControl
     public static String TAG = PwmControl.class.getSimpleName();
 
     public static int sMaxFrequence = 100;
-    public static int smaxDutyCycle = 100;
+    public int mMaxDutyCycle;
 
     private String mName = "button_control";
     private Mode mMode;
@@ -31,25 +36,26 @@ public class PwmControl
     private SignalType mSignalType = SignalType.PWM;
     private int mDutyCycle;
     private int mFrequence;
+    private PwmOutputType mOutputType;
     private String mShortDescription = "Short_Description";
 
 
 
     private ControlManager mControlManager;
 
-    private int mProgress;
+    private String mProgress;
 
-    public PwmControl(String pName, int pPinNumber, int pFrequence, int pDutyCycle, Context pContext) {
+    public PwmControl(String pName, int pPinNumber, int pFrequence, int pDutyCycle, PwmOutputType pOutputType, Context pContext) {
         super(pContext);
-        init(pName, pPinNumber, pFrequence, pDutyCycle, pContext);
+        init(pName, pPinNumber, pFrequence, pDutyCycle, pOutputType, pContext);
     }
 
     public PwmControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init("seek_bar", 5, 1000, 20, context);
+        init("seek_bar", 5, 1000, 20, PwmOutputType.INTEGER, context);
     }
 
-    private void init(String pName, int pPinNumber, int pFrequence, int pDutyCycle, Context pContext) {
+    private void init(String pName, int pPinNumber, int pFrequence, int pDutyCycle, PwmOutputType pOutputType, Context pContext) {
         mControlManager = ControlManager.getInstace();
         mName = pName;
         mMode = mControlManager.getMode();
@@ -57,8 +63,9 @@ public class PwmControl
         mPinNumber = pPinNumber;
         mFrequence = pFrequence;
         mDutyCycle = pDutyCycle;
+        mOutputType = pOutputType;
 
-        setMax(smaxDutyCycle);
+        setMax(pOutputType.getmMaxValue());
         setChangeListener();
     }
 
@@ -107,6 +114,16 @@ public class PwmControl
         mShortDescription = shortDescription;
     }
 
+    private String getOuputProgress(int val) {
+        String result = "-1";
+        if(mOutputType.equals(PwmOutputType.BYTE)) {
+            result = Long.toString(val, 2);
+        } else {
+            result = String.valueOf(val);
+        }
+        return result;
+    }
+
     @Override
     public Class getClazz() {
         return getClass();
@@ -115,11 +132,12 @@ public class PwmControl
     @Override
     public ContentValues getEditableFields() {
         ContentValues result = new ContentValues();
-        result.put(KEY_NAME, getName());
-        result.put(KEY_PIN_NUMBER, mPinNumber);
-        result.put(KEY_FREQUENCE, mFrequence);
-        result.put(KEY_DUTY_CYCLE, mProgress);
-        result.put(KEY_SHORT_DESC, mShortDescription);
+        result.put(KEY_NAME, String.class.getName());
+        result.put(KEY_PIN_NUMBER, Integer.class.getName());
+        result.put(KEY_FREQUENCE, Integer.class.getName());
+        result.put(KEY_DUTY_CYCLE, Integer.class.getName());
+        result.put(KEY_PWM_OUTPUT_TYP, PwmOutputType.class.getName());
+        result.put(KEY_SHORT_DESC, String.class.getName());
         return result;
     }
 
@@ -183,14 +201,14 @@ public class PwmControl
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        mProgress = 0;
+        mProgress = "0";
         new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
 
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        mProgress = getProgress();
+        mProgress = getOuputProgress(getProgress());
         new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
     }
 }

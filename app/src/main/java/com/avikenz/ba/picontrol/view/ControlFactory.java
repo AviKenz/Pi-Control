@@ -2,6 +2,7 @@ package com.avikenz.ba.picontrol.view;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.icu.util.Output;
 import android.util.Log;
 
 import com.avikenz.ba.picontrol.activity.MainActivity;
@@ -11,6 +12,7 @@ import com.avikenz.ba.picontrol.control.OutputControl;
 import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
+import com.avikenz.ba.picontrol.control.param.PwmOutputType;
 
 import java.security.PrivateKey;
 import java.util.ArrayList;
@@ -53,7 +55,8 @@ public class ControlFactory {
             mControlManager.occupyGpioPort(mParam.getAsInteger(Control.KEY_PIN_NUMBER));
             return control;
         } else if(mClName.equals(PwmControl.class.getSimpleName())) {
-            PwmControl control = new PwmControl(mParam.getAsString(Control.KEY_NAME), mParam.getAsInteger(Control.KEY_PIN_NUMBER), mParam.getAsInteger(OutputControl.KEY_FREQUENCE), mParam.getAsInteger(OutputControl.KEY_DUTY_CYCLE), mContext);
+            PwmOutputType outputType = PwmOutputType.valueOf(mParam.getAsString(OutputControl.KEY_PWM_OUTPUT_TYP));
+            PwmControl control = new PwmControl(mParam.getAsString(Control.KEY_NAME), mParam.getAsInteger(Control.KEY_PIN_NUMBER), mParam.getAsInteger(OutputControl.KEY_FREQUENCE), mParam.getAsInteger(OutputControl.KEY_DUTY_CYCLE), outputType, mContext);
             control.setShortDescription(mParam.getAsString(control.KEY_SHORT_DESC));
             // update ControlManager
             mControlManager.occupyGpioPort(mParam.getAsInteger(Control.KEY_PIN_NUMBER));

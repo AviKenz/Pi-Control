@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.avikenz.ba.picontrol.control.Control;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
+import com.avikenz.ba.picontrol.control.param.PwmOutputType;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -29,6 +30,10 @@ public class FormParamPairView
         extends LinearLayout {
 
     private final String TAG = getClass().getSimpleName();
+
+    public static final String TYP_ENUM = "enum";
+    public static final String TYP_INT = "int";
+    public static final String TYP_STRING = "string";
 
     private Map.Entry<String, Object> mPair;
 
@@ -79,6 +84,11 @@ public class FormParamPairView
         } else if(mPair.getKey().equals(Control.KEY_PIN_NUMBER)) {
             mValue = new Spinner(mContext);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, ControlManager.getInstace().getFreeGpioPortNumberList());
+            Spinner v = (Spinner) mValue;
+            v.setAdapter(adapter);
+        } else if(mPair.getValue().toString().equals(PwmOutputType.class.getName())) {
+            mValue = new Spinner(mContext);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, getEnumValues(PwmOutputType.class.getName()));
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
         } else {
