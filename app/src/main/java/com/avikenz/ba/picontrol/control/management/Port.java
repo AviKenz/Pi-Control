@@ -30,9 +30,10 @@ public abstract class Port {
         mType = pPortType;
         mPinNumberBcm = pPinNumberBcm;
         mPinNumberBoard = pPinNumberBoard;
+        // TODO [M] getting this value from control manager not work... check again.
+        mUsableTime = 1;
         mSupportedSignals = pAcceptedSignals;
         // TODO [W] the usable time shoud be decrement when the port is occupied; do this in control manager.
-        //setUsableTime();
         updateAvaibility();
     }
 
@@ -77,14 +78,6 @@ public abstract class Port {
         mSupportedSignals = acceptedSignals;
     }
 
-    public int setUsableTime() {
-        return mUsableTime;
-    }
-
-    private void setUsableTime(int usableTime) {
-        mUsableTime = ControlManager.getInstace().getPortUsableTime();
-    }
-
     public String getName() {
         String result = "";
         if(ControlManager.getInstace().getMode().equals(Mode.BCM)) {
@@ -107,6 +100,17 @@ public abstract class Port {
 
     public List<SignalType> getSupportedSignals() {
         return mSupportedSignals;
+    }
+
+    public int getPinNumber() {
+        if(ControlManager.getInstace().getMode().equals(Mode.BCM)) {
+            return getBcmNumber();
+        } else if(ControlManager.getInstace().getMode().equals(Mode.BOARD)) {
+            return getBoardNumber();
+        } else {
+            // TODO [M] handle Exception
+            return -1;
+        }
     }
 
 }

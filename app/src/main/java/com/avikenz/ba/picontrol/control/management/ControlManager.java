@@ -27,61 +27,61 @@ public class ControlManager
 
     private static ControlManager mControlManager = new ControlManager();
 
-    // Define how many controls cann access a single port simultanously
+    // Define how many controls can access a single port simultanously
     public int mPortsUsableTime = 1;
-
 
     private String mServerUrl;
     private Mode mMode;
 
-    private List<Port> mPortList;
-
+    private ArrayList<Port> mPortList;
+    private ArrayList<GPIOPort> mGpioPortList;
+    private ArrayList<GPIOPort> mFreeGpioPortList;
+    private ArrayList<PowerPort> mPowerPortList;
+    private ArrayList<GroundPort> mGroundPortList;
 
     private ArrayList<SignalType> mGpioSupportedSignals;
-    private ArrayList<Control> mGeneratableControl;
     
     private ControlManager() {
+        Log.d("ControlManager - const", "Created");
         init();
     }
 
     public static ControlManager getInstace() {
         return mControlManager;
     }
-    
+
+
     private void init() {
         mGpioSupportedSignals = generateGpioSupportedSignals();
         mPortList = generatePortList();
+        mGpioPortList = portFilter(PortType.GPIO);
+        mFreeGpioPortList = mGpioPortList;
+        mPowerPortList = portFilter(PortType.Power5V);
+        mGroundPortList = portFilter(PortType.GROUND);
     }
 
-    public void setServerUrl(String pUrl) {
-        mServerUrl = pUrl;
-    }
-
-    public  String getServerUrl() {
-        if (mServerUrl == null) {
-            // TODO [M] handle Exception
+    private <T> ArrayList<T> portFilter(PortType pPortType) {
+        ArrayList<T> result = new ArrayList<>();
+        for(Port item : mPortList) {
+            Log.d("Item", item.getType().toString());
+            Log.d("Item", pPortType.getName());
+            if(item.getType().toString().equals(pPortType.getName())) {
+                result.add((T)item);
+            }
         }
-        return mServerUrl;
+        return result;
     }
 
-    public  void setMode(Mode pMode) {
-        mMode = pMode;
-    }
-
-    public  Mode getMode() {
-        if(mMode == null) {
-            // TODO [M] handle Exception
-            Log.e("ERR", "MODE is null");
+    private <T> int findPortByNumber(int pPortNumber, ArrayList<T> pPortList) {
+        // Error
+        int result = -1;
+        int len = pPortList.size();
+        for(int i = 0; i < len; i++) {
+            if(((Port) pPortList.get(i)).getPinNumber() == pPortNumber) {
+                result = i;
+            }
         }
-        return mMode;
-    }
-
-    public  List<Port> getPortList() {
-        return mPortList;
-    }
-
-    public int getPortUsableTime() {
-        return mPortsUsableTime;
+        return result;
     }
 
     protected ArrayList<SignalType> generateGpioSupportedSignals() {
@@ -95,8 +95,8 @@ public class ControlManager
     }
 
 
-    protected List<Port> generatePortList() {
-        List<Port> list = new ArrayList<>();
+    protected ArrayList<Port> generatePortList() {
+        ArrayList<Port> list = new ArrayList<>();
         // ground ports
         list.add(new GroundPort(6, null));
         list.add(new GroundPort(9, null));
@@ -141,4 +141,91 @@ public class ControlManager
         list.add(new GPIOPort(40, 21, "{SPI_SCLK}", mGpioSupportedSignals));
         return list;
     }
+
+    public void occupyGpioPort(int pPortNumber) {
+        // remove port from free port list
+        int index = findPortByNumber(pPortNumber, mFreeGpioPortList);
+        Log.d("ControlManager", index + "");
+        if(index == -1) {
+            // TODO [M] port not found; handle error
+        } else {
+            // remove the port form free port list only when the usable time of port is 0.
+            if( !mFreeGpioPortList.get(index).isAvaible() ) {
+                Log.d("ControlManager", "Avaible: " + mFreeGpioPortList.get(index).isAvaible());
+                mFreeGpioPortList.remove(index);
+            } else {
+                // TODO [L] print something nice like how many time the port can be use again
+            }
+        }
+    }
+
+    public void releaseGPIOPort(int pPortNumber) {
+        int index = findPortByNumber(pPortNumber, mGpioPortList);
+        if(index == -1) {
+            // TODO [M] port not found; handle error
+        } else {
+            mFreeGpioPortList.add(mGpioPortList.get(index));
+        }
+    }
+
+    public void setPortsUsableTime(int value) {
+        mPortsUsableTime = value;
+    }
+
+    public  void setMode(Mode pMode) {
+        mMode = pMode;
+    }
+
+    public void setServerUrl(String pUrl) {
+        mServerUrl = pUrl;
+    }
+
+
+    public  String getServerUrl() {
+        if (mServerUrl == null) {
+            // TODO [M] handle Exception
+        }
+        return mServerUrl;
+    }
+
+    public  Mode getMode() {
+        if(mMode == null) {
+            // TODO [M] handle Exception
+            Log.e("ERR", "MODE is null");
+        }
+        return mMode;
+    }
+
+    public ArrayList<Port> getPortList() {
+        return mPortList;
+    }
+
+    public int getPortUsableTime() {
+        return mPortsUsableTime;
+    }
+
+    public ArrayList<String> getFreeGpioPortNumberList() {
+        ArrayList<String> result = new ArrayList<>();
+        for(GPIOPort item : mFreeGpioPortList) {
+            result.add(Integer.toString(item.getPinNumber()));
+        }
+        return result;
+    }
+
+    public ArrayList<GPIOPort> getFreeGpioPortList() {
+        return mFreeGpioPortList;
+    }
+
+    public ArrayList<GPIOPort> getGpioPortList() {
+        return mGpioPortList;
+    }
+
+    public ArrayList<PowerPort> getPowerPortList() {
+        return mPowerPortList;
+    }
+
+    public ArrayList<GroundPort> getGroundPortList() {
+        return mGroundPortList;
+    }
+
 }

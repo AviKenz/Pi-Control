@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.avikenz.ba.picontrol.control.Control;
+import com.avikenz.ba.picontrol.control.management.ControlManager;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,6 @@ public class FormParamPairView
     private TextView mKey;
     private View mValue;
 
-    private ContentValues mData;
 
     private LayoutParams mChildrenParams;
 
@@ -72,6 +74,11 @@ public class FormParamPairView
         if ( isEnum(val) ) {
             mValue = new Spinner(mContext);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, getEnumValues(val));
+            Spinner v = (Spinner) mValue;
+            v.setAdapter(adapter);
+        } else if(mPair.getKey().equals(Control.KEY_PIN_NUMBER)) {
+            mValue = new Spinner(mContext);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, ControlManager.getInstace().getFreeGpioPortNumberList());
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
         } else {
