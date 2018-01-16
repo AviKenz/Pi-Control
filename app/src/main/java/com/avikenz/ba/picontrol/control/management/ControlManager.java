@@ -42,7 +42,6 @@ public class ControlManager
     private ArrayList<SignalType> mGpioSupportedSignals;
     
     private ControlManager() {
-        Log.d("ControlManager - const", "Created");
         init();
     }
 
@@ -63,8 +62,6 @@ public class ControlManager
     private <T> ArrayList<T> portFilter(PortType pPortType) {
         ArrayList<T> result = new ArrayList<>();
         for(Port item : mPortList) {
-            Log.d("Item", item.getType().toString());
-            Log.d("Item", pPortType.getName());
             if(item.getType().toString().equals(pPortType.getName())) {
                 result.add((T)item);
             }
@@ -145,13 +142,14 @@ public class ControlManager
     public void occupyGpioPort(int pPortNumber) {
         // remove port from free port list
         int index = findPortByNumber(pPortNumber, mFreeGpioPortList);
-        Log.d("ControlManager", index + "");
         if(index == -1) {
             // TODO [M] port not found; handle error
         } else {
+            GPIOPort port = mFreeGpioPortList.get(index);
+            // update the Port usable time
+            port.updateAvaibility();
             // remove the port form free port list only when the usable time of port is 0.
-            if( !mFreeGpioPortList.get(index).isAvaible() ) {
-                Log.d("ControlManager", "Avaible: " + mFreeGpioPortList.get(index).isAvaible());
+            if( !port.isAvaible() ) {
                 mFreeGpioPortList.remove(index);
             } else {
                 // TODO [L] print something nice like how many time the port can be use again

@@ -1,6 +1,7 @@
 package com.avikenz.ba.picontrol.control.management;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
@@ -24,24 +25,23 @@ public abstract class Port {
     protected List<SignalType> mSupportedSignals;
 
     // Define How many Control can access the port simultanouesly
-     private int mUsableTime;
+    // TODO [I] couldnt set it in using ControlManager; throwing NullPointerException
+     private int mUsableTime = 2;
 
     public Port(PortType pPortType, int pPinNumberBcm, int pPinNumberBoard, @Nullable List<SignalType> pAcceptedSignals) {
         mType = pPortType;
         mPinNumberBcm = pPinNumberBcm;
         mPinNumberBoard = pPinNumberBoard;
         // TODO [M] getting this value from control manager not work... check again.
-        mUsableTime = 1;
         mSupportedSignals = pAcceptedSignals;
         // TODO [W] the usable time shoud be decrement when the port is occupied; do this in control manager.
-        updateAvaibility();
     }
 
     protected abstract void setTechDescription(String pTechDesc);
 
     protected abstract void setSupportedSignal(List<SignalType> pSupportedSignals);
 
-    private void updateAvaibility() {
+    public void updateAvaibility() {
         mUsableTime -= 1;
         isAvaible = !(mUsableTime == 0);
     }

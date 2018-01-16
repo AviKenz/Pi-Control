@@ -57,8 +57,6 @@ public class MainActivity
                 startControlRowViewGeneration();
             }
         });
-
-        Log.d(TAG, ControlManager.getInstace().getGpioPortList().toString());
     }
 
     private void startControlRowViewGeneration() {
