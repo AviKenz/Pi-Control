@@ -31,7 +31,8 @@ public class PwmControl
     public int mMaxDutyCycle;
 
     private String mName = "button_control";
-    private Mode mMode;
+    // Mode must always be get in getPostParam();
+    private Mode mMode = null;
     private int mPinNumber = 5;
     private SignalType mSignalType = SignalType.PWM;
     private int mDutyCycle;
@@ -58,8 +59,6 @@ public class PwmControl
     private void init(String pName, int pPinNumber, int pFrequence, int pDutyCycle, PwmOutputType pOutputType, Context pContext) {
         mControlManager = ControlManager.getInstace();
         mName = pName;
-        mMode = mControlManager.getMode();
-        mMode = Mode.BCM;
         mPinNumber = pPinNumber;
         mFrequence = pFrequence;
         mDutyCycle = pDutyCycle;
@@ -171,7 +170,8 @@ public class PwmControl
         ContentValues result = new ContentValues();
         result.put(KEY_NAME, getName());
         result.put(KEY_DIRECTION, direction.getValue());
-        result.put(KEY_MODE, mMode.getValue());
+        // always get mode HERE from Control manager; otherwise is null returned
+        result.put(KEY_MODE, mControlManager.getMode().getValue());
         result.put(KEY_SIGNAL_TYPE, mSignalType.getValue());
         result.put(KEY_PIN_NUMBER, mPinNumber);
         result.put(KEY_FREQUENCE, mFrequence);

@@ -1,6 +1,7 @@
 package com.avikenz.ba.picontrol.control.management;
 
 import android.app.Application;
+import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
@@ -10,6 +11,7 @@ import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
+import com.avikenz.ba.picontrol.view.Editable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +25,13 @@ import java.util.List;
  */
 
 public class ControlManager
-        extends Application {
+        extends Application
+        implements Editable {
 
     private static ControlManager mControlManager = new ControlManager();
+
+    public static String KEY_SERVER_URL = "server_url";
+    public static String KEY_NUMBERING_MODE = "numbering_mode";
 
     // Define how many controls can access a single port simultanously
     public int mPortsUsableTime = 1;
@@ -166,12 +172,10 @@ public class ControlManager
         }
     }
 
-    public void setPortsUsableTime(int value) {
-        mPortsUsableTime = value;
-    }
 
     public  void setMode(Mode pMode) {
         mMode = pMode;
+        Log.d("ControlManager", "mode Setteddddddd. Value: " + mMode.getName());
     }
 
     public void setServerUrl(String pUrl) {
@@ -226,4 +230,16 @@ public class ControlManager
         return mGroundPortList;
     }
 
+    @Override
+    public Class getClazz() {
+        return getClass();
+    }
+
+    @Override
+    public ContentValues getEditableFields() {
+        ContentValues result = new ContentValues();
+        result.put(KEY_SERVER_URL, String.class.getName());
+        result.put(KEY_NUMBERING_MODE, Mode.class.getName());
+        return result;
+    }
 }

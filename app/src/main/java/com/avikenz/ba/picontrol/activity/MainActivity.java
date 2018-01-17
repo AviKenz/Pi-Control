@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,7 +43,6 @@ public class MainActivity
 
     private final String TAG = this.getClass().getSimpleName();
 
-    ControlManager mControlManager = null;
     LinearLayout mControllerLayout;
 
     SwitchControl mSwControl;
@@ -61,7 +61,6 @@ public class MainActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initControlManager();
         setupControler();
     }
 
@@ -94,7 +93,9 @@ public class MainActivity
     @Override
     public void onClick(View v) {
         if(mEditableDialog.getEditable().getClazz().getName().equals(ControlManager.class.getName())) {
-
+            ControlManager.getInstace().setServerUrl(mEditableDialog.getData().getAsString(ControlManager.KEY_SERVER_URL));
+            ControlManager.getInstace().setMode(Mode.valueOf(mEditableDialog.getData().getAsString(ControlManager.KEY_NUMBERING_MODE)));
+            mEditableDialog.dismiss();
         } else {
             try {
                 // this method should be bring outside
@@ -105,6 +106,11 @@ public class MainActivity
             }
         }
 
+    }
+
+    private void configureControlManager() {
+        mEditableDialog = new NewEditableDialog(ControlManager.getInstace(), MainActivity.this);
+        mEditableDialog.show();
     }
 
     private void setupControler() {
@@ -132,13 +138,6 @@ public class MainActivity
         mControllerLayout.addView(mSeekBarRow2, params);
     }
 
-    private void initControlManager() {
-        mControlManager = ControlManager.getInstace();
-        // TODO [H] use dialog to get control manager setting from user
-        setServerUrl();
-        //mControlManager.setServerUrl("192.168.1.101");
-        mControlManager.setMode(Mode.BCM);
-    }
 
     @Override
     public ControlManager getControlManager() {
@@ -150,24 +149,11 @@ public class MainActivity
 
     }
 
-    public void setServerUrl() {
-        final EditText input = new EditText(getBaseContext());
-        input.setText("ServerUrl");
-        new AlertDialog.Builder(this)
-                .setView(input)
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mControlManager.setServerUrl(input.getText().toString());
-                    }
-                }).show();
-    }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.config_manager_menu_item:
+                configureControlManager();
                 break;
             case R.id.add_control_menu_item:
                 startControlViewGeneration();

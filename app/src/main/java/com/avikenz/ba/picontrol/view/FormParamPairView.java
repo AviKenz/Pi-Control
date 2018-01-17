@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.avikenz.ba.picontrol.control.Control;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.param.PwmOutputType;
+import com.avikenz.ba.picontrol.control.param.common.Mode;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -98,6 +99,12 @@ public class FormParamPairView
         } else if(mPair.getValue().toString().equals(PwmOutputType.class.getName())) {
             mValue = new Spinner(mContext);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, getEnumValues(PwmOutputType.class.getName()));
+            Spinner v = (Spinner) mValue;
+            v.setAdapter(adapter);
+        // generate spinner for numbering mode (used in control manager).
+        } else if(mPair.getValue().toString().equals(Mode.class.getName())) {
+            mValue = new Spinner(mContext);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, getEnumValues(Mode.class.getName()));
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
         // default; generate an edit text

@@ -27,6 +27,7 @@ public class ButtonControl
     public static final String TAG = ButtonControl.class.getSimpleName();
 
     private String mName = "btn";
+    // Mode must always be get in getPostParam();
     private Mode mMode = null;
     private int mPinNumber = 5;
     private boolean mState = State.OFF.getValue();
@@ -49,7 +50,6 @@ public class ButtonControl
     private void init(String pName, int pPinNumber, Context pContext) {
         mControlManager = ControlManager.getInstace();
         mName = pName;
-        mMode = mControlManager.getMode();
         mPinNumber = pPinNumber;
         setText("ON-OFF");
         setChangeListener();
@@ -95,7 +95,8 @@ public class ButtonControl
         int tempState = mState ? 1 : 0;
         result.put(KEY_NAME, getName());
         result.put(KEY_DIRECTION, Direction.OUT.getValue());
-        result.put(KEY_MODE, mMode.getValue());
+        // always get mode HERE from Control manager; otherwise is null returned
+        result.put(KEY_MODE, mControlManager.getMode().getValue());
         result.put(KEY_STATE, tempState);
         result.put(KEY_SIGNAL_TYPE, mSignalType.getValue());
         result.put(KEY_PIN_NUMBER, mPinNumber);

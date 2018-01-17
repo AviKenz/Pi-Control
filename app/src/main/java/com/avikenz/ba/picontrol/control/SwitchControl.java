@@ -29,7 +29,8 @@ public class SwitchControl
 
 
     private String mName = "switch_control";
-    private Mode mMode = Mode.BCM;
+    // Mode must always be get in getPostParam();
+    private Mode mMode = null;
     private int mPinNumber = 5;
     private boolean mState = State.OFF.getValue();
     private SignalType mSignalType = SignalType.DC;
@@ -53,7 +54,6 @@ public class SwitchControl
         mControlManager = ControlManager.getInstace();
         mState = isChecked();
         mName = pName;
-        mMode = mControlManager.getMode();
         mPinNumber = pPinNumber;
         setChangeListener();
     }
@@ -122,7 +122,8 @@ public class SwitchControl
         int tempState = mState ? 1 : 0;
         result.put(KEY_NAME, getName());
         result.put(KEY_DIRECTION, direction.getValue());
-        result.put(KEY_MODE, mMode.getValue());
+        // always get mode HERE from Control manager; otherwise is null returned
+        result.put(KEY_MODE, mControlManager.getMode().getValue());
         result.put(KEY_STATE, tempState);
         result.put(KEY_SIGNAL_TYPE, mSignalType.getValue());
         result.put(KEY_PIN_NUMBER, mPinNumber);
