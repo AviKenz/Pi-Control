@@ -51,7 +51,7 @@ public class ControlViewRow extends RelativeLayout {
         setupPortTypeView();
         setupViewDescriptionView();
         setupControlView();
-        // add views to layout
+        // appendToViewGroup views to layout
         addView(mPortType, getPortTypeViewParams());
         addView(mViewDescription, getViewDescriptionParams());
         addView(mControl.getView(), getControlViewParams());
