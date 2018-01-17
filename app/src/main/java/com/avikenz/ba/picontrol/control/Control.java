@@ -3,11 +3,13 @@ package com.avikenz.ba.picontrol.control;
 import android.content.ContentValues;
 import android.view.View;
 
+import com.avikenz.ba.picontrol.view.Editable;
+
 /**
  * Created by AviKenz on 1/9/2018.
  */
 
-public interface Control {
+public interface Control extends Editable {
 
     String KEY_NAME = "name";
     String KEY_MODE = "mode";
@@ -54,17 +56,4 @@ public interface Control {
      * View SignalType determine how view are rendered (View disposition)
      */
     String getViewType();
-
-    /**
-     * provide the runtime class for generation
-     * @return the class to generate new instance
-     */
-    Class getClazz();
-
-    /**
-     * provide editable fields by instante generation.
-     * fields consist on key and data typ.
-     * @return the fields pair
-     */
-    ContentValues getEditableFields();
 }
