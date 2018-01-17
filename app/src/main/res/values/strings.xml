@@ -3,4 +3,6 @@
     <string name="port_type">Port type</string>
     <string name="description">description</string>
     <string name="add_control">Add Control</string>
+    <string name="configure_manager">Configure Manager</string>
+    <string name="remove_control">Remove Control</string>
 </resources>

@@ -4,9 +4,14 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,7 +38,7 @@ import java.util.Map;
 
 public class MainActivity
         extends AppCompatActivity
-        implements ControlManagerInterface {
+        implements ControlManagerInterface, NavigationView.OnNavigationItemSelectedListener {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -56,14 +61,6 @@ public class MainActivity
         setContentView(R.layout.activity_main);
         initControlManager();
         setupControler();
-
-        Button addControlBtn = (Button) findViewById(R.id.add_control_button);
-        addControlBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startControlRowViewGeneration();
-            }
-        });
     }
 
     private void startControlRowViewGeneration() {
@@ -143,6 +140,40 @@ public class MainActivity
                     }
                 }).show();
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.config_manager_menu_item:
+                break;
+            case R.id.add_control_menu_item:
+                startControlRowViewGeneration();
+                break;
+            case R.id.remove_control_menu_item:
+                new AlertDialog.Builder(MainActivity.this)
+                               .setTitle(R.string.remove_control)
+                               .setMessage("Long Press On Control and Select Delete to delete Control.")
+                               .setCancelable(true)
+                               .create()
+                               .show();
+                break;
+            case R.id.about_menu_item:
+                // TODO [M] write about dialog
+                break;
+
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        NavigationView navView = (NavigationView) findViewById(R.id.app_menu_navigation_view);
+        navView.setItemIconTintList(null);
+        navView.setNavigationItemSelectedListener(this);
+        return true;
+    }
+
 
     /**
      * Created by AviKenz on 1/12/2018.

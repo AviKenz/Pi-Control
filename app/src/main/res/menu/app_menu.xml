@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="@string/configure_manager"
+        android:id="@+id/config_manager_menu_item"
+        android:icon="@mipmap/ic_setting"
+        app:showAsAction="always" />
+    <item
+        android:title="@string/add_control"
+        android:id="@+id/add_control_menu_item"
+        android:icon="@mipmap/ic_add" />
+    <item
+        android:title="@string/remove_control"
+        android:id="@+id/remove_control_menu_item"
+        android:icon="@mipmap/ic_remove" />
+    <item
+        android:title="About"
+        android:id="@+id/about_menu_item"
+        android:icon="@mipmap/ic_info"/>
+</menu>
