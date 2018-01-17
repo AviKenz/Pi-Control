@@ -78,8 +78,12 @@ public class MainActivity
         builder.setSingleChoiceItems(className, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                generateControView(controls.get(which), MainActivity.this);
-                dialog.dismiss();
+                if( !ControlManager.getInstace().isConfigured() ) {
+                    Toast.makeText(MainActivity.this, "Control Manager is not configured !", Toast.LENGTH_LONG).show();
+                } else {
+                    generateControView(controls.get(which), MainActivity.this);
+                    dialog.dismiss();
+                }
             }
         });
         builder.show();
