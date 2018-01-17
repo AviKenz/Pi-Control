@@ -2,12 +2,8 @@ package com.avikenz.ba.picontrol.view;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.graphics.Color;
-import android.icu.util.Output;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.avikenz.ba.picontrol.activity.MainActivity;
+import com.avikenz.ba.picontrol.Exception.InvalidParameterSetException;
 import com.avikenz.ba.picontrol.control.ButtonControl;
 import com.avikenz.ba.picontrol.control.Control;
 import com.avikenz.ba.picontrol.control.OutputControl;
@@ -16,12 +12,8 @@ import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.param.PwmOutputType;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
-import static com.avikenz.ba.picontrol.control.PwmControl.TAG;
 
 /**
  * Created by AviKenz on 1/15/2018.
