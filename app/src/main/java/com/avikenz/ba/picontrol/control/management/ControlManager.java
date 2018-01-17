@@ -2,19 +2,13 @@ package com.avikenz.ba.picontrol.control.management;
 
 import android.app.Application;
 import android.content.ContentValues;
-import android.content.Context;
 import android.util.Log;
 
-import com.avikenz.ba.picontrol.control.ButtonControl;
-import com.avikenz.ba.picontrol.control.Control;
-import com.avikenz.ba.picontrol.control.PwmControl;
-import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
 import com.avikenz.ba.picontrol.view.Editable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by AviKenz on 1/6/2018.
@@ -36,6 +30,7 @@ public class ControlManager
     // Define how many controls can access a single port simultanously
     public int mPortsUsableTime = 1;
 
+    private boolean mConfigured = false;
     private String mServerUrl;
     private Mode mMode;
 
@@ -228,6 +223,14 @@ public class ControlManager
 
     public ArrayList<GroundPort> getGroundPortList() {
         return mGroundPortList;
+    }
+
+    public void setConfigured(boolean pValue) {
+        mConfigured = pValue;
+    }
+
+    public boolean isConfigured() {
+        return mConfigured;
     }
 
     @Override

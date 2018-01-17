@@ -95,6 +95,7 @@ public class MainActivity
         if(mEditableDialog.getEditable().getClazz().getName().equals(ControlManager.class.getName())) {
             ControlManager.getInstace().setServerUrl(mEditableDialog.getData().getAsString(ControlManager.KEY_SERVER_URL));
             ControlManager.getInstace().setMode(Mode.valueOf(mEditableDialog.getData().getAsString(ControlManager.KEY_NUMBERING_MODE)));
+            ControlManager.getInstace().setConfigured(true);
             mEditableDialog.dismiss();
         } else {
             try {

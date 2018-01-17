@@ -3,9 +3,11 @@ package com.avikenz.ba.picontrol.communication;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.avikenz.ba.picontrol.communication.util.ConnectionUtils;
 import com.avikenz.ba.picontrol.control.OutputControl;
+import com.avikenz.ba.picontrol.control.management.ControlManager;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -99,9 +101,9 @@ public class PostHandler extends AsyncTask<String, Void, String> {
             // TODO [M] handle response like html to parse it well
             // TODO [H] implement notification to controller
             responseRaw = ConnectionUtils.receiveResponse(mConnection);
-        } catch (MalformedURLException e ) {
+        } catch (MalformedURLException e) {
             // TODO [M] handle error - show dialog
-        } catch (IOException e ) {
+        } catch (IOException e) {
             // TODO [M] handle error - show dialog
         }
         return null;
@@ -112,5 +114,14 @@ public class PostHandler extends AsyncTask<String, Void, String> {
         super.onPostExecute(result);
         //Log.e(TAG, responseRaw);
         Log.e(TAG, "responseRaw");
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if( !ControlManager.getInstace().isConfigured() ) {
+            this.cancel(true);
+            Toast.makeText(mContext, "Control Manager Not Configured", Toast.LENGTH_LONG).show();
+        }
     }
 }
