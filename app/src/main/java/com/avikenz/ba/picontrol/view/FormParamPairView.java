@@ -3,6 +3,7 @@ package com.avikenz.ba.picontrol.view;
 import android.content.ContentValues;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -103,6 +104,10 @@ public class FormParamPairView
         } else {
             mValue = new EditText(mContext);
             EditText v = (EditText) mValue;
+            // set input type
+            if(!val.equals(String.class.getName())) {
+                v.setInputType(InputType.TYPE_CLASS_NUMBER);
+            }
             v.setGravity(Gravity.RIGHT);
         }
     }

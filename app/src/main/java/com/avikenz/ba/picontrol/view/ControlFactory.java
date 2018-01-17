@@ -2,8 +2,10 @@ package com.avikenz.ba.picontrol.view;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Color;
 import android.icu.util.Output;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.avikenz.ba.picontrol.activity.MainActivity;
 import com.avikenz.ba.picontrol.control.ButtonControl;
@@ -17,6 +19,7 @@ import com.avikenz.ba.picontrol.control.param.PwmOutputType;
 import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.avikenz.ba.picontrol.control.PwmControl.TAG;
 
@@ -41,7 +44,16 @@ public class ControlFactory {
         mContext = pContext;
     }
 
-    public Control getControl() {
+    private void validateParams() throws InvalidParameterSetException {
+        for(Map.Entry<String, Object> item : mParam.valueSet()) {
+            if(item.getValue().toString().isEmpty()) {
+                throw new InvalidParameterSetException("Empty Parameter Value; Please check again...");
+            }
+        }
+    }
+
+    public Control getControl() throws InvalidParameterSetException {
+        validateParams();
         if(mClName.equals(SwitchControl.class.getSimpleName())) {
             SwitchControl control = new SwitchControl(mParam.getAsString(Control.KEY_NAME), mParam.getAsInteger(Control.KEY_PIN_NUMBER), mContext);
             control.setShortDescription(mParam.getAsString(Control.KEY_SHORT_DESC));

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.avikenz.ba.picontrol.R;
 import com.avikenz.ba.picontrol.control.ButtonControl;
@@ -25,6 +26,7 @@ import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.view.ControlFactory;
 import com.avikenz.ba.picontrol.view.ControlViewRow;
 import com.avikenz.ba.picontrol.view.FormParamPairView;
+import com.avikenz.ba.picontrol.view.InvalidParameterSetException;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -153,7 +155,7 @@ public class MainActivity
         private  Control mControl;
 
         private LinearLayout mView;
-        private android.app.AlertDialog.Builder mBuilder;
+        private android.app.AlertDialog mDialog;
         private LinearLayout.LayoutParams mLayoutParams;
 
         private ArrayList<FormParamPairView> mRows;
@@ -164,18 +166,30 @@ public class MainActivity
             mControl = pControl;
             mContext = pContext;
             mRows = new ArrayList<>();
-            mBuilder = new AlertDialog.Builder(mContext);
-            mBuilder.setTitle("Generate " + pControl.getClazz().getSimpleName());
-            mBuilder.setCancelable(true);
-            mBuilder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+            mDialog = new AlertDialog.Builder(mContext)
+                                      .setTitle("Generate " + pControl.getClazz().getSimpleName())
+                                      .setView(Generate(mContext))
+                                      .setCancelable(true)
+                                      .setPositiveButton("Create", null)
+                                      .setNegativeButton("Cancel", null)
+                                      .create();
+            mDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Log.d(TAG, getData().toString());
-                    add();
+                public void onShow(final DialogInterface dialog) {
+                    Button okBtn = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                    okBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                add();
+                                dialog.dismiss();
+                            } catch (InvalidParameterSetException e) {
+                                Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             });
-            mBuilder.setNegativeButton("Cancel", null);
-            mBuilder.setView(Generate(mControl, mContext));
         }
 
         private ContentValues getData() {
@@ -187,18 +201,18 @@ public class MainActivity
         }
 
         public void show() {
-            mBuilder.show();
+            mDialog.show();
         }
 
         // add Controler row View to layout
-        private void add() {
+        private void add() throws InvalidParameterSetException {
             ContentValues param = getData();
             Control control = new ControlFactory(mControl, param, MainActivity.this).getControl();
             ControlViewRow controlViewRow = new ControlViewRow(control, MainActivity.this);
             mControllerLayout.addView(controlViewRow);
         }
 
-        public LinearLayout Generate(Control pControl, Context pContext) {
+        public LinearLayout Generate(Context pContext) {
             mView = new LinearLayout(pContext);
             setLayoutParams();
             buildView();
@@ -218,5 +232,7 @@ public class MainActivity
         private void setLayoutParams() {
             mLayoutParams =  new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         }
+
+
     }
 }
