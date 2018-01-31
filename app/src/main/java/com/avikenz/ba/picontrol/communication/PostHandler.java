@@ -34,6 +34,15 @@ public class PostHandler extends AsyncTask<String, Void, String> {
     public static String sRpiComIfaceName  = "RpiComIface.cgi";
     public static String sCgiBinPath = "/cgi-bin/";
 
+    public static String COM_MSG_ID = "comMessage";
+    public static String INTERPRETER_CLASS_NAME = "interpreter";
+    public static String INTERPRETER_DEBUG_CLASS_NAME = INTERPRETER_CLASS_NAME + " debug";
+    public static String INTERPRETER_INFO_CLASS_NAME = INTERPRETER_CLASS_NAME + " info";
+    public static String INTERPRETER_WARN_CLASS_NAME = INTERPRETER_CLASS_NAME + " warn";
+    public static String INTERPRETER_TODO_CLASS_NAME = INTERPRETER_CLASS_NAME + " todo";
+    public static String INTERPRETER_ERROR_CLASS_NAME = INTERPRETER_CLASS_NAME + " error";
+    public static String INTERPRETER_NONAME_CLASS_NAME = INTERPRETER_CLASS_NAME + " noname";
+
     OutputControl mControl;
     String mServerUrl;
     String mResponseString;
@@ -115,6 +124,8 @@ public class PostHandler extends AsyncTask<String, Void, String> {
         try {
             Log.e(TAG, mResponseString);
             Log.e(TAG, "Response: " + mConnection.getResponseMessage());
+            // TODO HERE
+            ConnectionUtils.getRpiComMessage(mResponseString);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
