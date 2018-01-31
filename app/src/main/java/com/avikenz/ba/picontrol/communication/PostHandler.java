@@ -36,7 +36,7 @@ public class PostHandler extends AsyncTask<String, Void, String> {
 
     OutputControl mControl;
     String mServerUrl;
-    String responseRaw;
+    String mResponseString;
     Context mContext;
 
     public PostHandler(OutputControl pControl, String pServerUrl, Context pContext) {
@@ -100,7 +100,7 @@ public class PostHandler extends AsyncTask<String, Void, String> {
             mConnection.connect();
             // TODO [M] handle response like html to parse it well
             // TODO [H] implement notification to controller
-            responseRaw = ConnectionUtils.receiveResponse(mConnection);
+            mResponseString = ConnectionUtils.getResponseString(mConnection);
         } catch (MalformedURLException e) {
             // TODO [M] handle error - show dialog
         } catch (IOException e) {
@@ -112,8 +112,14 @@ public class PostHandler extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        //Log.e(TAG, responseRaw);
-        Log.e(TAG, "responseRaw");
+        try {
+            Log.e(TAG, mResponseString);
+            Log.e(TAG, "Response: " + mConnection.getResponseMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            Toast.makeText(mContext, "Something Wrong with Connection", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
