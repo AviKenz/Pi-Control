@@ -28,7 +28,6 @@ import com.avikenz.ba.picontrol.control.management.ControlManagerInterface;
 import com.avikenz.ba.picontrol.control.param.PwmOutputType;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.view.ControlFactory;
-import com.avikenz.ba.picontrol.view.ControlViewRow;
 import com.avikenz.ba.picontrol.view.Editable;
 import com.avikenz.ba.picontrol.view.FormParamPairView;
 import com.avikenz.ba.picontrol.Exception.InvalidParameterSetException;
@@ -48,11 +47,6 @@ public class MainActivity
     ButtonControl mButtonControl;
     PwmControl mIntPwmControl;
     PwmControl mBytePwmControl;
-
-    ControlViewRow mSwitchRow;
-    ControlViewRow mButtonRow;
-    ControlViewRow mSeekBarRow;
-    ControlViewRow mSeekBarRow2;
 
     NewEditableDialog mEditableDialog;
 
@@ -121,26 +115,14 @@ public class MainActivity
         // get reference to controller layout
         mControllerLayout = (LinearLayout) findViewById(R.id.controller_linearlayout);
         // create controllers
-        mSwControl = new SwitchControl("switch_control", 5, getApplicationContext());
-        mButtonControl = new ButtonControl("button_control", 6, getApplicationContext());
-        mIntPwmControl = new PwmControl("seekbar_control_integer_integer_output", 13, 100, 0, PwmOutputType.INTEGER, getApplicationContext());
-        mBytePwmControl = new PwmControl("seekbar_control_byte_output", 19, 100, 0, PwmOutputType.BYTE, getApplicationContext());
-        // create control view and his details
-        mSwitchRow = new ControlViewRow(mSwControl, getApplicationContext());
-        mButtonRow = new ControlViewRow(mButtonControl, getApplicationContext());
-        mSeekBarRow = new ControlViewRow(mIntPwmControl, getApplicationContext());
-        mSeekBarRow2 = new ControlViewRow(mBytePwmControl, getApplicationContext());
+
 
         // setup layout parameter
         ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.width = LinearLayout.LayoutParams.WRAP_CONTENT;
         params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         // appendToViewGroup views to layout
-        mControllerLayout.addView(mSwitchRow, params);
-        mControllerLayout.addView(mButtonRow, params);
-        mControllerLayout.addView(mSeekBarRow, params);
-        mControllerLayout.addView(mSeekBarRow2, params);
-        mControllerLayout.addView(new ControlViewRow(new SwitchControlTest(5, "test", getApplicationContext()), getApplicationContext()), params);
+        mControllerLayout.addView(new SwitchControlTest(5, "hi", getApplicationContext()), params);
     }
 
 
@@ -244,8 +226,7 @@ public class MainActivity
         public void appendToViewGroup(ViewGroup pRootView) throws InvalidParameterSetException {
             ContentValues param = getData();
             Control control = new ControlFactory((Control) mEditable, param, MainActivity.this).getControl();
-            ControlViewRow controlViewRow = new ControlViewRow(control, MainActivity.this);
-            pRootView.addView(controlViewRow);
+            // TODO WARNING must be implemented to get the View on Screnn after generation
         }
 
         public LinearLayout generateView() {

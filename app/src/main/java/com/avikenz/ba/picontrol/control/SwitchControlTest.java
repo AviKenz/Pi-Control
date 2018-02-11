@@ -26,12 +26,17 @@ public class SwitchControlTest
 
     public SwitchControlTest(int pPinNumber, String pShortDesc, Context pContext) {
         super(pPinNumber, pShortDesc, pContext);
-        init();
     }
 
-    private void init() {
-        mView = new Switch(getContext());
-        setViewEventListener();
+    @Override
+    public void setViewEventListener() {
+
+    }
+
+    @Override
+    protected void setupBaseView(Context pContext) {
+        mView = new Switch(pContext);
+        mView.setOnCheckedChangeListener(this);
     }
 
     public SignalType getSignalType() {
@@ -54,11 +59,6 @@ public class SwitchControlTest
     }
 
     @Override
-    public void setViewEventListener() {
-        mView.setOnCheckedChangeListener(this);
-    }
-
-    @Override
     public ContentValues getEditableFields() {
         // TODO implement...
         return null;
@@ -71,7 +71,8 @@ public class SwitchControlTest
 
     @Override
     public String getViewDescription() {
-        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "SignalType: " + getSignalType().getName();
+        //return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "SignalType: " + getSignalType().getName();
+        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "SignalType: " + getSignalType();
     }
 
     @Override
@@ -90,7 +91,7 @@ public class SwitchControlTest
     }
 
     @Override
-    public Switch getBaseView() {
+    protected Switch getBaseView() {
         return mView;
     }
 

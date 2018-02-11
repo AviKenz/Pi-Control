@@ -51,7 +51,7 @@ public class PostHandler extends AsyncTask<String, Void, String> {
     public PostHandler(OutputControl pControl, String pServerUrl, Context pContext) {
 
         mControl = pControl;
-        mServerUrl = pServerUrl;
+        mServerUrl = ControlManager.getInstace().getServerUrl();
         mContext = pContext;
     }
 
