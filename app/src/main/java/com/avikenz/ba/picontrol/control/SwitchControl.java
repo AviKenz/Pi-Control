@@ -10,7 +10,6 @@ import android.widget.Switch;
 
 import com.avikenz.ba.picontrol.communication.PostHandler;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
-import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
@@ -35,7 +34,6 @@ public class SwitchControl
     private boolean mState = State.OFF.getValue();
     private SignalType mSignalType = SignalType.DC;
     private String mShortDescription = "Short_Description";
-    private String mServerUrl;
 
 
     private ControlManager mControlManager;
@@ -55,7 +53,7 @@ public class SwitchControl
         mState = isChecked();
         mName = pName;
         mPinNumber = pPinNumber;
-        setChangeListener();
+        setViewEventListener();
     }
 
     public void setName(String mName) {
@@ -107,7 +105,7 @@ public class SwitchControl
     }
 
     @Override
-    public void setChangeListener() {
+    public void setViewEventListener() {
         setOnCheckedChangeListener(this);
     }
 
@@ -117,7 +115,7 @@ public class SwitchControl
     }
 
     @Override
-    public ContentValues getPostParams() {
+    public ContentValues getRequestParams() {
         ContentValues result = new ContentValues();
         int tempState = mState ? 1 : 0;
         result.put(KEY_NAME, getName());
@@ -132,8 +130,8 @@ public class SwitchControl
     }
 
     @Override
-    public String getPortType() {
-        return PortType.GPIO.getName();
+    public PortType getPortType() {
+        return PortType.GPIO;
     }
 
     @Override

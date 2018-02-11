@@ -79,10 +79,10 @@ public class PostHandler extends AsyncTask<String, Void, String> {
      * @return the query string containig the named value from control
      */
     private String getQueryString(OutputControl pControl) {
-        Log.v(TAG, "getQueryString() - params : " + pControl.getPostParams().valueSet().toString());
+        Log.v(TAG, "getQueryString() - params : " + pControl.getRequestParams().valueSet().toString());
         StringBuilder result = new StringBuilder();
         boolean first = true;
-        for(Map.Entry<String, Object> pair : pControl.getPostParams().valueSet()) {
+        for(Map.Entry<String, Object> pair : pControl.getRequestParams().valueSet()) {
             if ( first ) {
                 first = false;
                 result.append(pair.getKey());

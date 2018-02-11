@@ -22,6 +22,7 @@ import com.avikenz.ba.picontrol.control.ButtonControl;
 import com.avikenz.ba.picontrol.control.Control;
 import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
+import com.avikenz.ba.picontrol.control.SwitchControlTest;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.management.ControlManagerInterface;
 import com.avikenz.ba.picontrol.control.param.PwmOutputType;
@@ -139,6 +140,7 @@ public class MainActivity
         mControllerLayout.addView(mButtonRow, params);
         mControllerLayout.addView(mSeekBarRow, params);
         mControllerLayout.addView(mSeekBarRow2, params);
+        mControllerLayout.addView(new ControlViewRow(new SwitchControlTest(5, "test", getApplicationContext()), getApplicationContext()), params);
     }
 
 

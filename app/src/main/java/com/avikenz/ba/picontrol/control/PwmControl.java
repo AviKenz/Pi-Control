@@ -3,7 +3,6 @@ package com.avikenz.ba.picontrol.control;
 import android.content.ContentValues;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -13,9 +12,6 @@ import com.avikenz.ba.picontrol.control.param.PwmOutputType;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
-import com.avikenz.ba.picontrol.view.FormParamPairView;
-
-import java.text.Normalizer;
 
 /**
  * Created by AviKenz on 1/8/2018.
@@ -65,7 +61,7 @@ public class PwmControl
         mOutputType = pOutputType;
 
         setMax(pOutputType.getmMaxValue());
-        setChangeListener();
+        setViewEventListener();
     }
 
     // TODO [M] use setters and getters in init and check value before assignment (IN ALL CONTROL !!!!!)
@@ -151,8 +147,8 @@ public class PwmControl
     }
 
     @Override
-    public String getPortType() {
-        return PortType.GPIO.getName();
+    public PortType getPortType() {
+        return PortType.GPIO;
     }
 
     @Override
@@ -166,7 +162,7 @@ public class PwmControl
     }
 
     @Override
-    public ContentValues getPostParams() {
+    public ContentValues getRequestParams() {
         ContentValues result = new ContentValues();
         result.put(KEY_NAME, getName());
         result.put(KEY_DIRECTION, direction.getValue());
@@ -191,7 +187,7 @@ public class PwmControl
     }
 
     @Override
-    public void setChangeListener() {
+    public void setViewEventListener() {
         setOnSeekBarChangeListener(this);
     }
 

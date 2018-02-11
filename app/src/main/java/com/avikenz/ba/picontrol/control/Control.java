@@ -3,6 +3,7 @@ package com.avikenz.ba.picontrol.control;
 import android.content.ContentValues;
 import android.view.View;
 
+import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.view.Editable;
 
 /**
@@ -27,7 +28,7 @@ public interface Control extends Editable {
      * return the port type linked with the controller
      * @return the port type
      */
-    String getPortType();
+    PortType getPortType();
 
     /**
      * Description of control
@@ -56,4 +57,12 @@ public interface Control extends Editable {
      * View SignalType determine how view are rendered (View disposition)
      */
     String getViewType();
+
+    /**
+     * Define the action to execute when View change its state.
+     * The Event type depent of the type of control and should be implemented by the class
+     * Its Stricty recomended to call it in all Constructors.
+     */
+    // TODO [L] try to wrap this in a parent class BaseSwitchControl
+    public void setViewEventListener();
 }

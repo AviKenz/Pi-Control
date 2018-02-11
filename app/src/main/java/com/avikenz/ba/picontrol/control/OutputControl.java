@@ -34,14 +34,6 @@ public interface OutputControl extends Control {
     String getName();
 
 
-    ContentValues getPostParams();
-
-    /**
-     * Define the action to execute when View change its state.
-     * The Event type depent of the type of control and should be implemented by the class
-     * Its Stricty recomended to call it in all Constructors.
-     */
-    // TODO [L] try to wrap this in a parent class BaseSwitchControl
-    public void setChangeListener();
+    ContentValues getRequestParams();
 
 }

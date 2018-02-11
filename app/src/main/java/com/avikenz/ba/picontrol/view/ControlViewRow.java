@@ -62,7 +62,7 @@ public class ControlViewRow extends RelativeLayout {
     private void setupPortTypeView() {
         mPortType = new TextView(mContext);
         mPortType.setId(R.id.port_type);
-        String text = mControl.getPortType() + mControl.getPinNumber();
+        String text = mControl.getPortType().getName() + mControl.getPinNumber();
         mPortType.setText(text);
     }
 

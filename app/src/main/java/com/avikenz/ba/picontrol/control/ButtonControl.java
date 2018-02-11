@@ -52,7 +52,7 @@ public class ButtonControl
         mName = pName;
         mPinNumber = pPinNumber;
         setText("ON-OFF");
-        setChangeListener();
+        setViewEventListener();
     }
 
     @Override
@@ -80,8 +80,8 @@ public class ButtonControl
     }
 
     @Override
-    public String getPortType() {
-        return PortType.GPIO.getName();
+    public PortType getPortType() {
+        return PortType.GPIO;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class ButtonControl
     }
 
     @Override
-    public ContentValues getPostParams() {
+    public ContentValues getRequestParams() {
         ContentValues result = new ContentValues();
         int tempState = mState ? 1 : 0;
         result.put(KEY_NAME, getName());
@@ -117,7 +117,7 @@ public class ButtonControl
     }
 
     @Override
-    public void setChangeListener() {
+    public void setViewEventListener() {
         setOnTouchListener(this);
     }
 
