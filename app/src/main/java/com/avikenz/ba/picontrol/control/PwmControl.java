@@ -3,19 +3,15 @@ package com.avikenz.ba.picontrol.control;
 import android.content.ContentValues;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.avikenz.ba.picontrol.communication.PostHandler;
+import com.avikenz.ba.picontrol.communication.PostRequestHandler;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.param.PwmOutputType;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
-import com.avikenz.ba.picontrol.view.FormParamPairView;
-
-import java.text.Normalizer;
 
 /**
  * Created by AviKenz on 1/8/2018.
@@ -202,13 +198,13 @@ public class PwmControl
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
         mProgress = "0";
-        new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
+        new PostRequestHandler(this, getContext()).execute();
 
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         mProgress = getOuputProgress(getProgress());
-        new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
+        new PostRequestHandler(this, getContext()).execute();
     }
 }

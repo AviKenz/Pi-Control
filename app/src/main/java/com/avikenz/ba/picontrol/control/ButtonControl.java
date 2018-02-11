@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-import com.avikenz.ba.picontrol.communication.PostHandler;
+import com.avikenz.ba.picontrol.communication.PostRequestHandler;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
@@ -133,7 +133,7 @@ public class ButtonControl
                 Log.d(TAG, "RELEASED");
                 break;
         }
-        new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
+        new PostRequestHandler(this, getContext()).execute();
         return true;
     }
 

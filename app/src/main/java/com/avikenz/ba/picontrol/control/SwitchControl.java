@@ -8,9 +8,8 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import com.avikenz.ba.picontrol.communication.PostHandler;
+import com.avikenz.ba.picontrol.communication.PostRequestHandler;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
-import com.avikenz.ba.picontrol.control.param.common.Direction;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.control.management.PortType;
 import com.avikenz.ba.picontrol.control.param.common.SignalType;
@@ -167,7 +166,7 @@ public class SwitchControl
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         mState = isChecked;
         Log.e(TAG, "State: " + mState);
-        new PostHandler(this, mControlManager.getServerUrl(), getContext()).execute();
+        new PostRequestHandler(this, getContext()).execute();
     }
 
 }

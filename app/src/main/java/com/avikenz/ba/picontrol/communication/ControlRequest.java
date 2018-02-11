@@ -3,26 +3,28 @@ package com.avikenz.ba.picontrol.communication;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.avikenz.ba.picontrol.communication.util.ConnectionUtils;
 import com.avikenz.ba.picontrol.control.OutputControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 
-
 /**
- * Created by AviKenz on 1/4/2018.
+ * Created by AviKenz on 2/11/2018.
  */
 
-public class PostHandler extends AsyncTask<String, Void, String> {
+public abstract class ControlRequest
+        extends AsyncTask<String, Void, String> {
 
-    public static final String TAG = PostHandler.class.getSimpleName();
+    public static final String TAG = PostRequestHandler.class.getSimpleName();
 
     HttpURLConnection mConnection;
 
@@ -48,20 +50,41 @@ public class PostHandler extends AsyncTask<String, Void, String> {
     String mResponseString;
     Context mContext;
 
-    public PostHandler(OutputControl pControl, String pServerUrl, Context pContext) {
-
-        mControl = pControl;
-        mServerUrl = pServerUrl;
+    public ControlRequest(Context pContext) {
+        mServerUrl = ControlManager.getInstace().getServerUrl();
         mContext = pContext;
+    }
+
+    static String getResponseString(HttpURLConnection conn)
+            throws IOException {
+        conn.setConnectTimeout(10000);
+        conn.setReadTimeout(10000);
+        // retrieve the response from server
+        InputStream is = null;
+        try {
+            is = conn.getInputStream();
+            int ch;
+            StringBuffer sb = new StringBuffer();
+            while ((ch = is.read()) != -1) {
+                sb.append((char) ch);
+            }
+            return sb.toString();
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
     }
 
     /**
      * get url for http post
      * @return the url
      */
-    private String getPostUrl(OutputControl pControl) {
+    String generateRequestUrl(OutputControl pControl) {
         StringBuilder result = new StringBuilder();
-        String queryString = getQueryString(pControl);
+        String queryString = generateRequestParams(pControl);
         Log.d(TAG, "QueryString: " + queryString);
         result.append(sProtocol);
         result.append(mServerUrl);
@@ -78,8 +101,8 @@ public class PostHandler extends AsyncTask<String, Void, String> {
      * @param pControl concerned controller
      * @return the query string containig the named value from control
      */
-    private String getQueryString(OutputControl pControl) {
-        Log.v(TAG, "getQueryString() - params : " + pControl.getPostParams().valueSet().toString());
+    private String generateRequestParams(OutputControl pControl) {
+        Log.v(TAG, "generateRequestParams() - params : " + pControl.getPostParams().valueSet().toString());
         StringBuilder result = new StringBuilder();
         boolean first = true;
         for(Map.Entry<String, Object> pair : pControl.getPostParams().valueSet()) {
@@ -98,47 +121,30 @@ public class PostHandler extends AsyncTask<String, Void, String> {
         return result.toString();
     }
 
-    @Override
-    protected String doInBackground(String... params) {
-        try {
-            URL postUrl = new URL(getPostUrl(mControl));
-            mConnection = (HttpURLConnection) postUrl.openConnection();
-            // TODO [L] catch exception; see doc
-            mConnection.setReadTimeout(10000);
-            mConnection.setConnectTimeout(5000);
-            mConnection.connect();
-            // TODO [M] handle response like html to parse it well
-            // TODO [H] implement notification to controller
-            mResponseString = ConnectionUtils.getResponseString(mConnection);
-        } catch (MalformedURLException e) {
-            // TODO [M] handle error - show dialog
-        } catch (IOException e) {
-            // TODO [M] handle error - show dialog
-        }
-        return null;
+    protected static void getRpiComMessage(final String pHtmResponseString) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                StringBuilder builder = new StringBuilder();
+                Document doc = Jsoup.parse(pHtmResponseString);
+                Element comMsgEl = doc.getElementById(PostRequestHandler.COM_MSG_ID);
+                Elements errMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_ERROR_CLASS_NAME);
+                Elements dbgMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_DEBUG_CLASS_NAME);
+                Elements todoMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_TODO_CLASS_NAME);
+                Elements nonameMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_NONAME_CLASS_NAME);
+                Elements warnMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_WARN_CLASS_NAME);
+                Elements infoMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_INFO_CLASS_NAME);
+                Log.e("RESPONSE INT", getLog(comMsgEl.getElementsByTag("p")));
+            }
+        }).run();
     }
 
-    @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-        try {
-            Log.e(TAG, mResponseString);
-            Log.e(TAG, "Response: " + mConnection.getResponseMessage());
-            // TODO HERE
-            ConnectionUtils.getRpiComMessage(mResponseString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            Toast.makeText(mContext, "Something Wrong with Connection", Toast.LENGTH_LONG).show();
+    protected static String getLog(Elements pElements) {
+        StringBuilder builder = new StringBuilder();
+        for(Element item : pElements) {
+            builder.append(item.text());
+            builder.append("\n");
         }
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        if( !ControlManager.getInstace().isConfigured() ) {
-            this.cancel(true);
-            Toast.makeText(mContext, "Control Manager Not Configured", Toast.LENGTH_LONG).show();
-        }
+        return builder.toString();
     }
 }
