@@ -6,7 +6,14 @@ import android.view.View;
 import com.avikenz.ba.picontrol.view.Editable;
 
 /**
- * Created by AviKenz on 1/9/2018.
+ * Interface which defined method needed by a Control. <br />
+ * A Control is basically a Android view which perform an
+ * Action when a {@code View} event occurs. <br />
+ * The action to Perform
+ * should be implemented in the appropriate {@code View} listener
+ * @author AviKenz
+ * @version 1.0
+ * @since 1/9/2018.
  */
 
 public interface Control extends Editable {
@@ -17,43 +24,46 @@ public interface Control extends Editable {
     String KEY_PIN_NUMBER = "pin_number";
     String KEY_SHORT_DESC = "short_description";
 
-    /**
-     * View typ used to determine which view will be used to render controller
-     */
+
     String LONG_VIEW_TYP = "long_view_typ";
     String SHORT_VIEW_TYP = "short_view_typ";
 
     /**
-     * return the port type linked with the controller
-     * @return the port type
+     * Get the {@link com.avikenz.ba.picontrol.control.management.PortType} name associated
+     * to the control
+     * @return The String representation of the port type
      */
     String getPortType();
 
-    /**
-     * Description of control
-     * @return description
-     */
 
+    /**
+     * get the pin number associated to the control
+     * @return The number of the pin
+     */
     int getPinNumber();
 
+
+    /**
+     * Get the Short description of the Control.
+     * @return the description.
+     */
     String getShortDescription();
 
     /**
-     * return the control description to show in the view
-     * @return
+     * Retrieve the description to show in the control view
+     * @return the descrition to show
      */
     String getViewDescription();
 
-    /** Used to get the controller parameter for the http request
-     *
-     * @return the http request parameters
+    /**
+     * Get the <code>View</code> of the Control
+     * @return The View extended by the class implementing the Control Interface
      */
-
     View getView();
 
     /**
-     * return the view typ of the controler;
-     * View SignalType determine how view are rendered (View disposition)
+     * Get <code>VIEW_TYP</code> constant; they determine in {@link com.avikenz.ba.picontrol.view.ControlViewRow}
+     * how many space to allocate to the Control View
      */
     String getViewType();
 }

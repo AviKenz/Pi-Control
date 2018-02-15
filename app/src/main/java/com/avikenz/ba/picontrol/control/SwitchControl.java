@@ -27,7 +27,7 @@ public class SwitchControl
     private static final String TAG = SwitchControl.class.getSimpleName();
 
 
-    private String mName = "switch_control";
+    private String mName = TAG;
     // Mode must always be get in getPostParam();
     private Mode mMode = null;
     private int mPinNumber = 5;
@@ -41,12 +41,12 @@ public class SwitchControl
 
     public SwitchControl(String pName, int pPinNumber, Context pContext) {
         super(pContext);
-        init(pName, pPinNumber, pContext);
+        init(TAG, pPinNumber, pContext);
     }
 
     public SwitchControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init("switch_control", 5, context);
+        init(TAG, 5, context);
     }
 
     public void init(String pName, int pPinNumber, Context pContext) {

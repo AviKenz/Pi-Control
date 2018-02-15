@@ -26,7 +26,7 @@ public class PwmControl
     public static int sMaxFrequence = 100;
     public int mMaxDutyCycle;
 
-    private String mName = "button_control";
+    private String mName = TAG;
     // Mode must always be get in getPostParam();
     private Mode mMode = null;
     private int mPinNumber = 5;
@@ -44,12 +44,12 @@ public class PwmControl
 
     public PwmControl(String pName, int pPinNumber, int pFrequence, int pDutyCycle, PwmOutputType pOutputType, Context pContext) {
         super(pContext);
-        init(pName, pPinNumber, pFrequence, pDutyCycle, pOutputType, pContext);
+        init(TAG, pPinNumber, pFrequence, pDutyCycle, pOutputType, pContext);
     }
 
     public PwmControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init("seek_bar", 5, 1000, 20, PwmOutputType.INTEGER, context);
+        init(TAG, 5, 1000, 20, PwmOutputType.INTEGER, context);
     }
 
     private void init(String pName, int pPinNumber, int pFrequence, int pDutyCycle, PwmOutputType pOutputType, Context pContext) {

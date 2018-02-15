@@ -3,8 +3,11 @@ package com.avikenz.ba.picontrol.view;
 import android.content.ContentValues;
 
 /**
- * Created by AviKenz on 1/17/2018.
- * Interface for all
+ * Interface of all Class
+ * @author AviKenz
+ * @version 1.0
+ * @since 1/17/2018.
+ *
  */
 
 public interface Editable {

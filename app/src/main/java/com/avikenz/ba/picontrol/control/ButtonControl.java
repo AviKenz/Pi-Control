@@ -26,7 +26,7 @@ public class ButtonControl
 
     public static final String TAG = ButtonControl.class.getSimpleName();
 
-    private String mName = "btn";
+    private String mName = TAG;
     // Mode must always be get in getPostParam();
     private Mode mMode = null;
     private int mPinNumber = 5;
@@ -39,12 +39,12 @@ public class ButtonControl
 
     public ButtonControl(String pName, int pPinNumber, Context pContext) {
         super(pContext);
-        init(pName, pPinNumber, pContext);
+        init(TAG, pPinNumber, pContext);
     }
 
     public ButtonControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init("btn", 5, context);
+        init(TAG, 5, context);
     }
 
     private void init(String pName, int pPinNumber, Context pContext) {
