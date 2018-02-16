@@ -32,7 +32,7 @@ public class ButtonControl
     private int mPinNumber = 5;
     private boolean mState = State.OFF.getValue();
     private SignalType mSignalType = SignalType.DC;
-    private String mShortDescription = "Short_Description";
+    private String mShortDescription = "TestButton";
     private String mServerUrl;
 
     private ControlManager mControlManager;
@@ -90,7 +90,7 @@ public class ButtonControl
     }
 
     @Override
-    public ContentValues getPostParams() {
+    public ContentValues getRequestParams() {
         ContentValues result = new ContentValues();
         int tempState = mState ? 1 : 0;
         result.put(KEY_NAME, getName());

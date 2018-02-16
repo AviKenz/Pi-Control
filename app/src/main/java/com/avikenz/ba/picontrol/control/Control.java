@@ -1,6 +1,5 @@
 package com.avikenz.ba.picontrol.control;
 
-import android.content.ContentValues;
 import android.view.View;
 
 import com.avikenz.ba.picontrol.view.Editable;
@@ -62,7 +61,7 @@ public interface Control extends Editable {
     View getView();
 
     /**
-     * Get <code>VIEW_TYP</code> constant; they determine in {@link com.avikenz.ba.picontrol.view.ControlViewRow}
+     * Get <code>VIEW_TYP</code> constant; they determine in {@link com.avikenz.ba.picontrol.view.ControlView}
      * how many space to allocate to the Control View
      */
     String getViewType();

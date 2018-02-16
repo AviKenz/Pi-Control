@@ -6,7 +6,7 @@ package com.avikenz.ba.picontrol.control.param.common;
 
 public enum SignalType {
 
-    DC("dc", 0), PWM("pwm", 1), SPI("spi", 2), I2C("i2c", 3), UART("uart", 4);
+    DC("DC", 0), PWM("PWM", 1), SPI("SPI", 2), I2C("I2C", 3), UART("UART", 4);
 
     private String mDescription = "Specify the output signal type";
     private String mName;

@@ -33,7 +33,7 @@ public class SwitchControl
     private int mPinNumber = 5;
     private boolean mState = State.OFF.getValue();
     private SignalType mSignalType = SignalType.DC;
-    private String mShortDescription = "Short_Description";
+    private String mShortDescription = "TestSwicht";
     private String mServerUrl;
 
 
@@ -112,11 +112,11 @@ public class SwitchControl
 
     @Override
     public String getViewDescription() {
-        return "Short description: " + getShortDescription() + " - " + "Pin: " + getPinNumber() + " - " + "SignalType: " + getSignalType().getName();
+        return "Short description: " + getShortDescription() + " - " + getPortType() + getPinNumber() + " - " + "SignalType: " + getSignalType().getName();
     }
 
     @Override
-    public ContentValues getPostParams() {
+    public ContentValues getRequestParams() {
         ContentValues result = new ContentValues();
         int tempState = mState ? 1 : 0;
         result.put(KEY_NAME, getName());
@@ -142,7 +142,7 @@ public class SwitchControl
 
     @Override
     public String getShortDescription() {
-        return null;
+        return mShortDescription;
     }
 
     public Mode getMode() {

@@ -34,7 +34,7 @@ public class PwmControl
     private int mDutyCycle;
     private int mFrequence;
     private PwmOutputType mOutputType;
-    private String mShortDescription = "Short_Description";
+    private String mShortDescription = "TestPwm";
 
 
 
@@ -162,7 +162,7 @@ public class PwmControl
     }
 
     @Override
-    public ContentValues getPostParams() {
+    public ContentValues getRequestParams() {
         ContentValues result = new ContentValues();
         result.put(KEY_NAME, getName());
         result.put(KEY_DIRECTION, direction.getValue());

@@ -1,11 +1,14 @@
 package com.avikenz.ba.picontrol.communication;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.avikenz.ba.picontrol.control.OutputControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
+
+import org.apache.http.protocol.HTTP;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -20,29 +23,41 @@ import java.util.Map;
 
 public class PostRequestHandler extends ControlRequest {
 
+    public static final String TAG = PostRequestHandler.class.getSimpleName();
 
     public PostRequestHandler(OutputControl pControl, Context pContext) {
         super(pContext);
+        init(pControl, pContext);
+    }
+
+    private void init(OutputControl pControl, Context pContext) {
         mControl = pControl;
         mContext = pContext;
     }
 
+    @SuppressWarnings("TryWithIdenticalCatches")
     @Override
     protected String doInBackground(String... params) {
         try {
+            // Generate URL
             URL postUrl = new URL(generateRequestUrl(mControl));
             mConnection = (HttpURLConnection) postUrl.openConnection();
+            // Setup Connection
             // TODO [L] catch exception; see doc
+            mConnection.setRequestMethod(METHOD_POST);
             mConnection.setReadTimeout(10000);
             mConnection.setConnectTimeout(5000);
+            // Send Request
             mConnection.connect();
-            // TODO [M] handle response like html to parse it well
+            // Get Response
             // TODO [H] implement notification to controller
             mResponseString = getResponseString(mConnection);
         } catch (MalformedURLException e) {
-            // TODO [M] handle error - show dialog
+            // TODO [M] throw RuntimeException; check why
+            //Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
-            // TODO [M] handle error - show dialog
+            // TODO [M] throw RuntimeException; check why
+            //Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return null;
     }
@@ -58,7 +73,7 @@ public class PostRequestHandler extends ControlRequest {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
-            Toast.makeText(mContext, "Something Wrong with Connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Could not reach the RasPi; please Check the URL", Toast.LENGTH_LONG).show();
         }
     }
 

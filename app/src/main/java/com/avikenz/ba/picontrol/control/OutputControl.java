@@ -34,7 +34,7 @@ public interface OutputControl extends Control {
     String getName();
 
 
-    ContentValues getPostParams();
+    ContentValues getRequestParams();
 
     /**
      * Define the action to execute when View change its state.

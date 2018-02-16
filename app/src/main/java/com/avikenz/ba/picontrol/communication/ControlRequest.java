@@ -2,6 +2,7 @@ package com.avikenz.ba.picontrol.communication;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.avikenz.ba.picontrol.control.OutputControl;
@@ -24,26 +25,31 @@ import java.util.Map;
 public abstract class ControlRequest
         extends AsyncTask<String, Void, String> {
 
-    public static final String TAG = PostRequestHandler.class.getSimpleName();
+    public static final String TAG = ControlRequest.class.getSimpleName();
 
     HttpURLConnection mConnection;
-
-    public static String sUrlSeparator = "/";
-    public static String sDataSeparator = "?";
-    public static String sFormDataSeparator = "&";
-    public static String sKeyValueSeparator = "=";
-    public static String sProtocol = "http://";
-    public static String sRpiComIfaceName  = "RpiComIface.cgi";
-    public static String sCgiBinPath = "/cgi-bin/";
-
-    public static String COM_MSG_ID = "comMessage";
-    public static String INTERPRETER_CLASS_NAME = "interpreter";
-    public static String INTERPRETER_DEBUG_CLASS_NAME = INTERPRETER_CLASS_NAME + " debug";
-    public static String INTERPRETER_INFO_CLASS_NAME = INTERPRETER_CLASS_NAME + " info";
-    public static String INTERPRETER_WARN_CLASS_NAME = INTERPRETER_CLASS_NAME + " warn";
-    public static String INTERPRETER_TODO_CLASS_NAME = INTERPRETER_CLASS_NAME + " todo";
-    public static String INTERPRETER_ERROR_CLASS_NAME = INTERPRETER_CLASS_NAME + " error";
-    public static String INTERPRETER_NONAME_CLASS_NAME = INTERPRETER_CLASS_NAME + " noname";
+    // For the connection
+    public static final String URL_SEPARATOR = "/";
+    public static final String URL_PARAM_SEPARATOR = "?";
+    public static final String FORM_PARAM_SEPARATO = "&";
+    public static final String KEY_VALUE_SEPARATOR = "=";
+    public static final String PROTOCOL = "http://";
+    public static final String RPI_COM_IFACE_NAME = "RpiComIface.cgi";
+    public static final String CGI_BIN_PATH = "/cgi-bin/";
+    // For Logging
+    public static final String COM_MSG_ID = "comMessage";
+    public static final String INTERPRETER_CLASS_NAME = "interpreter";
+    public static final String INTERPRETER_DEBUG_CLASS_NAME = INTERPRETER_CLASS_NAME + " debug";
+    public static final String INTERPRETER_INFO_CLASS_NAME = INTERPRETER_CLASS_NAME + " info";
+    public static final String INTERPRETER_WARN_CLASS_NAME = INTERPRETER_CLASS_NAME + " warn";
+    public static final String INTERPRETER_TODO_CLASS_NAME = INTERPRETER_CLASS_NAME + " todo";
+    public static final String INTERPRETER_ERROR_CLASS_NAME = INTERPRETER_CLASS_NAME + " error";
+    public static final String INTERPRETER_NONAME_CLASS_NAME = INTERPRETER_CLASS_NAME + " noname";
+    // HTTP Methoden
+    public static final String METHOD_POST = "POST";
+    public static final String METHOD_GET = "GET";
+    public static final String METHOD_PUT = "PUT";
+    public static final String METHOD_DELETE = "DELETE";
 
     OutputControl mControl;
     String mServerUrl;
@@ -86,11 +92,11 @@ public abstract class ControlRequest
         StringBuilder result = new StringBuilder();
         String queryString = generateRequestParams(pControl);
         Log.d(TAG, "QueryString: " + queryString);
-        result.append(sProtocol);
+        result.append(PROTOCOL);
         result.append(mServerUrl);
-        result.append(sCgiBinPath);
-        result.append(sRpiComIfaceName);
-        result.append(sDataSeparator);
+        result.append(CGI_BIN_PATH);
+        result.append(RPI_COM_IFACE_NAME);
+        result.append(URL_PARAM_SEPARATOR);
         result.append(queryString);
         Log.d(TAG, result.toString());
         return result.toString();
@@ -102,19 +108,19 @@ public abstract class ControlRequest
      * @return the query string containig the named value from control
      */
     private String generateRequestParams(OutputControl pControl) {
-        Log.v(TAG, "generateRequestParams() - params : " + pControl.getPostParams().valueSet().toString());
+        Log.v(TAG, "generateRequestParams() - params : " + pControl.getRequestParams().valueSet().toString());
         StringBuilder result = new StringBuilder();
         boolean first = true;
-        for(Map.Entry<String, Object> pair : pControl.getPostParams().valueSet()) {
+        for(Map.Entry<String, Object> pair : pControl.getRequestParams().valueSet()) {
             if ( first ) {
                 first = false;
                 result.append(pair.getKey());
-                result.append(sKeyValueSeparator);
+                result.append(KEY_VALUE_SEPARATOR);
                 result.append(pair.getValue());
             } else {
-                result.append(sFormDataSeparator);
+                result.append(FORM_PARAM_SEPARATO);
                 result.append(pair.getKey());
-                result.append(sKeyValueSeparator);
+                result.append(KEY_VALUE_SEPARATOR);
                 result.append(pair.getValue());
             }
         }

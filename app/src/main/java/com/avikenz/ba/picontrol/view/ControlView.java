@@ -19,7 +19,7 @@ import com.avikenz.ba.picontrol.control.SwitchControl;
  * Created by AviKenz on 1/10/2018.
  */
 
-public class ControlViewRow extends RelativeLayout {
+public class ControlView extends RelativeLayout {
 
 
     private TextView mPortType;
@@ -31,12 +31,12 @@ public class ControlViewRow extends RelativeLayout {
 
     private Context mContext;
 
-    public ControlViewRow(Control pControl, Context context) {
+    public ControlView(Control pControl, Context context) {
         super(context);
         init(pControl, context);
     }
 
-    public ControlViewRow(Context context, AttributeSet attrs) {
+    public ControlView(Context context, AttributeSet attrs) {
         super(context, attrs);
         // TODO [M] declare styleable attr to declare the view in xml; declaration should depend on type of control
         init(new SwitchControl("switch_control", 5, context), context);

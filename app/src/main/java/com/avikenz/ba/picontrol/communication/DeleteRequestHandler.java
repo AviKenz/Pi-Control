@@ -3,12 +3,12 @@ package com.avikenz.ba.picontrol.communication;
 import android.content.Context;
 
 /**
- * Created by AviKenz on 1/4/2018.
+ * Created by AviKenz on 2/16/2018.
  */
 
-public class GetRequestHandler extends ControlRequest{
+public class DeleteRequestHandler extends ControlRequest {
 
-    public GetRequestHandler(Context pContext) {
+    public DeleteRequestHandler(Context pContext) {
         super(pContext);
     }
 
