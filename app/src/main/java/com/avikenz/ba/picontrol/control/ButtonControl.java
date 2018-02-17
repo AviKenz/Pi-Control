@@ -44,7 +44,6 @@ public class ButtonControl
 
     public ButtonControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(TAG, 5, context);
     }
 
     private void init(String pName, int pPinNumber, Context pContext) {
@@ -61,7 +60,7 @@ public class ButtonControl
     }
 
     @Override
-    public ContentValues getEditableFields() {
+    public ContentValues getEditableAttributes() {
         ContentValues result = new ContentValues();
         result.put(KEY_NAME, String.class.getName());
         result.put(KEY_PIN_NUMBER, Integer.class.getName());

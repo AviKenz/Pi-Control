@@ -49,7 +49,6 @@ public class PwmControl
 
     public PwmControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(TAG, 5, 1000, 20, PwmOutputType.INTEGER, context);
     }
 
     private void init(String pName, int pPinNumber, int pFrequence, int pDutyCycle, PwmOutputType pOutputType, Context pContext) {
@@ -125,7 +124,7 @@ public class PwmControl
     }
 
     @Override
-    public ContentValues getEditableFields() {
+    public ContentValues getEditableAttributes() {
         ContentValues result = new ContentValues();
         result.put(KEY_NAME, String.class.getName());
         result.put(KEY_PIN_NUMBER, Integer.class.getName());

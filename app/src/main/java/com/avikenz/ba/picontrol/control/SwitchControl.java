@@ -46,7 +46,6 @@ public class SwitchControl
 
     public SwitchControl(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(TAG, 5, context);
     }
 
     public void init(String pName, int pPinNumber, Context pContext) {
@@ -87,7 +86,7 @@ public class SwitchControl
     }
 
     @Override
-    public ContentValues getEditableFields() {
+    public ContentValues getEditableAttributes() {
         ContentValues result = new ContentValues();
         result.put(KEY_NAME, String.class.getName());
         result.put(KEY_PIN_NUMBER, int.class.getName());

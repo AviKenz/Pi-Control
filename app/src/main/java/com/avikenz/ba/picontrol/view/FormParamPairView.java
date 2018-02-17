@@ -42,7 +42,6 @@ public class FormParamPairView
     private TextView mKey;
     private View mValue;
 
-
     private LayoutParams mChildrenParams;
 
     public static final int WEIGHT = 1;
@@ -86,25 +85,29 @@ public class FormParamPairView
         // generate spinner when value is an Enum
         if (val.equals(Enum.class.getName())) {
             mValue = new Spinner(mContext);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, getEnumValues(val));
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item,
+                    getEnumValues(val));
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
         // generate Spinner for pin selection; the spinner show only available pins; the available pin depend on the pinUsableTime in Port class
         } else if(mPair.getKey().equals(Control.KEY_PIN_NUMBER)) {
             mValue = new Spinner(mContext);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, ControlManager.getInstace().getFreeGpioPortNumberList());
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item,
+                    ControlManager.getInstace().getFreeGpioPortNumberList());
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
         // generate spinner for pwm output type; the output of pwm can be an integer or 8 bit value
         } else if(mPair.getValue().toString().equals(PwmOutputType.class.getName())) {
             mValue = new Spinner(mContext);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, getEnumValues(PwmOutputType.class.getName()));
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item,
+                    getEnumValues(PwmOutputType.class.getName()));
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
         // generate spinner for numbering mode (used in control manager).
         } else if(mPair.getValue().toString().equals(Mode.class.getName())) {
             mValue = new Spinner(mContext);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, getEnumValues(Mode.class.getName()));
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item,
+                    getEnumValues(Mode.class.getName()));
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
         // default; generate an edit text
@@ -117,10 +120,6 @@ public class FormParamPairView
             }
             v.setGravity(Gravity.RIGHT);
         }
-    }
-
-    private boolean isEnum(String pFullName) {
-        return pFullName.contains("avikenz");
     }
 
     private List<String> getEnumValues(String pName) {

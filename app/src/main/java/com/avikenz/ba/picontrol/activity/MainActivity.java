@@ -23,7 +23,6 @@ import com.avikenz.ba.picontrol.control.Control;
 import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
-import com.avikenz.ba.picontrol.control.management.ControlManagerInterface;
 import com.avikenz.ba.picontrol.control.param.PwmOutputType;
 import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.view.ControlFactory;
@@ -37,7 +36,7 @@ import java.util.Map;
 
 public class MainActivity
         extends AppCompatActivity
-        implements ControlManagerInterface, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -53,7 +52,7 @@ public class MainActivity
     ControlView mSeekBarRow;
     ControlView mSeekBarRow2;
 
-    NewEditableDialog mEditableDialog;
+    EditableDialog mEditableDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +87,7 @@ public class MainActivity
     }
 
     private void generateControView(Editable pEditable, Context pContext) {
-        mEditableDialog = new NewEditableDialog(pEditable, pContext).create();
+        mEditableDialog = new EditableDialog(pEditable, pContext).create();
         mEditableDialog.show();
     }
 
@@ -112,7 +111,7 @@ public class MainActivity
     }
 
     private void configureControlManager() {
-        mEditableDialog = new NewEditableDialog(ControlManager.getInstace(), MainActivity.this);
+        mEditableDialog = new EditableDialog(ControlManager.getInstace(), MainActivity.this);
         mEditableDialog.show();
     }
 
@@ -139,17 +138,6 @@ public class MainActivity
         mControllerLayout.addView(mButtonRow, params);
         mControllerLayout.addView(mSeekBarRow, params);
         mControllerLayout.addView(mSeekBarRow2, params);
-    }
-
-
-    @Override
-    public ControlManager getControlManager() {
-        return (ControlManager) getApplicationContext();
-    }
-
-    @Override
-    public void updateControlManager(ControlManager pManager) {
-
     }
 
     @Override
@@ -190,7 +178,7 @@ public class MainActivity
      * Created by AviKenz on 1/12/2018.
      */
 
-    public class NewEditableDialog {
+    public class EditableDialog {
 
         private String TAG = this.getClass().getSimpleName();
 
@@ -204,7 +192,7 @@ public class MainActivity
 
         private Context mContext;
         // TODO [W] the context passed here should always be MainActivity.this
-        public NewEditableDialog(Editable pEditable, Context pContext) {
+        public EditableDialog(Editable pEditable, Context pContext) {
             mEditable = pEditable;
             mContext = pContext;
             mRows = new ArrayList<>();
@@ -253,7 +241,7 @@ public class MainActivity
             return mView;
         }
 
-        public NewEditableDialog create() {
+        public EditableDialog create() {
             return this;
         }
 
@@ -261,7 +249,7 @@ public class MainActivity
         private LinearLayout generateViewContent() {
             mView.setOrientation(LinearLayout.VERTICAL);
             FormParamPairView row;
-            for(Map.Entry<String, Object> entry : mEditable.getEditableFields().valueSet()) {
+            for(Map.Entry<String, Object> entry : mEditable.getEditableAttributes().valueSet()) {
                 row = new FormParamPairView(entry, mContext);
                 mView.addView(row, mLayoutParams);
                 mRows.add(row);

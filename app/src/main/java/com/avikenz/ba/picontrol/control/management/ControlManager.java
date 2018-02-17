@@ -19,16 +19,14 @@ import java.util.ArrayList;
  */
 
 public class ControlManager
-        extends Application
         implements Editable {
+
+    public static final String TAG = ControlManager.class.getSimpleName();
 
     private static ControlManager mControlManager = new ControlManager();
 
-    public static String KEY_SERVER_URL = "server_url";
-    public static String KEY_NUMBERING_MODE = "numbering_mode";
-
-    // Define how many controls can access a single port simultanously
-    public int mPortsUsableTime = 1;
+    public static final String KEY_SERVER_URL = "server_url";
+    public static final String KEY_NUMBERING_MODE = "numbering_mode";
 
     private boolean mConfigured = false;
     private String mServerUrl;
@@ -91,7 +89,6 @@ public class ControlManager
             add(SignalType.UART);
         }};
     }
-
 
     protected ArrayList<Port> generatePortList() {
         ArrayList<Port> list = new ArrayList<>();
@@ -167,16 +164,13 @@ public class ControlManager
         }
     }
 
-
     public  void setMode(Mode pMode) {
         mMode = pMode;
-        Log.d("ControlManager", "mode Setteddddddd. Value: " + mMode.getName());
     }
 
     public void setServerUrl(String pUrl) {
         mServerUrl = pUrl;
     }
-
 
     public  String getServerUrl() {
         if (mServerUrl == null) {
@@ -195,10 +189,6 @@ public class ControlManager
 
     public ArrayList<Port> getPortList() {
         return mPortList;
-    }
-
-    public int getPortUsableTime() {
-        return mPortsUsableTime;
     }
 
     public ArrayList<String> getFreeGpioPortNumberList() {
@@ -239,7 +229,7 @@ public class ControlManager
     }
 
     @Override
-    public ContentValues getEditableFields() {
+    public ContentValues getEditableAttributes() {
         ContentValues result = new ContentValues();
         result.put(KEY_SERVER_URL, String.class.getName());
         result.put(KEY_NUMBERING_MODE, Mode.class.getName());

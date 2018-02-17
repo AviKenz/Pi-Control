@@ -68,21 +68,11 @@ public class PostRequestHandler extends ControlRequest {
         try {
             Log.e(TAG, mResponseString);
             Log.e(TAG, "Response: " + mConnection.getResponseMessage());
-            // TODO HERE
             getRpiComMessage(mResponseString);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
             Toast.makeText(mContext, "Could not reach the RasPi; please Check the URL", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        if( !ControlManager.getInstace().isConfigured() ) {
-            this.cancel(true);
-            Toast.makeText(mContext, "Control Manager Not Configured", Toast.LENGTH_LONG).show();
         }
     }
 }

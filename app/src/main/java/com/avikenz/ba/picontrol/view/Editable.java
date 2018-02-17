@@ -23,5 +23,5 @@ public interface Editable {
      * fields consist on key and data typ.
      * @return the fields pair
      */
-    ContentValues getEditableFields();
+    ContentValues getEditableAttributes();
 }

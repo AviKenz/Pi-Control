@@ -2,8 +2,8 @@ package com.avikenz.ba.picontrol.communication;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.avikenz.ba.picontrol.control.OutputControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
@@ -37,6 +37,7 @@ public abstract class ControlRequest
     public static final String RPI_COM_IFACE_NAME = "RpiComIface.cgi";
     public static final String CGI_BIN_PATH = "/cgi-bin/";
     // For Logging
+    public static final String LOG_LINE_TAG_NAME = "p";
     public static final String COM_MSG_ID = "comMessage";
     public static final String INTERPRETER_CLASS_NAME = "interpreter";
     public static final String INTERPRETER_DEBUG_CLASS_NAME = INTERPRETER_CLASS_NAME + " debug";
@@ -52,13 +53,16 @@ public abstract class ControlRequest
     public static final String METHOD_DELETE = "DELETE";
 
     OutputControl mControl;
+    ControlManager mControlManager;
     String mServerUrl;
     String mResponseString;
     Context mContext;
 
     public ControlRequest(Context pContext) {
-        mServerUrl = ControlManager.getInstace().getServerUrl();
         mContext = pContext;
+        mControlManager = ControlManager.getInstace();
+        mServerUrl = mControlManager.getServerUrl();
+
     }
 
     static String getResponseString(HttpURLConnection conn)
@@ -133,24 +137,34 @@ public abstract class ControlRequest
             public void run() {
                 StringBuilder builder = new StringBuilder();
                 Document doc = Jsoup.parse(pHtmResponseString);
-                Element comMsgEl = doc.getElementById(PostRequestHandler.COM_MSG_ID);
-                Elements errMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_ERROR_CLASS_NAME);
-                Elements dbgMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_DEBUG_CLASS_NAME);
-                Elements todoMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_TODO_CLASS_NAME);
-                Elements nonameMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_NONAME_CLASS_NAME);
-                Elements warnMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_WARN_CLASS_NAME);
-                Elements infoMsg = comMsgEl.getElementsByClass(PostRequestHandler.INTERPRETER_INFO_CLASS_NAME);
-                Log.e("RESPONSE INT", getLog(comMsgEl.getElementsByTag("p")));
+                Element comMsgEl = doc.getElementById(COM_MSG_ID);
+                Elements errMsg = comMsgEl.getElementsByClass(INTERPRETER_ERROR_CLASS_NAME);
+                Elements dbgMsg = comMsgEl.getElementsByClass(INTERPRETER_DEBUG_CLASS_NAME);
+                Elements todoMsg = comMsgEl.getElementsByClass(INTERPRETER_TODO_CLASS_NAME);
+                Elements nonameMsg = comMsgEl.getElementsByClass(INTERPRETER_NONAME_CLASS_NAME);
+                Elements warnMsg = comMsgEl.getElementsByClass(INTERPRETER_WARN_CLASS_NAME);
+                Elements infoMsg = comMsgEl.getElementsByClass(INTERPRETER_INFO_CLASS_NAME);
+                Log.e(TAG, getLogSession(comMsgEl.getElementsByTag(LOG_LINE_TAG_NAME)));
             }
         }).run();
     }
 
-    protected static String getLog(Elements pElements) {
+    protected static String getLogSession(Elements pElements) {
         StringBuilder builder = new StringBuilder();
         for(Element item : pElements) {
             builder.append(item.text());
             builder.append("\n");
         }
         return builder.toString();
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        // Cancel Request if ControlManager is not configured
+        if( !mControlManager.isConfigured() ) {
+            this.cancel(true);
+            Toast.makeText(mContext, "Control Manager Not Configured", Toast.LENGTH_LONG).show();
+        }
     }
 }
