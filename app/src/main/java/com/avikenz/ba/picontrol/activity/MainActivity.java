@@ -28,7 +28,7 @@ import com.avikenz.ba.picontrol.control.param.common.Mode;
 import com.avikenz.ba.picontrol.view.ControlFactory;
 import com.avikenz.ba.picontrol.view.ControlView;
 import com.avikenz.ba.picontrol.view.Editable;
-import com.avikenz.ba.picontrol.view.FormParamPairView;
+import com.avikenz.ba.picontrol.view.EditableAttributEntryView;
 import com.avikenz.ba.picontrol.Exception.InvalidParameterSetException;
 
 import java.util.ArrayList;
@@ -188,7 +188,7 @@ public class MainActivity
         private android.app.AlertDialog mDialog;
         private LinearLayout.LayoutParams mLayoutParams;
 
-        private ArrayList<FormParamPairView> mRows;
+        private ArrayList<EditableAttributEntryView> mRows;
 
         private Context mContext;
         // TODO [W] the context passed here should always be MainActivity.this
@@ -214,7 +214,7 @@ public class MainActivity
 
         public ContentValues getData() {
             ContentValues result = new ContentValues();
-            for(FormParamPairView item : mRows) {
+            for(EditableAttributEntryView item : mRows) {
                 result.put(item.getKey(), item.getValue());
             }
             return result;
@@ -248,9 +248,9 @@ public class MainActivity
 
         private LinearLayout generateViewContent() {
             mView.setOrientation(LinearLayout.VERTICAL);
-            FormParamPairView row;
+            EditableAttributEntryView row;
             for(Map.Entry<String, Object> entry : mEditable.getEditableAttributes().valueSet()) {
-                row = new FormParamPairView(entry, mContext);
+                row = new EditableAttributEntryView(entry, mContext);
                 mView.addView(row, mLayoutParams);
                 mRows.add(row);
             }

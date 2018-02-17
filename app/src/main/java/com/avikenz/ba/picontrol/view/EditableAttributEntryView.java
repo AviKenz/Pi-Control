@@ -28,7 +28,7 @@ import java.util.Map;
  * Created by AviKenz on 1/12/2018.
  */
 
-public class FormParamPairView
+public class EditableAttributEntryView
         extends LinearLayout {
 
     private final String TAG = getClass().getSimpleName();
@@ -48,13 +48,13 @@ public class FormParamPairView
 
     private Context mContext;
 
-    public FormParamPairView(Map.Entry<String, Object> pPair, Context context) {
+    public EditableAttributEntryView(Map.Entry<String, Object> pPair, Context context) {
         super(context);
         init(pPair, context);
     }
 
     // TODO [W] NOT WORKING YET; view cant be create yet using xml
-    public FormParamPairView(Context context, @Nullable AttributeSet attrs) {
+    public EditableAttributEntryView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -82,18 +82,21 @@ public class FormParamPairView
 
     private void setupValueView() {
         String val = mPair.getValue().toString();
-        // generate spinner when value is an Enum
-        if (val.equals(Enum.class.getName())) {
+        // generate Spinner for pin selection; the spinner show only available pins;
+        // the available pins depend on the pinUsableTime in Port class
+        if(mPair.getKey().equals(Control.KEY_PIN_NUMBER)) {
             mValue = new Spinner(mContext);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item,
-                    getEnumValues(val));
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    ControlManager.getInstace().getFreeGpioPortNumberList());
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
-        // generate Spinner for pin selection; the spinner show only available pins; the available pin depend on the pinUsableTime in Port class
-        } else if(mPair.getKey().equals(Control.KEY_PIN_NUMBER)) {
+        }
+        // generate spinner when value equals FQN of Enum
+        else if (val.equals(Enum.class.getName())) {
             mValue = new Spinner(mContext);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item,
-                    ControlManager.getInstace().getFreeGpioPortNumberList());
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext,
+                    android.R.layout.simple_spinner_dropdown_item, getEnumValues(val));
             Spinner v = (Spinner) mValue;
             v.setAdapter(adapter);
         // generate spinner for pwm output type; the output of pwm can be an integer or 8 bit value
