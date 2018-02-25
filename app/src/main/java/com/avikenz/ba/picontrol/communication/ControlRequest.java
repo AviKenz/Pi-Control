@@ -125,7 +125,8 @@ public abstract class ControlRequest
                 result.append(FORM_PARAM_SEPARATO);
                 result.append(pair.getKey());
                 result.append(KEY_VALUE_SEPARATOR);
-                result.append(pair.getValue());
+                // spaces are replaced by '+' sign in HTTP form parameter
+                result.append(pair.getValue().toString().replace(" ", "+"));
             }
         }
         return result.toString();
