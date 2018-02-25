@@ -39,13 +39,13 @@ public abstract class ControlRequest
     // For Logging
     public static final String LOG_LINE_TAG_NAME = "p";
     public static final String COM_MSG_ID = "comMessage";
-    public static final String INTERPRETER_CLASS_NAME = "interpreter";
-    public static final String INTERPRETER_DEBUG_CLASS_NAME = INTERPRETER_CLASS_NAME + " debug";
-    public static final String INTERPRETER_INFO_CLASS_NAME = INTERPRETER_CLASS_NAME + " info";
-    public static final String INTERPRETER_WARN_CLASS_NAME = INTERPRETER_CLASS_NAME + " warn";
-    public static final String INTERPRETER_TODO_CLASS_NAME = INTERPRETER_CLASS_NAME + " todo";
-    public static final String INTERPRETER_ERROR_CLASS_NAME = INTERPRETER_CLASS_NAME + " error";
-    public static final String INTERPRETER_NONAME_CLASS_NAME = INTERPRETER_CLASS_NAME + " noname";
+    public static final String USER_APP_CLASS_NAME = "userapp";
+    public static final String USER_DEBUG_CLASS_NAME = USER_APP_CLASS_NAME + " debug";
+    public static final String USER_INFO_CLASS_NAME = USER_APP_CLASS_NAME + " info";
+    public static final String USER_WARN_CLASS_NAME = USER_APP_CLASS_NAME + " warn";
+    public static final String USER_TODO_CLASS_NAME = USER_APP_CLASS_NAME + " todo";
+    public static final String USER_ERROR_CLASS_NAME = USER_APP_CLASS_NAME + " error";
+    public static final String USER_NONAME_CLASS_NAME = USER_APP_CLASS_NAME + " noname";
     // HTTP Methoden
     public static final String METHOD_POST = "POST";
     public static final String METHOD_GET = "GET";
@@ -138,12 +138,12 @@ public abstract class ControlRequest
                 StringBuilder builder = new StringBuilder();
                 Document doc = Jsoup.parse(pHtmResponseString);
                 Element comMsgEl = doc.getElementById(COM_MSG_ID);
-                Elements errMsg = comMsgEl.getElementsByClass(INTERPRETER_ERROR_CLASS_NAME);
-                Elements dbgMsg = comMsgEl.getElementsByClass(INTERPRETER_DEBUG_CLASS_NAME);
-                Elements todoMsg = comMsgEl.getElementsByClass(INTERPRETER_TODO_CLASS_NAME);
-                Elements nonameMsg = comMsgEl.getElementsByClass(INTERPRETER_NONAME_CLASS_NAME);
-                Elements warnMsg = comMsgEl.getElementsByClass(INTERPRETER_WARN_CLASS_NAME);
-                Elements infoMsg = comMsgEl.getElementsByClass(INTERPRETER_INFO_CLASS_NAME);
+                Elements errMsg = comMsgEl.getElementsByClass(USER_ERROR_CLASS_NAME);
+                Elements dbgMsg = comMsgEl.getElementsByClass(USER_DEBUG_CLASS_NAME);
+                Elements todoMsg = comMsgEl.getElementsByClass(USER_TODO_CLASS_NAME);
+                Elements nonameMsg = comMsgEl.getElementsByClass(USER_NONAME_CLASS_NAME);
+                Elements warnMsg = comMsgEl.getElementsByClass(USER_WARN_CLASS_NAME);
+                Elements infoMsg = comMsgEl.getElementsByClass(USER_INFO_CLASS_NAME);
                 Log.e(TAG, getLogSession(comMsgEl.getElementsByTag(LOG_LINE_TAG_NAME)));
             }
         }).run();

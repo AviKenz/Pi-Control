@@ -16,7 +16,7 @@ public interface OutputControl extends Control {
      */
 
     String KEY_STATE = "state";
-    String KEY_FREQUENCE = "freq";
+    String KEY_FREQUENCE = "frequency";
     String KEY_DUTY_CYCLE = "duty_cycle";
     String KEY_SIGNAL_TYPE = "signal_type";
     String KEY_PWM_OUTPUT_TYP = "pwm_output_type";
