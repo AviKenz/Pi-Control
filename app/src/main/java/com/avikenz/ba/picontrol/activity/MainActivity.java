@@ -24,12 +24,12 @@ import com.avikenz.ba.picontrol.control.PwmControl;
 import com.avikenz.ba.picontrol.control.SwitchControl;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.param.PwmOutputType;
-import com.avikenz.ba.picontrol.control.param.common.Mode;
+import com.avikenz.ba.picontrol.control.param.Mode;
 import com.avikenz.ba.picontrol.view.ControlFactory;
 import com.avikenz.ba.picontrol.view.ControlView;
 import com.avikenz.ba.picontrol.view.Editable;
 import com.avikenz.ba.picontrol.view.EditableAttributEntryView;
-import com.avikenz.ba.picontrol.Exception.InvalidParameterSetException;
+import com.avikenz.ba.picontrol.exception.InvalidParameterSetException;
 
 import java.util.ArrayList;
 import java.util.Map;

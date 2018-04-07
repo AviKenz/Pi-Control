@@ -2,7 +2,7 @@ package com.avikenz.ba.picontrol.control.management;
 
 import android.support.annotation.Nullable;
 
-import com.avikenz.ba.picontrol.control.param.common.SignalType;
+import com.avikenz.ba.picontrol.control.param.SignalType;
 
 import java.util.List;
 

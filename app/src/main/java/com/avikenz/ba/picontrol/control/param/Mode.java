@@ -1,18 +1,18 @@
-package com.avikenz.ba.picontrol.control.param.dc;
+package com.avikenz.ba.picontrol.control.param;
 
 /**
  * Created by AviKenz on 1/3/2018.
  */
 
-public enum State {
+public enum Mode {
 
-    OFF("off", false), ON("on", true);
+    BOARD("board", 10), BCM("bcm", 11);
 
-    private String mDescription = "Specify the DC signal type";
+    private String mDescription = "Specify the numbering mode of board";
     private String mName;
-    private boolean mValue;
+    private int mValue;
 
-    State(String pName, boolean pValue) {
+    Mode(String pName, int pValue) {
         mName = pName;
         mValue = pValue;
     }
@@ -25,7 +25,7 @@ public enum State {
         return mName;
     }
 
-    public boolean getValue() {
+    public int getValue() {
         return mValue;
     }
 }

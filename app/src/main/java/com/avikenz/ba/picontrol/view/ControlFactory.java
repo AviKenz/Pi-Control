@@ -3,7 +3,7 @@ package com.avikenz.ba.picontrol.view;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.avikenz.ba.picontrol.Exception.InvalidParameterSetException;
+import com.avikenz.ba.picontrol.exception.InvalidParameterSetException;
 import com.avikenz.ba.picontrol.control.ButtonControl;
 import com.avikenz.ba.picontrol.control.Control;
 import com.avikenz.ba.picontrol.control.OutputControl;

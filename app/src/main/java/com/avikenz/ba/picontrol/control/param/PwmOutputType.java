@@ -10,6 +10,7 @@ public enum PwmOutputType {
 
     private String mName;
     private int mMaxValue;
+    private String mDescription = "Specify the ouptut type of the PWM signal";
 
     PwmOutputType(String pName, int pMaxValue) {
         mName = pName;

@@ -1,11 +1,10 @@
 package com.avikenz.ba.picontrol.control.management;
 
-import android.app.Application;
 import android.content.ContentValues;
 import android.util.Log;
 
-import com.avikenz.ba.picontrol.control.param.common.Mode;
-import com.avikenz.ba.picontrol.control.param.common.SignalType;
+import com.avikenz.ba.picontrol.control.param.Mode;
+import com.avikenz.ba.picontrol.control.param.SignalType;
 import com.avikenz.ba.picontrol.view.Editable;
 
 import java.util.ArrayList;

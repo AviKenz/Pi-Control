@@ -1,6 +1,5 @@
 package com.avikenz.ba.picontrol.view;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.InputType;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 import com.avikenz.ba.picontrol.control.Control;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
 import com.avikenz.ba.picontrol.control.param.PwmOutputType;
-import com.avikenz.ba.picontrol.control.param.common.Mode;
+import com.avikenz.ba.picontrol.control.param.Mode;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

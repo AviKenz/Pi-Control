@@ -1,4 +1,4 @@
-package com.avikenz.ba.picontrol.Exception;
+package com.avikenz.ba.picontrol.exception;
 
 /**
  * Created by AviKenz on 1/17/2018.

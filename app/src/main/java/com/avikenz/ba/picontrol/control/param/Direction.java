@@ -1,18 +1,18 @@
-package com.avikenz.ba.picontrol.control.param.common;
+package com.avikenz.ba.picontrol.control.param;
 
 /**
  * Created by AviKenz on 1/3/2018.
  */
 
-public enum Mode {
+public enum Direction {
 
-    BOARD("board", 10), BCM("bcm", 11);
+    OUT("out", 0), IN("in", 1);
 
     private String mDescription = "Specify the numbering mode of board";
     private String mName;
     private int mValue;
 
-    Mode(String pName, int pValue) {
+    Direction(String pName, int pValue) {
         mName = pName;
         mValue = pValue;
     }

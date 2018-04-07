@@ -10,11 +10,11 @@ import android.widget.Button;
 
 import com.avikenz.ba.picontrol.communication.PostRequestHandler;
 import com.avikenz.ba.picontrol.control.management.ControlManager;
-import com.avikenz.ba.picontrol.control.param.common.Direction;
-import com.avikenz.ba.picontrol.control.param.common.Mode;
+import com.avikenz.ba.picontrol.control.param.Direction;
+import com.avikenz.ba.picontrol.control.param.Mode;
 import com.avikenz.ba.picontrol.control.management.PortType;
-import com.avikenz.ba.picontrol.control.param.common.SignalType;
-import com.avikenz.ba.picontrol.control.param.dc.State;
+import com.avikenz.ba.picontrol.control.param.SignalType;
+import com.avikenz.ba.picontrol.control.param.State;
 
 /**
  * Created by AviKenz on 1/6/2018.

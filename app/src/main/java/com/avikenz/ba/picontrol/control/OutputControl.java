@@ -1,7 +1,7 @@
 package com.avikenz.ba.picontrol.control;
 
 import android.content.ContentValues;
-import com.avikenz.ba.picontrol.control.param.common.Direction;
+import com.avikenz.ba.picontrol.control.param.Direction;
 
 
 /**

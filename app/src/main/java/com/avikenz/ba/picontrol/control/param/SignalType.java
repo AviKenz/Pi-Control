@@ -1,4 +1,4 @@
-package com.avikenz.ba.picontrol.control.param.common;
+package com.avikenz.ba.picontrol.control.param;
 
 /**
  * Created by AviKenz on 1/3/2018.

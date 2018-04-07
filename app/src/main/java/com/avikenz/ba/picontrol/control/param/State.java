@@ -1,18 +1,18 @@
-package com.avikenz.ba.picontrol.control.param.common;
+package com.avikenz.ba.picontrol.control.param;
 
 /**
  * Created by AviKenz on 1/3/2018.
  */
 
-public enum Direction {
+public enum State {
 
-    OUT("out", 0), IN("in", 1);
+    OFF("off", false), ON("on", true);
 
-    private String mDescription = "Specify the numbering mode of board";
+    private String mDescription = "Specify the DC signal type";
     private String mName;
-    private int mValue;
+    private boolean mValue;
 
-    Direction(String pName, int pValue) {
+    State(String pName, boolean pValue) {
         mName = pName;
         mValue = pValue;
     }
@@ -25,7 +25,7 @@ public enum Direction {
         return mName;
     }
 
-    public int getValue() {
+    public boolean getValue() {
         return mValue;
     }
 }

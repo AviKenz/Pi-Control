@@ -1,10 +1,9 @@
 package com.avikenz.ba.picontrol.control.management;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
-import com.avikenz.ba.picontrol.control.param.common.Mode;
-import com.avikenz.ba.picontrol.control.param.common.SignalType;
+import com.avikenz.ba.picontrol.control.param.Mode;
+import com.avikenz.ba.picontrol.control.param.SignalType;
 
 import java.util.List;
 
